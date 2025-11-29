@@ -32,19 +32,23 @@ export default function Navbar({
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/90 backdrop-blur shadow py-4"
-          : "bg-transparent py-6"
+        scrolled || isMenuOpen
+          ? "bg-white/95 backdrop-blur-md shadow-sm py-3 md:py-4"
+          : "bg-transparent py-4 md:py-6"
       }`}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center">
+      <div className="container mx-auto px-6 flex justify-between items-center relative z-[70]">
         {/* Logo */}
         <div
-          className="text-2xl font-bold flex items-center gap-2 cursor-pointer"
+          className="text-xl md:text-2xl font-bold flex items-center gap-2 cursor-pointer"
           onClick={() => handleNav("hero")}
         >
-          <Trees className={scrolled ? "text-amber-700" : "text-white"} />
-          <span className={scrolled ? "text-stone-900" : "text-white"}>
+          <Trees
+            className={scrolled || isMenuOpen ? "text-amber-700" : "text-white"}
+          />
+          <span
+            className={scrolled || isMenuOpen ? "text-stone-900" : "text-white"}
+          >
             HIGHLAND<span className="font-light">HAVEN</span>
           </span>
         </div>
@@ -72,7 +76,7 @@ export default function Navbar({
           </button>
         </div>
 
-        {/* Action Button */}
+        {/* Action Button (Desktop) */}
         <button
           onClick={() => handleNav("contact")}
           className={`hidden md:block px-6 py-2 rounded-full font-semibold transition-all ${
@@ -82,41 +86,49 @@ export default function Navbar({
           {t.nav.book}
         </button>
 
-        {/* Mobile Toggle */}
-        <div className="md:hidden flex gap-4 z-50">
+        {/* Mobile Toggle Buttons */}
+        <div className="md:hidden flex items-center gap-4">
           <button
             onClick={toggleLanguage}
-            className={`font-bold ${
-              scrolled ? "text-stone-900" : "text-white"
+            className={`font-bold flex items-center gap-1 ${
+              scrolled || isMenuOpen ? "text-stone-900" : "text-white"
             }`}
           >
-            {language.toUpperCase()}
+            <Globe size={18} /> {language.toUpperCase()}
           </button>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={scrolled ? "text-stone-900" : "text-white"}
+            className={scrolled || isMenuOpen ? "text-stone-900" : "text-white"}
           >
-            {isMenuOpen ? <X /> : <Menu />}
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 bg-white flex flex-col items-center justify-center gap-8 text-xl z-40">
-          {navLinks.map((item) => (
-            <button key={item.id} onClick={() => handleNav(item.id)}>
-              {item.label}
-            </button>
-          ))}
+      {/* Mobile Menu Overlay - FIXED Styles */}
+      <div
+        className={`fixed inset-0 h-screen w-screen bg-white z-[60] flex flex-col items-center justify-start pt-32 gap-8 text-2xl transition-transform duration-300 overscroll-none ${
+          isMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {navLinks.map((item) => (
           <button
-            onClick={() => handleNav("contact")}
-            className="text-amber-600 font-bold"
+            key={item.id}
+            onClick={() => handleNav(item.id)}
+            className="text-stone-800 font-medium hover:text-amber-600 w-full py-2 border-b border-stone-100"
           >
-            {t.nav.book}
+            {item.label}
           </button>
-        </div>
-      )}
+        ))}
+
+        {/* Mobile "Book Now" Button */}
+        <button
+          onClick={() => handleNav("contact")}
+          className="bg-amber-600 text-white px-10 py-4 rounded-full font-bold mt-4 shadow-xl active:scale-95 transition-transform"
+        >
+          {t.nav.book}
+        </button>
+      </div>
     </nav>
   );
 }
