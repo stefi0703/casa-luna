@@ -276,6 +276,12 @@ export const translations = {
             "rooms/rooms-main.jpg",
             "rooms/room2.jpg",
             "rooms/room3.jpg",
+            "rooms/room4.jpg",
+            "rooms/room5.jpg",
+            "rooms/room6.jpg",
+            "rooms/room7.jpg",
+            "rooms/room8.jpg",
+            "rooms/roomvid.mp4",
           ],
         },
         {

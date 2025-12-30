@@ -13,6 +13,7 @@ import {
   ArrowRight,
   MapPin,
   X,
+  Play, // Added for video thumbnails
 } from "lucide-react";
 import { prefix } from "../utils/prefix"; // Import prefix
 import {
@@ -35,6 +36,14 @@ import {
 
 const icons = [Wifi, Flame, Wind, Coffee, Zap, Baby, Mountain, Key];
 
+// --- Helper: Check if file is video ---
+const isVideo = (src) => {
+  if (!src) return false;
+  const videoExtensions = [".mp4", ".webm", ".mov", ".ogg"];
+  return videoExtensions.some((ext) => src.toLowerCase().endsWith(ext));
+};
+
+// --- Component: Intro ---
 export const Intro = ({ t }) => (
   <Box py={24} bg="white">
     <Container maxW="5xl">
@@ -78,7 +87,7 @@ export const Intro = ({ t }) => (
         </Box>
         <Box flex={1} position="relative" w="full">
           <Image
-            src={prefix("/details/wide.jpg")} // Use prefix
+            src={prefix("/details/wide.jpg")}
             borderRadius="2xl"
             boxShadow="xl"
             w="full"
@@ -92,20 +101,25 @@ export const Intro = ({ t }) => (
   </Box>
 );
 
+// --- Component: Rooms (Updated with Video & Grid Layout) ---
 export const Rooms = ({ t }) => {
   const { open, onOpen, onClose } = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleOpenRoom = (room) => {
     setSelectedRoom(room);
+    setActiveIndex(0); // Reset to first slide
     onOpen();
   };
 
-  const galleryImages = selectedRoom
+  const galleryMedia = selectedRoom
     ? selectedRoom.gallery && selectedRoom.gallery.length > 0
       ? selectedRoom.gallery
       : [selectedRoom.img]
     : [];
+
+  const activeMedia = galleryMedia[activeIndex];
 
   return (
     <>
@@ -142,7 +156,7 @@ export const Rooms = ({ t }) => {
                   role="group"
                 >
                   <Image
-                    src={prefix(room.img)} // Use prefix
+                    src={prefix(room.img)}
                     alt={room.title}
                     w="full"
                     h="full"
@@ -210,22 +224,22 @@ export const Rooms = ({ t }) => {
         </Container>
       </Box>
 
-      {/* FIXED DIALOG STRUCTURE */}
+      {/* --- GALLERY MODAL --- */}
       <Dialog.Root
         open={open}
         onOpenChange={(e) => (e.open ? onOpen() : onClose())}
         size="full"
         motionPreset="slide-in-bottom"
       >
-        <Dialog.Backdrop bg="blackAlpha.900" backdropFilter="blur(10px)" />
+        <Dialog.Backdrop bg="blackAlpha.950" backdropFilter="blur(5px)" />
         <Dialog.Positioner>
           <Dialog.Content bg="transparent" boxShadow="none" h="100vh" w="100vw">
             <Dialog.CloseTrigger
               asChild
               position="absolute"
-              top="8"
-              right="8"
-              zIndex={20}
+              top="4"
+              right="4"
+              zIndex={50}
             >
               <IconButton
                 variant="ghost"
@@ -237,88 +251,149 @@ export const Rooms = ({ t }) => {
               </IconButton>
             </Dialog.CloseTrigger>
 
-            <Dialog.Body
-              p={0}
-              h="full"
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-            >
+            <Dialog.Body p={0} h="full" display="flex" flexDirection="column">
               {selectedRoom && (
-                <Box
+                <Grid
+                  templateRows={{ base: "1fr auto", md: "1fr 160px" }}
+                  h="full"
                   w="full"
                   maxW="8xl"
                   mx="auto"
-                  display="flex"
-                  flexDirection="column"
-                  py={8}
-                  h="full"
-                  justifyContent="center"
+                  gap={4}
+                  p={{ base: 4, md: 8 }}
                 >
-                  <Box
-                    color="white"
-                    px={8}
-                    mb={8}
-                    textAlign={{ base: "center", md: "left" }}
-                  >
-                    <Heading size="2xl" mb={2}>
-                      {selectedRoom.title}
-                    </Heading>
-                    <Text color="gray.400" fontSize="lg">
-                      {galleryImages.length} imagini
-                    </Text>
-                  </Box>
-
-                  <Box
+                  {/* MAIN VIEWPORT (Top) */}
+                  <Flex
+                    justify="center"
+                    align="center"
+                    position="relative"
+                    bg="black"
+                    borderRadius="lg"
+                    overflow="hidden"
+                    boxShadow="dark-lg"
                     w="full"
-                    overflowX="auto"
-                    overflowY="hidden"
-                    whiteSpace="nowrap"
-                    px={8}
-                    py={4}
-                    css={{
-                      "&::-webkit-scrollbar": { display: "none" },
-                      msOverflowStyle: "none",
-                      scrollbarWidth: "none",
-                    }}
+                    h="full"
                   >
-                    <HStack
-                      spacing={6}
-                      h={{ base: "50vh", md: "60vh" }}
-                      align="center"
-                    >
-                      {galleryImages.map((imgSrc, index) => (
-                        <Box
-                          key={index}
-                          h="full"
-                          flexShrink={0}
-                          borderRadius="xl"
-                          overflow="hidden"
-                          boxShadow="dark-lg"
-                        >
-                          <Image
-                            src={prefix(imgSrc)} // Use prefix
-                            alt={`Gallery ${index}`}
-                            h="full"
-                            w="auto"
-                            objectFit="contain"
-                            bg="black"
-                          />
-                        </Box>
-                      ))}
-                    </HStack>
-                  </Box>
+                    {activeMedia && isVideo(activeMedia) ? (
+                      <Box
+                        as="video"
+                        src={prefix(activeMedia)}
+                        controls
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        objectFit="contain"
+                        w="full"
+                        h="full"
+                        maxH="80vh"
+                        sx={{ outline: "none" }}
+                      />
+                    ) : (
+                      <Image
+                        src={prefix(activeMedia)}
+                        alt="Main view"
+                        w="full"
+                        h="full"
+                        objectFit="contain"
+                        maxH="80vh"
+                      />
+                    )}
 
-                  <Text
-                    textAlign="center"
-                    color="gray.500"
-                    mt={8}
-                    display={{ md: "none" }}
-                    animation="pulse 2s infinite"
+                    <Box
+                      position="absolute"
+                      bottom={4}
+                      left={4}
+                      bg="blackAlpha.700"
+                      px={3}
+                      py={1}
+                      borderRadius="md"
+                      pointerEvents="none"
+                    >
+                      <Text color="white" fontSize="sm" fontWeight="bold">
+                        {activeIndex + 1} / {galleryMedia.length}
+                      </Text>
+                    </Box>
+                  </Flex>
+
+                  {/* THUMBNAIL GRID (Bottom) */}
+                  <Box
+                    overflowY="auto"
+                    pr={2}
+                    className="custom-scrollbar"
+                    maxH={{ base: "120px", md: "160px" }}
                   >
-                    Glisează orizontal
-                  </Text>
-                </Box>
+                    <SimpleGrid
+                      columns={{ base: 4, sm: 5, md: 8, lg: 10 }}
+                      spacing={3}
+                    >
+                      {galleryMedia.map((media, index) => {
+                        const isVid = isVideo(media);
+                        const isActive = index === activeIndex;
+
+                        return (
+                          <Box
+                            key={index}
+                            onClick={() => setActiveIndex(index)}
+                            cursor="pointer"
+                            borderRadius="md"
+                            overflow="hidden"
+                            borderWidth="2px"
+                            borderColor={
+                              isActive ? "orange.500" : "transparent"
+                            }
+                            opacity={isActive ? 1 : 0.6}
+                            _hover={{ opacity: 1 }}
+                            transition="all 0.2s"
+                            position="relative"
+                            aspectRatio={1}
+                            bg="gray.900"
+                          >
+                            {isVid ? (
+                              <Box
+                                w="full"
+                                h="full"
+                                display="flex"
+                                align="center"
+                                justify="center"
+                                position="relative"
+                              >
+                                <video
+                                  src={prefix(media)}
+                                  style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                  }}
+                                  muted
+                                  preload="metadata"
+                                />
+                                <Box
+                                  position="absolute"
+                                  inset={0}
+                                  bg="blackAlpha.400"
+                                  display="flex"
+                                  align="center"
+                                  justify="center"
+                                >
+                                  <Play size={20} color="white" fill="white" />
+                                </Box>
+                              </Box>
+                            ) : (
+                              <Image
+                                src={prefix(media)}
+                                alt={`Thumbnail ${index}`}
+                                w="full"
+                                h="full"
+                                objectFit="cover"
+                              />
+                            )}
+                          </Box>
+                        );
+                      })}
+                    </SimpleGrid>
+                  </Box>
+                </Grid>
               )}
             </Dialog.Body>
           </Dialog.Content>
@@ -328,6 +403,7 @@ export const Rooms = ({ t }) => {
   );
 };
 
+// --- Component: Amenities ---
 export const Amenities = ({ t }) => (
   <Box id="amenities" py={24} bg="gray.900" color="gray.300">
     <Container maxW="container.xl">
@@ -345,16 +421,18 @@ export const Amenities = ({ t }) => (
           </Heading>
           <Text>{t.amenities.subtitle}</Text>
         </Box>
+        {/* Arrow removed from here */}
         <Button
           variant="ghost"
           colorPalette="orange"
           display={{ base: "none", md: "flex" }}
         >
-          {t.amenities.view_guide}{" "}
-          <ArrowRight size={18} style={{ marginLeft: "8px" }} />
+          {t.amenities.view_guide}
         </Button>
       </Flex>
-      <SimpleGrid columns={{ base: 2, md: 4 }} gap={12}>
+
+      {/* Changed SimpleGrid to Flex for centered alignment of the last row */}
+      <Flex wrap="wrap" justify="center" gap={12}>
         {t.amenities.items.map((item, i) => {
           const Icon = icons[i] || Star;
           return (
@@ -364,6 +442,9 @@ export const Amenities = ({ t }) => (
               textAlign="center"
               alignItems="center"
               role="group"
+              // Width set to behave like a grid: ~50% on mobile, ~22% on desktop
+              w={{ base: "40%", md: "20%" }}
+              minW="150px"
             >
               <Flex
                 p={4}
@@ -396,11 +477,12 @@ export const Amenities = ({ t }) => (
             </VStack>
           );
         })}
-      </SimpleGrid>
+      </Flex>
     </Container>
   </Box>
 );
 
+// --- Component: Location ---
 export const Location = ({ t }) => (
   <Box
     id="location"
@@ -415,7 +497,7 @@ export const Location = ({ t }) => (
       <Image
         src={prefix(
           "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070"
-        )} // Use prefix (optional for external, but safe)
+        )}
         w="full"
         h="full"
         objectFit="cover"
@@ -478,3 +560,392 @@ export const Location = ({ t }) => (
     </Box>
   </Box>
 );
+
+// --- Data & Translations ---
+
+export const galleryImages = [
+  {
+    url: "gallery/outside.jpg",
+    titleKey: "outside",
+  },
+  {
+    url: "gallery/living.jpg",
+    titleKey: "img_living",
+  },
+  {
+    url: "gallery/gratar.jpg",
+    titleKey: "img_gratar",
+  },
+];
+
+export const translations = {
+  en: {
+    nav: {
+      cabin: "The Cabin",
+      rooms: "Rooms",
+      amenities: "Amenities",
+      location: "Location",
+      pricing: "Pricing",
+      contact: "Contact",
+      book: "Book Now",
+    },
+    hero: {
+      title_start: "Escape to the",
+      title_end: "Carpathians",
+      subtitle:
+        "A modern rustic retreat in the heart of the Rucăr-Bran corridor.",
+      check_avail: "Check Availability",
+      explore: "Explore",
+      img_dusk: "Exterior at Dusk",
+      img_living: "Cozy Living Room",
+      img_winter: "Winter View",
+    },
+    intro: {
+      welcome: "Bine ați venit (Welcome)",
+      title: "Authentic Romanian Wilderness.",
+      text: "Built from locally sourced stone and timber, this cabin blends seamlessly into the stunning landscapes between the Piatra Craiului and Bucegi mountains.",
+      bedrooms: "Bedrooms",
+      baths: "Baths",
+      forest: "Mountain View",
+      testimonial: "The fresh mountain air of Rucăr is unforgettable.",
+      guest_name: "Sarah Jenkins, Oct 2023",
+    },
+    rooms: {
+      title: "Space to Breathe",
+      subtitle: "Relaxation and comfort in the midst of nature.",
+      items: [
+        {
+          title: "Main Living Room",
+          desc: "2 Comfortable sofas, fireplace for cool evenings.",
+          feats: ["Generous Space", "Social Area"],
+          img: "living/living-main.jpg",
+          gallery: [
+            "living/living-main.jpg",
+            "living/living2.jpg",
+            "living/living3.jpg",
+            "living/living4.jpg",
+            "living/living5.jpg",
+            "living/living6.jpg",
+          ],
+        },
+        {
+          title: "Chef's Kitchen",
+          desc: "Fully equipped for cooking.",
+          feats: ["Espresso Machine", "Gas Range, Oven"],
+          img: "kitchen/kitchen-main.jpg",
+          gallery: [
+            "kitchen/kitchen-main.jpg",
+            "kitchen/kitchen2.jpg",
+            "kitchen/kitchen3.jpg",
+          ],
+        },
+        {
+          title: "Grill Area",
+          desc: "Wood grill, large table, perfect for families.",
+          feats: ["Traditional Grill", "Smart TV"],
+          img: "grill/grill-main.jpg",
+          gallery: [
+            "grill/grill-main.jpg",
+            "grill/grill2.jpg",
+            "grill/grill3.jpg",
+            "grill/grill4.jpg",
+            "grill/grill5.jpg",
+          ],
+        },
+        {
+          title: "Guest Suite",
+          desc: "Comfortable Queen bed with mountain views.",
+          feats: ["Queen Bed", "Private Bath"],
+          img: "rooms/rooms-main.jpg",
+          gallery: [
+            "rooms/rooms-main.jpg",
+            "rooms/room2.jpg",
+            "rooms/room3.jpg",
+          ],
+        },
+        {
+          title: "The Yard",
+          desc: "Fresh mountain air and green space.",
+          feats: ["Green Space", "Relaxation Zone"],
+          img: "outside/outside-main.jpg",
+          gallery: [
+            "outside/outside-main.jpg",
+            "outside/outside1.jpg",
+            "outside/outside2.jpg",
+            "outside/outside3.jpg",
+            "outside/outside4.jpg",
+            "outside/outside5.jpg",
+            "outside/outside6.jpg",
+            "outside/outside7.jpg",
+          ],
+        },
+        {
+          title: "Outdoor Terrace",
+          desc: "Terrace with swing for quiet mornings.",
+          feats: ["Swing", "Panoramic View"],
+          img: "terrace/terrace-main.jpg",
+          gallery: [
+            "terrace/terrace-main.jpg",
+            "terrace/terrace1.jpg",
+            "terrace/terrace2.jpg",
+          ],
+        },
+      ],
+    },
+    amenities: {
+      title: "Amenities",
+      subtitle: "Everything you need in the mountains.",
+      items: [
+        { title: "Wifi", desc: "Fast internet" },
+        { title: "Artificial Fireplace", desc: "Welcoming atmosphere" },
+        { title: "Air Conditioning", desc: "Climate control" },
+        { title: "Grill Zone", desc: "Equipped gazebo" },
+        { title: "View", desc: "Bucegi Mountains" },
+        { title: "Family Friendly", desc: "Safe yard" },
+        { title: "Smart TV", desc: "Smart TV" },
+      ],
+    },
+    location: {
+      label: "Location",
+      title: "Heart of Rucăr-Bran Corridor",
+      desc: "Located in Rucăr, an oasis of peace at the foot of the mountains.",
+      points: [
+        { name: "Bran Castle", time: "45 min" },
+        { name: "Dâmbovicioara Cave", time: "15 min" },
+        { name: "Brașov City", time: "55 min" },
+        { name: "Mountain Trails", time: "0 min" },
+      ],
+      directions: "Get Directions",
+    },
+    pricing: {
+      title: "Simple Pricing",
+      subtitle: "No hidden fees.",
+      night: "/ night",
+      week: "/ week",
+      tiers: [
+        {
+          title: "Weeknight",
+          price: "1200 RON",
+          features: ["Sun-Thu Check-in", "Min 2 Nights"],
+        },
+        {
+          title: "Weekend",
+          price: "1500 RON",
+          features: ["Fri-Sat Check-in", "Late Checkout"],
+        },
+        {
+          title: "Weekly",
+          price: "7000 RON",
+          features: ["7 Nights", "15% off"],
+        },
+      ],
+    },
+    contact: {
+      title: "Request Booking",
+      tabs: { phone: "Call Us", email: "Email Form" },
+      phone_info: {
+        title: "Speak to a Host",
+        button: "Call +40 700 123 456",
+        avail: "Daily 9AM - 8PM",
+      },
+      email_form: {
+        checkin: "Check-in",
+        checkout: "Check-out",
+        guests: "Guests",
+        email: "Email",
+        msg: "Message",
+        send: "Send Request",
+      },
+    },
+    footer: {
+      slogan: "Disconnect and reconnect.",
+      rights: "All rights reserved.",
+    },
+  },
+  ro: {
+    nav: {
+      cabin: "Cabana",
+      rooms: "Camere",
+      amenities: "Facilități",
+      location: "Locație",
+      pricing: "Prețuri",
+      contact: "Contact",
+      book: "Rezervă",
+    },
+    hero: {
+      title_start: "Evadează în",
+      title_end: "Natură",
+      subtitle: "Un refugiu rustic modern în inima culoarului Rucăr-Bran.",
+      check_avail: "Verifică",
+      explore: "Explorează",
+      img_dusk: "Exterior la Apus",
+      img_living: "Living Primitor",
+      img_winter: "Peisaj de Iarnă",
+    },
+    intro: {
+      welcome: "Bine ați Venit",
+      title: "O experiență montană autentică.",
+      text: "Construită din lemn și piatră locală, cabana se integrează perfect în peisajul spectaculos dintre Munții Bucegi și Piatra Craiului.",
+      bedrooms: "Dormitoare",
+      baths: "Băi",
+      forest: "Pădure Privată",
+    },
+    rooms: {
+      title: "Camere Spațioase",
+      subtitle: "Relaxare și confort în mijlocul naturii.",
+      items: [
+        {
+          title: "Living Room Principal",
+          desc: "2 Canapele confortabile, șemineu pentru seri răcoroase.",
+          feats: ["Spațiu Generos", "Zonă Socială"],
+          img: "living/living-main.jpg",
+          gallery: [
+            "living/living-main.jpg",
+            "living/living2.jpg",
+            "living/living3.jpg",
+            "living/living4.jpg",
+            "living/living5.jpg",
+            "living/living6.jpg",
+          ],
+        },
+        {
+          title: "Bucătărie Chef",
+          desc: "Complet echipată pentru gătit.",
+          feats: ["Espressor", "Aragaz Gaz, Cuptor"],
+          img: "kitchen/kitchen-main.jpg",
+          gallery: [
+            "kitchen/kitchen-main.jpg",
+            "kitchen/kitchen2.jpg",
+            "kitchen/kitchen3.jpg",
+          ],
+        },
+        {
+          title: "Zona Grill",
+          desc: "Grătar pe lemne, Masă mare, perfect pentru familie.",
+          feats: ["Grătar Tradițional", "Smart TV"],
+          img: "grill/grill-main.jpg",
+          gallery: [
+            "grill/grill-main.jpg",
+            "grill/grill2.jpg",
+            "grill/grill3.jpg",
+            "grill/grill4.jpg",
+            "grill/grill5.jpg",
+          ],
+        },
+        {
+          title: "Suită Oaspeți",
+          desc: "Pat Queen confortabil cu vedere spre munte.",
+          feats: ["Pat Queen", "Baie Privată"],
+          img: "rooms/rooms-main.jpg",
+          gallery: [
+            "rooms/rooms-main.jpg",
+            "rooms/room2.jpg",
+            "rooms/room3.jpg",
+            "rooms/room4.jpg",
+            "rooms/room5.jpg",
+            "rooms/room6.jpg",
+            "rooms/room7.jpg",
+            "rooms/room8.jpg",
+            "rooms/roomvid.mp4",
+          ],
+        },
+        {
+          title: "Curte",
+          desc: "Aer curat de munte și spațiu verde.",
+          feats: ["Spațiu Verde", "Zonă Relaxare"],
+          img: "outside/outside-main.jpg",
+          gallery: [
+            "outside/outside-main.jpg",
+            "outside/outside1.jpg",
+            "outside/outside2.jpg",
+            "outside/outside3.jpg",
+            "outside/outside4.jpg",
+            "outside/outside5.jpg",
+            "outside/outside6.jpg",
+            "outside/outside7.jpg",
+          ],
+        },
+        {
+          title: "Terasă Exterioară",
+          desc: "Terasă cu balansoar pentru dimineți liniștite.",
+          feats: ["Balansoar", "Vedere Panoramică"],
+          img: "terrace/terrace-main.jpg",
+          gallery: [
+            "terrace/terrace-main.jpg",
+            "terrace/terrace1.jpg",
+            "terrace/terrace2.jpg",
+          ],
+        },
+      ],
+    },
+    amenities: {
+      title: "Facilități",
+      subtitle: "Tot ce ai nevoie la munte.",
+      items: [
+        { title: "Wifi", desc: "Internet rapid" },
+        { title: "Șemineu Artificial", desc: "Atmosferă primitoare" },
+        { title: "Aer Condiționat", desc: "Climatizare" },
+        { title: "Zonă Grill", desc: "Foișor echipat" },
+        { title: "Priveliște", desc: "Munții Bucegi" },
+        { title: "Family Friendly", desc: "Curte sigură" },
+        { title: "Smart TV", desc: "Smart TV" },
+      ],
+    },
+    location: {
+      label: "Locație",
+      title: "Inima Culoarului Rucăr-Bran",
+      desc: "Situată în Rucăr, o oază de liniște la poalele munților.",
+      points: [
+        { name: "Castelul Bran", time: "45 min" },
+        { name: "Peștera Dâmbovicioara", time: "15 min" },
+        { name: "Brașov", time: "55 min" },
+        { name: "Trasee Montane", time: "0 min" },
+      ],
+      directions: "Indicații",
+    },
+    pricing: {
+      title: "Prețuri Simple",
+      subtitle: "Fără taxe ascunse.",
+      night: "/ noapte",
+      week: "/ săpt",
+      tiers: [
+        {
+          title: "În timpul săptămânii",
+          price: "1200 RON",
+          features: ["Dum-Joi Check-in", "Min 2 Nopți"],
+        },
+        {
+          title: "Weekend",
+          price: "1500 RON",
+          features: ["Vin-Sâm Check-in", "Checkout Târziu"],
+        },
+        {
+          title: "Săptămânal",
+          price: "7000 RON",
+          features: ["7 Nopți", "15% reducere"],
+        },
+      ],
+    },
+    contact: {
+      title: "Rezervare",
+      tabs: { phone: "Sună-ne", email: "Email" },
+      phone_info: {
+        title: "Vorbește cu o Gazdă",
+        button: "Sună +40 700 123 456",
+        avail: "Zilnic 09:00 - 20:00",
+      },
+      email_form: {
+        checkin: "Check-in",
+        checkout: "Check-out",
+        guests: "Oaspeți",
+        email: "Email",
+        msg: "Mesaj",
+        send: "Trimite",
+      },
+    },
+    footer: {
+      slogan: "Deconectează-te de lume.",
+      rights: "Toate drepturile rezervate.",
+    },
+  },
+};

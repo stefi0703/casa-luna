@@ -4,9 +4,9 @@ export const metadata = {
   title: "Casa Luna",
   description: "A modern rustic retreat.",
   icons: {
-    icon: "/logo.png", 
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: "logo.png", 
+    shortcut: "logo.png",
+    apple: "logo.png",
   },
 };
 
