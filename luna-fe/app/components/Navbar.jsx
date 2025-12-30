@@ -19,6 +19,7 @@ export default function Navbar({
   language,
   toggleLanguage,
   scrollToSection,
+  onOpenGallery, // Receive the function
 }) {
   const { open, onOpen, onClose } = useDisclosure();
   const [scrolled, setScrolled] = useState(false);
@@ -30,8 +31,13 @@ export default function Navbar({
   }, []);
 
   const handleNav = (id) => {
-    scrollToSection(id);
-    onClose();
+    // Intercept the 'gallery' id
+    if (id === "gallery") {
+      onOpenGallery();
+    } else {
+      scrollToSection(id);
+    }
+    onClose(); // Close mobile menu
   };
 
   const navLinks = [
@@ -39,6 +45,7 @@ export default function Navbar({
     { id: "amenities", label: t.nav.amenities },
     { id: "location", label: t.nav.location },
     { id: "pricing", label: t.nav.pricing },
+    { id: "gallery", label: t.nav.gallery },
   ];
 
   const textColor = scrolled ? "gray.800" : "white";
@@ -74,13 +81,12 @@ export default function Navbar({
       >
         <HStack gap={2} cursor="pointer" onClick={() => handleNav("hero")}>
           <Image
-            src={prefix("/logo.png")} // Use prefix here
-            alt="Casa Luna Logo"
+            src={prefix("/logo.png")}
+            alt="Logo"
             h="50px"
             w="auto"
             objectFit="contain"
             transition="all 0.3s"
-            // Filter logic remains the same
             filter={
               scrolled
                 ? "invert(1) brightness(0.2)"
