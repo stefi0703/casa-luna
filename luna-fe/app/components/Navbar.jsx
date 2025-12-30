@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Globe, Menu, X } from "lucide-react"; // Removed Trees icon import
+import { Globe, Menu, X } from "lucide-react";
+import { prefix } from "../utils/prefix";
 import {
   Box,
   Flex,
@@ -9,9 +10,8 @@ import {
   Drawer,
   useDisclosure,
   VStack,
-  Text,
   HStack,
-  Image, // 1. Add Image import here
+  Image,
 } from "@chakra-ui/react";
 
 export default function Navbar({
@@ -41,7 +41,6 @@ export default function Navbar({
     { id: "pricing", label: t.nav.pricing },
   ];
 
-  // COLORS & SHADOWS
   const textColor = scrolled ? "gray.800" : "white";
   const hoverColor = "orange.500";
   const textShadow = scrolled ? "none" : "0 2px 4px rgba(0,0,0,0.6)";
@@ -73,20 +72,20 @@ export default function Navbar({
         mx="auto"
         px={6}
       >
-        {/* Logo - UPDATED */}
-        <HStack
-          gap={2}
-          cursor="pointer"
-          onClick={() => handleNav("hero")}
-          // Removed color and textShadow props from HStack as they don't apply to the image
-        >
+        <HStack gap={2} cursor="pointer" onClick={() => handleNav("hero")}>
           <Image
-            src="/logo.png" // Ensure logo.png is in your public folder
+            src={prefix("/logo.png")} // Use prefix here
             alt="Casa Luna Logo"
-            h="50px" // Adjust height as needed depending on your logo aspect ratio
+            h="50px"
             w="auto"
             objectFit="contain"
             transition="all 0.3s"
+            // Filter logic remains the same
+            filter={
+              scrolled
+                ? "invert(1) brightness(0.2)"
+                : "drop-shadow(0 2px 4px rgba(0,0,0,0.6))"
+            }
           />
         </HStack>
 

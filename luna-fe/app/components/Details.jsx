@@ -14,6 +14,7 @@ import {
   MapPin,
   X,
 } from "lucide-react";
+import { prefix } from "../utils/prefix"; // Import prefix
 import {
   Box,
   Container,
@@ -77,7 +78,7 @@ export const Intro = ({ t }) => (
         </Box>
         <Box flex={1} position="relative" w="full">
           <Image
-            src="/details/wide.jpg"
+            src={prefix("/details/wide.jpg")} // Use prefix
             borderRadius="2xl"
             boxShadow="xl"
             w="full"
@@ -141,7 +142,7 @@ export const Rooms = ({ t }) => {
                   role="group"
                 >
                   <Image
-                    src={room.img}
+                    src={prefix(room.img)} // Use prefix
                     alt={room.title}
                     w="full"
                     h="full"
@@ -296,7 +297,7 @@ export const Rooms = ({ t }) => {
                           boxShadow="dark-lg"
                         >
                           <Image
-                            src={imgSrc}
+                            src={prefix(imgSrc)} // Use prefix
                             alt={`Gallery ${index}`}
                             h="full"
                             w="auto"
@@ -361,7 +362,7 @@ export const Amenities = ({ t }) => (
               key={i}
               spacing={3}
               textAlign="center"
-              alignItems="center" // Explicitly center the stack items
+              alignItems="center"
               role="group"
             >
               <Flex
@@ -369,8 +370,8 @@ export const Amenities = ({ t }) => (
                 bg="gray.800"
                 color="orange.500"
                 borderRadius="full"
-                justifyContent="center" // Center icon horizontally
-                alignItems="center" // Center icon vertically
+                justifyContent="center"
+                alignItems="center"
                 transition="all 0.3s"
                 _groupHover={{
                   bg: "orange.600",
@@ -412,7 +413,9 @@ export const Location = ({ t }) => (
   >
     <Box position="absolute" inset={0} filter="grayscale(100%) opacity(0.5)">
       <Image
-        src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070"
+        src={prefix(
+          "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070"
+        )} // Use prefix (optional for external, but safe)
         w="full"
         h="full"
         objectFit="cover"

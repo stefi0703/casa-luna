@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Calendar } from "lucide-react";
 import { galleryImages } from "../data/content";
+import { prefix } from "../utils/prefix"; // Import prefix
 import { Box, Heading, Text, Button, Flex, Container } from "@chakra-ui/react";
 
 export default function Hero({ t, scrollToSection }) {
@@ -28,13 +29,11 @@ export default function Hero({ t, scrollToSection }) {
       overflow="hidden"
       bg="gray.900"
     >
-      {/* Background Image Layer */}
       <Box position="absolute" inset={0} zIndex={0}>
         <Box position="absolute" inset={0} bg="blackAlpha.400" zIndex={10} />
-        {/* Using standard img for easier transition handling, styled with Chakra props via Box if needed */}
         <Box
           as="img"
-          src={galleryImages[activeImage].url}
+          src={prefix(galleryImages[activeImage].url)} // Use prefix here
           alt="Hero"
           w="full"
           h="full"
@@ -43,7 +42,6 @@ export default function Hero({ t, scrollToSection }) {
         />
       </Box>
 
-      {/* Content */}
       <Container
         position="relative"
         zIndex={20}
@@ -102,7 +100,6 @@ export default function Hero({ t, scrollToSection }) {
           </Button>
         </Flex>
 
-        {/* Dots */}
         <Flex mt={12} justify="center" gap={2}>
           {galleryImages.map((_, idx) => (
             <Box
