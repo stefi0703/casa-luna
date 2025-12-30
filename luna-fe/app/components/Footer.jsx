@@ -15,7 +15,7 @@ export default function Footer({ t }) {
     >
       <Flex justify="center" mb={8}>
         <Image
-          src={prefix("/logo.png")} // Use prefix here
+          src={prefix("logo.png")} // Use prefix here
           alt="Casa Luna Footer Logo"
           h="80px"
           w="auto"
