@@ -49,7 +49,7 @@ export default function Navbar({
           <span
             className={scrolled || isMenuOpen ? "text-stone-900" : "text-white"}
           >
-            HIGHLAND<span className="font-light">HAVEN</span>
+            CASA<span className="font-light">LUNA</span>
           </span>
         </div>
 

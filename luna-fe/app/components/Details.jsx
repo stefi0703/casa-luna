@@ -28,8 +28,8 @@ export const Intro = ({ t }) => (
         <p className="text-stone-600 text-lg">{t.intro.text}</p>
         <div className="flex gap-8 pt-4">
           {[
-            { val: "4", lbl: t.intro.bedrooms },
-            { val: "3.5", lbl: t.intro.baths },
+            { val: "6", lbl: t.intro.bedrooms },
+            { val: "5", lbl: t.intro.baths },
             { val: "6ac", lbl: t.intro.forest },
           ].map((stat, i) => (
             <div key={i}>
@@ -41,22 +41,10 @@ export const Intro = ({ t }) => (
       </div>
       <div className="md:w-1/2 relative">
         <img
-          src="https://images.unsplash.com/photo-1542718610-a1d656d1884c?q=80&w=2070&auto=format&fit=crop"
+          src="/details/wide.jpg"
           className="rounded-2xl shadow-xl w-full h-[400px] object-cover"
           alt="Intro"
         />
-        <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-lg shadow-lg hidden md:block max-w-xs">
-          <div className="flex text-amber-500 mb-2">
-            <Star size={16} fill="currentColor" />
-            <Star size={16} fill="currentColor" />
-            <Star size={16} fill="currentColor" />
-            <Star size={16} fill="currentColor" />
-            <Star size={16} fill="currentColor" />
-          </div>
-          <p className="text-stone-700 italic text-sm">
-            "{t.intro.testimonial}"
-          </p>
-        </div>
       </div>
     </div>
   </section>
@@ -76,7 +64,6 @@ export const Rooms = ({ t }) => (
             className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
           >
             <div className="relative h-64 overflow-hidden">
-              {/* UPDATED: Uses specific image from content.js */}
               <img
                 src={room.img}
                 alt={room.title}

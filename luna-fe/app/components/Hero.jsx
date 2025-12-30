@@ -6,7 +6,6 @@ import { galleryImages } from "../data/content";
 export default function Hero({ t, scrollToSection }) {
   const [activeImage, setActiveImage] = useState(0);
 
-  // 2. Add the Auto-Scroll Logic
   useEffect(() => {
     // Set the timer (e.g., 5000ms = 5 seconds)
     const interval = setInterval(() => {
@@ -15,7 +14,6 @@ export default function Hero({ t, scrollToSection }) {
       );
     }, 5000);
 
-    // Cleanup: clears the timer if the component unmounts (prevents memory leaks)
     return () => clearInterval(interval);
   }, []);
 
