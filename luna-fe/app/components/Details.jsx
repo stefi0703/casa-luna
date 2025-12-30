@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Star,
   Wifi,
@@ -12,155 +12,466 @@ import {
   Key,
   ArrowRight,
   MapPin,
+  X,
 } from "lucide-react";
+import {
+  Box,
+  Container,
+  Heading,
+  Text,
+  Flex,
+  Grid,
+  Image,
+  SimpleGrid,
+  Button,
+  Badge,
+  IconButton,
+  HStack,
+  Dialog,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
 
-// Helper for Icons
 const icons = [Wifi, Flame, Wind, Coffee, Zap, Baby, Mountain, Key];
 
 export const Intro = ({ t }) => (
-  <section className="py-24 px-6 bg-white">
-    <div className="container mx-auto max-w-5xl flex flex-col md:flex-row gap-12 items-center">
-      <div className="md:w-1/2 space-y-6">
-        <span className="text-amber-600 font-bold tracking-widest uppercase text-sm">
-          {t.intro.welcome}
-        </span>
-        <h2 className="text-4xl font-bold text-stone-900">{t.intro.title}</h2>
-        <p className="text-stone-600 text-lg">{t.intro.text}</p>
-        <div className="flex gap-8 pt-4">
-          {[
-            { val: "6", lbl: t.intro.bedrooms },
-            { val: "5", lbl: t.intro.baths },
-            { val: "6ac", lbl: t.intro.forest },
-          ].map((stat, i) => (
-            <div key={i}>
-              <span className="text-3xl font-bold block">{stat.val}</span>
-              <span className="text-stone-500">{stat.lbl}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="md:w-1/2 relative">
-        <img
-          src="/details/wide.jpg"
-          className="rounded-2xl shadow-xl w-full h-[400px] object-cover"
-          alt="Intro"
-        />
-      </div>
-    </div>
-  </section>
+  <Box py={24} bg="white">
+    <Container maxW="5xl">
+      <Flex direction={{ base: "column", md: "row" }} gap={12} align="center">
+        <Box flex={1}>
+          <Text
+            color="orange.600"
+            fontWeight="bold"
+            letterSpacing="widest"
+            textTransform="uppercase"
+            fontSize="sm"
+            mb={2}
+          >
+            {t.intro.welcome}
+          </Text>
+          <Heading as="h2" size="2xl" mb={4} color="gray.900">
+            {t.intro.title}
+          </Heading>
+          <Text color="gray.600" fontSize="lg" mb={6}>
+            {t.intro.text}
+          </Text>
+          <HStack spacing={8} pt={4}>
+            {[
+              { val: "6", lbl: t.intro.bedrooms },
+              { val: "5", lbl: t.intro.baths },
+              { val: "6ac", lbl: t.intro.forest },
+            ].map((stat, i) => (
+              <Box key={i}>
+                <Text
+                  fontSize="3xl"
+                  fontWeight="bold"
+                  lineHeight="1"
+                  color="gray.900"
+                >
+                  {stat.val}
+                </Text>
+                <Text color="gray.500">{stat.lbl}</Text>
+              </Box>
+            ))}
+          </HStack>
+        </Box>
+        <Box flex={1} position="relative" w="full">
+          <Image
+            src="/details/wide.jpg"
+            borderRadius="2xl"
+            boxShadow="xl"
+            w="full"
+            h="400px"
+            objectFit="cover"
+            alt="Intro"
+          />
+        </Box>
+      </Flex>
+    </Container>
+  </Box>
 );
 
-export const Rooms = ({ t }) => (
-  <section id="rooms" className="py-24 px-6 bg-stone-100">
-    <div className="container mx-auto">
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold mb-4">{t.rooms.title}</h2>
-        <p className="text-stone-600">{t.rooms.subtitle}</p>
-      </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {t.rooms.items.map((room, i) => (
-          <div
-            key={i}
-            className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+export const Rooms = ({ t }) => {
+  const { open, onOpen, onClose } = useDisclosure();
+  const [selectedRoom, setSelectedRoom] = useState(null);
+
+  const handleOpenRoom = (room) => {
+    setSelectedRoom(room);
+    onOpen();
+  };
+
+  const galleryImages = selectedRoom
+    ? selectedRoom.gallery && selectedRoom.gallery.length > 0
+      ? selectedRoom.gallery
+      : [selectedRoom.img]
+    : [];
+
+  return (
+    <>
+      <Box id="rooms" py={24} bg="gray.50">
+        <Container maxW="container.xl">
+          <Box textAlign="center" mb={16}>
+            <Heading as="h2" size="2xl" mb={4} color="gray.900">
+              {t.rooms.title}
+            </Heading>
+            <Text color="gray.600">{t.rooms.subtitle}</Text>
+          </Box>
+          <Grid
+            templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "1fr 1fr 1fr" }}
+            gap={8}
           >
-            <div className="relative h-64 overflow-hidden">
-              <img
-                src={room.img}
-                alt={room.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <span className="text-white font-semibold">View Details</span>
-              </div>
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-bold mb-2">{room.title}</h3>
-              <p className="text-sm text-stone-600 mb-4">{room.desc}</p>
-              <div className="flex flex-wrap gap-2">
-                {room.feats.map((f, idx) => (
-                  <span
-                    key={idx}
-                    className="text-xs bg-stone-100 px-2 py-1 rounded border border-stone-200"
+            {t.rooms.items.map((room, i) => (
+              <Box
+                key={i}
+                bg="white"
+                borderRadius="xl"
+                overflow="hidden"
+                boxShadow="sm"
+                _hover={{ boxShadow: "xl" }}
+                transition="all 0.3s"
+                display="flex"
+                flexDirection="column"
+              >
+                <Box
+                  position="relative"
+                  h="64"
+                  overflow="hidden"
+                  cursor="pointer"
+                  onClick={() => handleOpenRoom(room)}
+                  role="group"
+                >
+                  <Image
+                    src={room.img}
+                    alt={room.title}
+                    w="full"
+                    h="full"
+                    objectFit="cover"
+                    transition="transform 0.7s"
+                    _groupHover={{ transform: "scale(1.1)" }}
+                  />
+                  <Flex
+                    position="absolute"
+                    inset={0}
+                    bg="blackAlpha.600"
+                    opacity={0}
+                    _groupHover={{ opacity: 1 }}
+                    transition="opacity 0.3s"
+                    align="center"
+                    justify="center"
                   >
-                    {f}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
+                    <Badge
+                      variant="solid"
+                      colorPalette="white"
+                      bg="whiteAlpha.900"
+                      color="gray.900"
+                      px={4}
+                      py={2}
+                      borderRadius="full"
+                      textTransform="none"
+                      fontSize="md"
+                    >
+                      Vezi Galeria
+                    </Badge>
+                  </Flex>
+                </Box>
+                <Box
+                  p={6}
+                  flex="1"
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="space-between"
+                >
+                  <Box>
+                    <Heading as="h3" size="md" mb={2} color="gray.800">
+                      {room.title}
+                    </Heading>
+                    <Text fontSize="sm" color="gray.500" mb={4}>
+                      {room.desc}
+                    </Text>
+                  </Box>
+                  <Flex wrap="wrap" gap={2} mt="auto">
+                    {room.feats.map((f, idx) => (
+                      <Badge
+                        key={idx}
+                        variant="surface"
+                        colorPalette="gray"
+                        px={2}
+                        py={1}
+                      >
+                        {f}
+                      </Badge>
+                    ))}
+                  </Flex>
+                </Box>
+              </Box>
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* FIXED DIALOG STRUCTURE */}
+      <Dialog.Root
+        open={open}
+        onOpenChange={(e) => (e.open ? onOpen() : onClose())}
+        size="full"
+        motionPreset="slide-in-bottom"
+      >
+        <Dialog.Backdrop bg="blackAlpha.900" backdropFilter="blur(10px)" />
+        <Dialog.Positioner>
+          <Dialog.Content bg="transparent" boxShadow="none" h="100vh" w="100vw">
+            <Dialog.CloseTrigger
+              asChild
+              position="absolute"
+              top="8"
+              right="8"
+              zIndex={20}
+            >
+              <IconButton
+                variant="ghost"
+                color="white"
+                _hover={{ bg: "whiteAlpha.200" }}
+                aria-label="Close gallery"
+              >
+                <X size={32} />
+              </IconButton>
+            </Dialog.CloseTrigger>
+
+            <Dialog.Body
+              p={0}
+              h="full"
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+            >
+              {selectedRoom && (
+                <Box
+                  w="full"
+                  maxW="8xl"
+                  mx="auto"
+                  display="flex"
+                  flexDirection="column"
+                  py={8}
+                  h="full"
+                  justifyContent="center"
+                >
+                  <Box
+                    color="white"
+                    px={8}
+                    mb={8}
+                    textAlign={{ base: "center", md: "left" }}
+                  >
+                    <Heading size="2xl" mb={2}>
+                      {selectedRoom.title}
+                    </Heading>
+                    <Text color="gray.400" fontSize="lg">
+                      {galleryImages.length} imagini
+                    </Text>
+                  </Box>
+
+                  <Box
+                    w="full"
+                    overflowX="auto"
+                    overflowY="hidden"
+                    whiteSpace="nowrap"
+                    px={8}
+                    py={4}
+                    css={{
+                      "&::-webkit-scrollbar": { display: "none" },
+                      msOverflowStyle: "none",
+                      scrollbarWidth: "none",
+                    }}
+                  >
+                    <HStack
+                      spacing={6}
+                      h={{ base: "50vh", md: "60vh" }}
+                      align="center"
+                    >
+                      {galleryImages.map((imgSrc, index) => (
+                        <Box
+                          key={index}
+                          h="full"
+                          flexShrink={0}
+                          borderRadius="xl"
+                          overflow="hidden"
+                          boxShadow="dark-lg"
+                        >
+                          <Image
+                            src={imgSrc}
+                            alt={`Gallery ${index}`}
+                            h="full"
+                            w="auto"
+                            objectFit="contain"
+                            bg="black"
+                          />
+                        </Box>
+                      ))}
+                    </HStack>
+                  </Box>
+
+                  <Text
+                    textAlign="center"
+                    color="gray.500"
+                    mt={8}
+                    display={{ md: "none" }}
+                    animation="pulse 2s infinite"
+                  >
+                    Glisează orizontal
+                  </Text>
+                </Box>
+              )}
+            </Dialog.Body>
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Dialog.Root>
+    </>
+  );
+};
 
 export const Amenities = ({ t }) => (
-  <section id="amenities" className="py-24 px-6 bg-stone-900 text-stone-300">
-    <div className="container mx-auto">
-      <div className="flex justify-between items-end mb-12 border-b border-stone-800 pb-8">
-        <div>
-          <h2 className="text-4xl font-bold text-white mb-2">
+  <Box id="amenities" py={24} bg="gray.900" color="gray.300">
+    <Container maxW="container.xl">
+      <Flex
+        justify="space-between"
+        align="flex-end"
+        mb={12}
+        borderBottomWidth="1px"
+        borderColor="gray.800"
+        pb={8}
+      >
+        <Box>
+          <Heading as="h2" size="2xl" color="white" mb={2}>
             {t.amenities.title}
-          </h2>
-          <p>{t.amenities.subtitle}</p>
-        </div>
-        <button className="hidden md:flex items-center gap-2 text-amber-500">
-          {t.amenities.view_guide} <ArrowRight size={18} />
-        </button>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-y-12 gap-x-8">
+          </Heading>
+          <Text>{t.amenities.subtitle}</Text>
+        </Box>
+        <Button
+          variant="ghost"
+          colorPalette="orange"
+          display={{ base: "none", md: "flex" }}
+        >
+          {t.amenities.view_guide}{" "}
+          <ArrowRight size={18} style={{ marginLeft: "8px" }} />
+        </Button>
+      </Flex>
+      <SimpleGrid columns={{ base: 2, md: 4 }} gap={12}>
         {t.amenities.items.map((item, i) => {
           const Icon = icons[i] || Star;
           return (
-            <div
+            <VStack
               key={i}
-              className="flex flex-col items-center text-center space-y-3 group cursor-default"
+              spacing={3}
+              textAlign="center"
+              alignItems="center" // Explicitly center the stack items
+              role="group"
             >
-              <div className="p-4 bg-stone-800 rounded-full text-amber-500 group-hover:bg-amber-600 group-hover:text-white transition-all duration-300 transform group-hover:-translate-y-1">
+              <Flex
+                p={4}
+                bg="gray.800"
+                color="orange.500"
+                borderRadius="full"
+                justifyContent="center" // Center icon horizontally
+                alignItems="center" // Center icon vertically
+                transition="all 0.3s"
+                _groupHover={{
+                  bg: "orange.600",
+                  color: "white",
+                  transform: "translateY(-4px)",
+                }}
+              >
                 <Icon size={32} />
-              </div>
-              <div>
-                <h4 className="font-bold text-white">{item.title}</h4>
-                <p className="text-sm text-stone-500 group-hover:text-stone-400">
+              </Flex>
+              <Box>
+                <Text fontWeight="bold" color="white">
+                  {item.title}
+                </Text>
+                <Text
+                  fontSize="sm"
+                  color="gray.500"
+                  _groupHover={{ color: "gray.400" }}
+                >
                   {item.desc}
-                </p>
-              </div>
-            </div>
+                </Text>
+              </Box>
+            </VStack>
           );
         })}
-      </div>
-    </div>
-  </section>
+      </SimpleGrid>
+    </Container>
+  </Box>
 );
 
 export const Location = ({ t }) => (
-  <section
+  <Box
     id="location"
-    className="relative h-[500px] flex items-center justify-center bg-stone-200"
+    position="relative"
+    h="500px"
+    display="flex"
+    alignItems="center"
+    justifyContent="center"
+    bg="gray.200"
   >
-    <div className="absolute inset-0 grayscale opacity-50">
-      <img
+    <Box position="absolute" inset={0} filter="grayscale(100%) opacity(0.5)">
+      <Image
         src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070"
-        className="w-full h-full object-cover"
+        w="full"
+        h="full"
+        objectFit="cover"
         alt="Map"
       />
-    </div>
-    <div className="relative z-10 bg-white p-8 rounded-xl shadow-2xl max-w-lg mx-4">
-      <div className="flex items-center gap-2 text-amber-600 font-bold uppercase text-sm tracking-wider mb-4">
+    </Box>
+    <Box
+      position="relative"
+      zIndex={10}
+      bg="white"
+      p={8}
+      borderRadius="xl"
+      boxShadow="2xl"
+      maxW="lg"
+      mx={4}
+    >
+      <Flex
+        align="center"
+        gap={2}
+        color="orange.600"
+        fontWeight="bold"
+        textTransform="uppercase"
+        fontSize="sm"
+        letterSpacing="wider"
+        mb={4}
+      >
         <MapPin size={16} /> {t.location.label}
-      </div>
-      <h3 className="text-3xl font-bold mb-4">{t.location.title}</h3>
-      <p className="text-stone-600 mb-6">{t.location.desc}</p>
-      <ul className="space-y-2 mb-6">
+      </Flex>
+      <Heading as="h3" size="lg" mb={4} color="gray.900">
+        {t.location.title}
+      </Heading>
+      <Text color="gray.600" mb={6}>
+        {t.location.desc}
+      </Text>
+      <VStack spacing={2} align="stretch" mb={6}>
         {t.location.points.map((p, i) => (
-          <li key={i} className="flex justify-between border-b pb-1 text-sm">
-            <span>{p.name}</span> <span className="font-bold">{p.time}</span>
-          </li>
+          <Flex
+            key={i}
+            justify="space-between"
+            borderBottomWidth="1px"
+            pb={1}
+            fontSize="sm"
+          >
+            <Text color="gray.700">{p.name}</Text>
+            <Text fontWeight="bold" color="gray.900">
+              {p.time}
+            </Text>
+          </Flex>
         ))}
-      </ul>
-      <button className="w-full py-3 bg-stone-900 text-white font-bold rounded hover:bg-stone-800">
+      </VStack>
+      <Button
+        w="full"
+        size="lg"
+        bg="gray.900"
+        color="white"
+        _hover={{ bg: "gray.800" }}
+      >
         {t.location.directions}
-      </button>
-    </div>
-  </section>
+      </Button>
+    </Box>
+  </Box>
 );

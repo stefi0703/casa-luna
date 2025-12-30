@@ -1,6 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Trees, Globe, Menu, X } from "lucide-react";
+import { Globe, Menu, X } from "lucide-react"; // Removed Trees icon import
+import {
+  Box,
+  Flex,
+  Button,
+  IconButton,
+  Drawer,
+  useDisclosure,
+  VStack,
+  Text,
+  HStack,
+  Image, // 1. Add Image import here
+} from "@chakra-ui/react";
 
 export default function Navbar({
   t,
@@ -8,7 +20,7 @@ export default function Navbar({
   toggleLanguage,
   scrollToSection,
 }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { open, onOpen, onClose } = useDisclosure();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -19,7 +31,7 @@ export default function Navbar({
 
   const handleNav = (id) => {
     scrollToSection(id);
-    setIsMenuOpen(false);
+    onClose();
   };
 
   const navLinks = [
@@ -29,106 +41,196 @@ export default function Navbar({
     { id: "pricing", label: t.nav.pricing },
   ];
 
+  // COLORS & SHADOWS
+  const textColor = scrolled ? "gray.800" : "white";
+  const hoverColor = "orange.500";
+  const textShadow = scrolled ? "none" : "0 2px 4px rgba(0,0,0,0.6)";
+
   return (
-    <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled || isMenuOpen
-          ? "bg-white/95 backdrop-blur-md shadow-sm py-3 md:py-4"
-          : "bg-transparent py-4 md:py-6"
-      }`}
+    <Box
+      as="nav"
+      position="fixed"
+      top="0"
+      left="0"
+      right="0"
+      w="full"
+      zIndex={50}
+      transition="all 0.3s ease-in-out"
+      bg={scrolled ? "white" : "transparent"}
+      bgGradient={
+        !scrolled
+          ? "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%)"
+          : "none"
+      }
+      boxShadow={scrolled ? "sm" : "none"}
+      pt={scrolled ? 3 : 8}
+      pb={scrolled ? 3 : 8}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center relative z-[70]">
-        {/* Logo */}
-        <div
-          className="text-xl md:text-2xl font-bold flex items-center gap-2 cursor-pointer"
+      <Flex
+        align="center"
+        justify="space-between"
+        maxW="container.xl"
+        mx="auto"
+        px={6}
+      >
+        {/* Logo - UPDATED */}
+        <HStack
+          gap={2}
+          cursor="pointer"
           onClick={() => handleNav("hero")}
+          // Removed color and textShadow props from HStack as they don't apply to the image
         >
-          <Trees
-            className={scrolled || isMenuOpen ? "text-amber-700" : "text-white"}
+          <Image
+            src="/logo.png" // Ensure logo.png is in your public folder
+            alt="Casa Luna Logo"
+            h="50px" // Adjust height as needed depending on your logo aspect ratio
+            w="auto"
+            objectFit="contain"
+            transition="all 0.3s"
           />
-          <span
-            className={scrolled || isMenuOpen ? "text-stone-900" : "text-white"}
-          >
-            CASA<span className="font-light">LUNA</span>
-          </span>
-        </div>
+        </HStack>
 
         {/* Desktop Nav */}
-        <div
-          className={`hidden md:flex items-center gap-8 font-medium ${
-            scrolled ? "text-stone-600" : "text-stone-200"
-          }`}
-        >
+        <Flex display={{ base: "none", md: "flex" }} gap={8} align="center">
           {navLinks.map((item) => (
-            <button
+            <Button
               key={item.id}
+              variant="plain"
+              color={textColor}
+              textShadow={textShadow}
+              _hover={{ color: hoverColor, textShadow: "none" }}
               onClick={() => handleNav(item.id)}
-              className="hover:text-amber-600 transition-colors"
+              fontWeight="medium"
+              fontSize="md"
+              px={0}
             >
               {item.label}
-            </button>
+            </Button>
           ))}
-          <button
+
+          <Button
+            variant="ghost"
             onClick={toggleLanguage}
-            className="flex items-center gap-1 font-bold hover:text-amber-500"
+            color={textColor}
+            textShadow={textShadow}
+            _hover={{
+              bg: "whiteAlpha.200",
+              color: hoverColor,
+              textShadow: "none",
+            }}
+            fontWeight="bold"
+            size="sm"
           >
-            <Globe size={18} /> {language.toUpperCase()}
-          </button>
-        </div>
+            <Globe size={18} style={{ marginRight: "6px" }} />
+            {language.toUpperCase()}
+          </Button>
 
-        {/* Action Button (Desktop) */}
-        <button
-          onClick={() => handleNav("contact")}
-          className={`hidden md:block px-6 py-2 rounded-full font-semibold transition-all ${
-            scrolled ? "bg-amber-700 text-white" : "bg-white text-stone-900"
-          }`}
-        >
-          {t.nav.book}
-        </button>
+          <Button
+            onClick={() => handleNav("contact")}
+            bg={scrolled ? "orange.500" : "white"}
+            color={scrolled ? "white" : "gray.900"}
+            _hover={{ bg: scrolled ? "orange.600" : "gray.100" }}
+            rounded="full"
+            px={6}
+            fontWeight="bold"
+            boxShadow="md"
+          >
+            {t.nav.book}
+          </Button>
+        </Flex>
 
-        {/* Mobile Toggle Buttons */}
-        <div className="md:hidden flex items-center gap-4">
-          <button
+        {/* Mobile Toggle */}
+        <Flex display={{ md: "none" }} gap={4} align="center">
+          <Button
+            variant="plain"
             onClick={toggleLanguage}
-            className={`font-bold flex items-center gap-1 ${
-              scrolled || isMenuOpen ? "text-stone-900" : "text-white"
-            }`}
+            color={textColor}
+            textShadow={textShadow}
+            fontSize="sm"
+            px={0}
           >
-            <Globe size={18} /> {language.toUpperCase()}
-          </button>
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={scrolled || isMenuOpen ? "text-stone-900" : "text-white"}
-          >
-            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-      </div>
+            <Globe size={18} style={{ marginRight: "4px" }} />
+            {language.toUpperCase()}
+          </Button>
 
-      {/* Mobile Menu Overlay - FIXED Styles */}
-      <div
-        className={`fixed inset-0 h-screen w-screen bg-white z-[60] flex flex-col items-center justify-start pt-32 gap-8 text-2xl transition-transform duration-300 overscroll-none ${
-          isMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+          <IconButton
+            onClick={onOpen}
+            variant="ghost"
+            color={textColor}
+            aria-label="Open Menu"
+            _hover={{ bg: "whiteAlpha.200" }}
+          >
+            <Menu
+              size={28}
+              style={{
+                filter: !scrolled
+                  ? "drop-shadow(0px 2px 2px rgba(0,0,0,0.6))"
+                  : "none",
+              }}
+            />
+          </IconButton>
+        </Flex>
+      </Flex>
+
+      {/* Mobile Menu Drawer */}
+      <Drawer.Root
+        open={open}
+        onOpenChange={(e) => (e.open ? onOpen() : onClose())}
+        placement="end"
+        size="full"
       >
-        {navLinks.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => handleNav(item.id)}
-            className="text-stone-800 font-medium hover:text-amber-600 w-full py-2 border-b border-stone-100"
-          >
-            {item.label}
-          </button>
-        ))}
+        <Drawer.Backdrop />
+        <Drawer.Positioner>
+          <Drawer.Content bg="white" color="gray.900">
+            <Drawer.CloseTrigger asChild position="absolute" top="6" right="6">
+              <IconButton
+                variant="ghost"
+                color="gray.500"
+                _hover={{ bg: "gray.100" }}
+              >
+                <X size={28} />
+              </IconButton>
+            </Drawer.CloseTrigger>
 
-        {/* Mobile "Book Now" Button */}
-        <button
-          onClick={() => handleNav("contact")}
-          className="bg-amber-600 text-white px-10 py-4 rounded-full font-bold mt-4 shadow-xl active:scale-95 transition-transform"
-        >
-          {t.nav.book}
-        </button>
-      </div>
-    </nav>
+            <Drawer.Body
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <VStack spacing={8}>
+                {navLinks.map((item) => (
+                  <Button
+                    key={item.id}
+                    variant="plain"
+                    fontSize="2xl"
+                    fontWeight="semibold"
+                    color="gray.800"
+                    _hover={{ color: "orange.500" }}
+                    onClick={() => handleNav(item.id)}
+                  >
+                    {item.label}
+                  </Button>
+                ))}
+                <Button
+                  size="xl"
+                  colorPalette="orange"
+                  rounded="full"
+                  px={12}
+                  py={6}
+                  fontSize="xl"
+                  onClick={() => handleNav("contact")}
+                  mt={4}
+                  fontWeight="bold"
+                  boxShadow="xl"
+                >
+                  {t.nav.book}
+                </Button>
+              </VStack>
+            </Drawer.Body>
+          </Drawer.Content>
+        </Drawer.Positioner>
+      </Drawer.Root>
+    </Box>
   );
 }

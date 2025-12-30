@@ -1,75 +1,123 @@
 "use client";
-import React, { useState, useEffect } from "react"; // 1. Import useEffect
+import React, { useState, useEffect } from "react";
 import { Calendar } from "lucide-react";
 import { galleryImages } from "../data/content";
+import { Box, Heading, Text, Button, Flex, Container } from "@chakra-ui/react";
 
 export default function Hero({ t, scrollToSection }) {
   const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
-    // Set the timer (e.g., 5000ms = 5 seconds)
     const interval = setInterval(() => {
       setActiveImage((prevIndex) =>
         prevIndex === galleryImages.length - 1 ? 0 : prevIndex + 1
       );
     }, 5000);
-
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <header
+    <Box
+      as="header"
       id="hero"
-      className="relative h-screen flex items-center justify-center overflow-hidden bg-stone-900"
+      position="relative"
+      h="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      overflow="hidden"
+      bg="gray.900"
     >
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-black/40 z-10" />
-        <img
+      {/* Background Image Layer */}
+      <Box position="absolute" inset={0} zIndex={0}>
+        <Box position="absolute" inset={0} bg="blackAlpha.400" zIndex={10} />
+        {/* Using standard img for easier transition handling, styled with Chakra props via Box if needed */}
+        <Box
+          as="img"
           src={galleryImages[activeImage].url}
           alt="Hero"
-          className="w-full h-full object-cover transition-opacity duration-1000"
+          w="full"
+          h="full"
+          objectFit="cover"
+          transition="opacity 1s ease-in-out"
         />
-      </div>
+      </Box>
 
       {/* Content */}
-      <div className="relative z-20 text-center px-4 max-w-4xl mx-auto mt-16">
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+      <Container
+        position="relative"
+        zIndex={20}
+        textAlign="center"
+        maxW="4xl"
+        mt={16}
+      >
+        <Heading
+          as="h1"
+          size={{ base: "3xl", md: "4xl", lg: "6xl" }}
+          color="white"
+          mb={6}
+          lineHeight="shorter"
+        >
           {t.hero.title_start} <br />{" "}
-          <span className="text-amber-200">{t.hero.title_end}</span>
-        </h1>
-        <p className="text-xl text-stone-200 mb-10 font-light">
+          <Text as="span" color="orange.200">
+            {t.hero.title_end}
+          </Text>
+        </Heading>
+        <Text
+          fontSize={{ base: "lg", md: "xl" }}
+          color="gray.200"
+          mb={10}
+          fontWeight="light"
+        >
           {t.hero.subtitle}
-        </p>
+        </Text>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button
+        <Flex
+          direction={{ base: "column", sm: "row" }}
+          gap={4}
+          justify="center"
+        >
+          <Button
+            size="lg"
+            colorScheme="orange"
+            leftIcon={<Calendar size={20} />}
             onClick={() => scrollToSection("pricing")}
-            className="px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2"
+            px={8}
+            py={7}
           >
-            {t.hero.check_avail} <Calendar size={20} />
-          </button>
-          <button
+            {t.hero.check_avail}
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            colorScheme="whiteAlpha"
+            color="white"
+            _hover={{ bg: "whiteAlpha.200" }}
             onClick={() => scrollToSection("rooms")}
-            className="px-8 py-4 bg-white/10 backdrop-blur border border-white/30 hover:bg-white/20 text-white rounded-lg font-semibold"
+            px={8}
+            py={7}
+            backdropFilter="blur(5px)"
           >
             {t.hero.explore}
-          </button>
-        </div>
+          </Button>
+        </Flex>
 
         {/* Dots */}
-        <div className="mt-12 flex justify-center gap-2">
+        <Flex mt={12} justify="center" gap={2}>
           {galleryImages.map((_, idx) => (
-            <button
+            <Box
               key={idx}
-              onClick={() => setActiveImage(idx)} // Clicking a dot will manually override the image
-              className={`h-1 rounded-full transition-all ${
-                activeImage === idx ? "w-8 bg-white" : "w-2 bg-white/50"
-              }`}
+              as="button"
+              onClick={() => setActiveImage(idx)}
+              h="1"
+              borderRadius="full"
+              transition="all 0.3s"
+              bg={activeImage === idx ? "white" : "whiteAlpha.500"}
+              w={activeImage === idx ? "8" : "2"}
             />
           ))}
-        </div>
-      </div>
-    </header>
+        </Flex>
+      </Container>
+    </Box>
   );
 }
