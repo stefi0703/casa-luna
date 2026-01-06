@@ -33,6 +33,7 @@ import {
   Dialog,
   useDisclosure,
   VStack,
+  Circle,
 } from "@chakra-ui/react";
 
 const icons = [Wifi, Flame, Wind, Coffee, Zap, Baby, Mountain, Key];
@@ -507,7 +508,7 @@ export const Location = ({ t }) => (
   <Box
     id="location"
     position="relative"
-    h="500px"
+    h="600px"
     display="flex"
     alignItems="center"
     justifyContent="center"
@@ -515,9 +516,7 @@ export const Location = ({ t }) => (
   >
     <Box position="absolute" inset={0} filter="grayscale(100%) opacity(0.5)">
       <Image
-        src={prefix(
-          "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070"
-        )}
+        src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070"
         w="full"
         h="full"
         objectFit="cover"
@@ -558,6 +557,7 @@ export const Location = ({ t }) => (
             key={i}
             justify="space-between"
             borderBottomWidth="1px"
+            borderColor="gray.100"
             pb={1}
             fontSize="sm"
           >
@@ -578,5 +578,73 @@ export const Location = ({ t }) => (
         {t.location.directions}
       </Button>
     </Box>
+  </Box>
+);
+
+// --- Component: BookingTerms ---
+export const BookingTerms = ({ t }) => (
+  <Box py={16} bg="white">
+    <Container maxW="6xl">
+      <Box
+        p={{ base: 8, md: 12 }}
+        bg="orange.50"
+        borderRadius="3xl"
+        border="1px solid"
+        borderColor="orange.100"
+        position="relative"
+      >
+        <VStack spacing={8} align="stretch">
+          <Box textAlign="center">
+            <Heading as="h3" size="xl" mb={4} color="gray.900">
+              🏠 Condiții de Rezervare & Plată
+            </Heading>
+            <Box w="60px" h="4px" bg="orange.400" mx="auto" borderRadius="full" />
+          </Box>
+
+          {/* Am schimbat columns la 2 pe tableta si 4 pe desktop */}
+          <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={8}>
+            <VStack align="center" textAlign="center" spacing={3}>
+              <Circle size="50px" bg="white" color="orange.600" boxShadow="sm" fontSize="xl">
+                🗝️
+              </Circle>
+              <Box>
+                <Text fontWeight="bold" color="gray.800">Închiriere Integrală</Text>
+                <Text color="gray.600" fontSize="xs">Se închiriază doar unitatea completă pentru intimitate totală.</Text>
+              </Box>
+            </VStack>
+
+            <VStack align="center" textAlign="center" spacing={3}>
+              <Circle size="50px" bg="white" color="orange.600" boxShadow="sm" fontSize="xl">
+                🌙
+              </Circle>
+              <Box>
+                <Text fontWeight="bold" color="gray.800">Sejur Minim</Text>
+                <Text color="gray.600" fontSize="xs">Rezervările se fac pentru o perioadă de minimum 2 nopți.</Text>
+              </Box>
+            </VStack>
+
+            <VStack align="center" textAlign="center" spacing={3}>
+              <Circle size="50px" bg="white" color="orange.600" boxShadow="sm" fontSize="xl">
+                👶
+              </Circle>
+              <Box>
+                <Text fontWeight="bold" color="gray.800">Gratuitate Copii</Text>
+                <Text color="gray.600" fontSize="xs">Copiii până la 8 ani beneficiază de gratuitate (în pat cu părinții).</Text>
+              </Box>
+            </VStack>
+
+            <VStack align="center" textAlign="center" spacing={3}>
+              <Circle size="50px" bg="white" color="orange.600" boxShadow="sm" fontSize="xl">
+                💳
+              </Circle>
+              <Box>
+                <Text fontWeight="bold" color="gray.800">Metode de Plată</Text>
+                <Text color="gray.600" fontSize="xs">Acceptăm numerar sau transfer bancar pentru plata sejurului.</Text>
+              </Box>
+            </VStack>
+          </SimpleGrid>
+        </VStack>
+      </Box>
+    </Container>
   </Box>
 );

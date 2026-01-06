@@ -221,7 +221,7 @@ export const translations = {
     intro: {
       welcome: "Bine ați venit",
       title: "Cazare completă în Rucăr, Argeș",
-      text: "Casa Luna este o pensiune închiriată integral, potrivită pentru grupuri de prieteni și familii care caută spațiu generos, confort și o locație bine poziționată, aproape de atracțiile turistice din zonă.",
+      text: "Casa Luna este o pensiune care se închiriază integral (minim 2 nopți), fiind alegerea ideală pentru grupuri de prieteni și familii care caută spațiu generos, confort și o locație bine poziționată, aproape de atracțiile turistice din zonă.",
       bedrooms: "Dormitoare",
       baths: "Băi",
     },
@@ -325,20 +325,25 @@ export const translations = {
         { title: "Priveliște", desc: "?" },
         { title: "Family Friendly", desc: "Curte sigură" },
         { title: "Smart TV", desc: "Smart TV" },
-        { title: "Spațiu de recreere", desc: "Ping pong, badminton, leagăn" }
+        { title: "Spațiu de recreere", desc: "Ping pong, badminton, leagăn" },
       ],
     },
     location: {
       label: "Locație",
-      title: "Inima Culoarului Rucăr-Bran",
-      desc: "Situată în Rucăr, o oază de liniște la poalele munților.",
+      title: "Obiective turistice și puncte de interes",
+      desc: "Casa Luna se află într-un cadru natural spectaculos din Rucăr, fiind punctul de plecare ideal pentru explorarea zonei.",
       points: [
-        { name: "Castelul Bran", time: "45 min" },
-        { name: "Peștera Dâmbovicioara", time: "15 min" },
-        { name: "Brașov", time: "55 min" },
-        { name: "Trasee Montane", time: "0 min" },
+        { name: "⛰️ Peștera & Cheile Dâmbovicioarei", time: "6 km" },
+        { name: "🏛️ Mausoleul Mateiaș", time: "13 km" },
+        { name: "🐎 Echitație la 7 Cai", time: "17 km" },
+        { name: "⛪ Mănăstirea Nămăiești & Casa Topîrceanu", time: "18 km" },
+        { name: "🏙️ Câmpulung Muscel", time: "23 km" },
+        { name: "🏰 Castelul Bran", time: "33 km" },
+        { name: "🏔️ Brașov", time: "62 km" },
+        { name: "🛒 Magazin Profi", time: "750 m" },
+        { name: "✝️ Vârful Crucii", time: "1.5 km" },
       ],
-      directions: "Indicații",
+      directions: "Vezi indicații pe hartă",
     },
     pricing: {
       title: "Prețuri Simple",
@@ -354,7 +359,7 @@ export const translations = {
         {
           title: "Weekend",
           price: "1500 RON",
-          features: ["Vin-Sâm Check-in", "Checkout Târziu"],
+          features: ["Check-in vineri, ora aprox.14:30", "Checkout duminică, ora aprox. 11:30"],
         },
         {
           title: "Săptămânal",
@@ -368,7 +373,7 @@ export const translations = {
       tabs: { phone: "Sună-ne", email: "Email" },
       phone_info: {
         title: "Vorbește cu o Gazdă",
-        button: "Sună +40 700 123 456",
+        button: "Sună 0750 849 137",
         avail: "Zilnic 09:00 - 20:00",
       },
       email_form: {

@@ -6,7 +6,13 @@ import { Provider } from "../components/ui/provider";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import { Gallery } from "./components/Gallery"; // Ensure this matches your file path
-import { Intro, Rooms, Amenities, Location } from "./components/Details";
+import {
+  Intro,
+  Rooms,
+  Amenities,
+  Location,
+  BookingTerms,
+} from "./components/Details";
 import Booking from "./components/Booking";
 import Footer from "./components/Footer";
 
@@ -48,6 +54,7 @@ export default function Home() {
 
         <Amenities t={t} />
         <Location t={t} />
+        <BookingTerms t={t} />
         <Booking t={t} />
         <Footer t={t} />
       </div>

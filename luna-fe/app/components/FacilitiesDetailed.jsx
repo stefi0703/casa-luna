@@ -299,6 +299,7 @@ export default function FacilitiesDetailed({ onClose, t }) {
                   </List.Item>
                   <List.Item>🧘 Terasă spatioasă & Mobilier grădină</List.Item>
                   <List.Item>🥘 Sobă cu plită / ceaun în aer liber</List.Item>
+                  <List.Item>🚗 Parcare privată în curte (7-8 autoturisme)</List.Item>
                 </List.Root>
                 <List.Root variant="plain" spacing={2} color={mainTextColor}>
                   <List.Item>
@@ -307,6 +308,7 @@ export default function FacilitiesDetailed({ onClose, t }) {
                   <List.Item>🏓 Tenis de masă (exterior) & Darts</List.Item>
                   <List.Item>🏸 Badminton & Coș de baschet</List.Item>
                   <List.Item>⛰️ Posibilități de drumeții în zonă</List.Item>
+                  <List.Item>📍 Acces facil pe drum asfaltat (vis-a-vis de Petrom)</List.Item>
                 </List.Root>
               </SimpleGrid>
             </Box>
@@ -358,7 +360,7 @@ export default function FacilitiesDetailed({ onClose, t }) {
                     <List.Item display="flex" alignItems="center" gap={3}>
                       👶{" "}
                       <Text as="span">
-                        Copii sub 10 ani: Gratuit (în pat cu părinții)
+                        Copii pana la 8 ani: Gratuit (în pat cu părinții)
                       </Text>
                     </List.Item>
                   </List.Root>
