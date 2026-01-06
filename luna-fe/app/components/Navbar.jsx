@@ -19,7 +19,8 @@ export default function Navbar({
   language,
   toggleLanguage,
   scrollToSection,
-  onOpenGallery, // Receive the function
+  onOpenGallery,
+  isSolid = false, // Prop pentru a forța fundalul alb
 }) {
   const { open, onOpen, onClose } = useDisclosure();
   const [scrolled, setScrolled] = useState(false);
@@ -30,27 +31,33 @@ export default function Navbar({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Navbar devine alb la scroll SAU dacă isSolid este true
+  const isNavbarWhite = scrolled || isSolid;
+
   const handleNav = (id) => {
-    // Intercept the 'gallery' id
     if (id === "gallery") {
       onOpenGallery();
+    } else if (id === "facilities-page") {
+      window.location.href = "/facilities";
     } else {
       scrollToSection(id);
     }
-    onClose(); // Close mobile menu
+    onClose();
   };
 
+  // Lista completă de link-uri
   const navLinks = [
     { id: "rooms", label: t.nav.rooms },
     { id: "amenities", label: t.nav.amenities },
+    { id: "facilities-page", label: t.nav.facilitiesPage },
     { id: "location", label: t.nav.location },
     { id: "pricing", label: t.nav.pricing },
     { id: "gallery", label: t.nav.gallery },
   ];
 
-  const textColor = scrolled ? "gray.800" : "white";
+  const textColor = isNavbarWhite ? "gray.800" : "white";
   const hoverColor = "orange.500";
-  const textShadow = scrolled ? "none" : "0 2px 4px rgba(0,0,0,0.6)";
+  const textShadow = isNavbarWhite ? "none" : "0 2px 4px rgba(0,0,0,0.6)";
 
   return (
     <Box
@@ -62,23 +69,17 @@ export default function Navbar({
       w="full"
       zIndex={50}
       transition="all 0.3s ease-in-out"
-      bg={scrolled ? "white" : "transparent"}
+      bg={isNavbarWhite ? "white" : "transparent"}
       bgGradient={
-        !scrolled
+        !isNavbarWhite
           ? "linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%)"
           : "none"
       }
-      boxShadow={scrolled ? "sm" : "none"}
-      pt={scrolled ? 3 : 8}
-      pb={scrolled ? 3 : 8}
+      boxShadow={isNavbarWhite ? "sm" : "none"}
+      pt={isNavbarWhite ? 3 : 8}
+      pb={isNavbarWhite ? 3 : 8}
     >
-      <Flex
-        align="center"
-        justify="space-between"
-        maxW="container.xl"
-        mx="auto"
-        px={6}
-      >
+      <Flex align="center" justify="space-between" maxW="container.xl" mx="auto" px={6}>
         <HStack gap={2} cursor="pointer" onClick={() => handleNav("hero")}>
           <Image
             src={prefix("/logo.png")}
@@ -87,15 +88,10 @@ export default function Navbar({
             w="auto"
             objectFit="contain"
             transition="all 0.3s"
-            filter={
-              scrolled
-                ? "invert(1) brightness(0.2)"
-                : "drop-shadow(0 2px 4px rgba(0,0,0,0.6))"
-            }
+            filter={isNavbarWhite ? "invert(1) brightness(0.2)" : "drop-shadow(0 2px 4px rgba(0,0,0,0.6))"}
           />
         </HStack>
 
-        {/* Desktop Nav */}
         <Flex display={{ base: "none", md: "flex" }} gap={8} align="center">
           {navLinks.map((item) => (
             <Button
@@ -118,11 +114,7 @@ export default function Navbar({
             onClick={toggleLanguage}
             color={textColor}
             textShadow={textShadow}
-            _hover={{
-              bg: "whiteAlpha.200",
-              color: hoverColor,
-              textShadow: "none",
-            }}
+            _hover={{ bg: "whiteAlpha.200", color: hoverColor, textShadow: "none" }}
             fontWeight="bold"
             size="sm"
           >
@@ -132,9 +124,9 @@ export default function Navbar({
 
           <Button
             onClick={() => handleNav("contact")}
-            bg={scrolled ? "orange.500" : "white"}
-            color={scrolled ? "white" : "gray.900"}
-            _hover={{ bg: scrolled ? "orange.600" : "gray.100" }}
+            bg={isNavbarWhite ? "orange.500" : "white"}
+            color={isNavbarWhite ? "white" : "gray.900"}
+            _hover={{ bg: isNavbarWhite ? "orange.600" : "gray.100" }}
             rounded="full"
             px={6}
             fontWeight="bold"
@@ -144,93 +136,27 @@ export default function Navbar({
           </Button>
         </Flex>
 
-        {/* Mobile Toggle */}
         <Flex display={{ md: "none" }} gap={4} align="center">
-          <Button
-            variant="plain"
-            onClick={toggleLanguage}
-            color={textColor}
-            textShadow={textShadow}
-            fontSize="sm"
-            px={0}
-          >
-            <Globe size={18} style={{ marginRight: "4px" }} />
-            {language.toUpperCase()}
-          </Button>
-
-          <IconButton
-            onClick={onOpen}
-            variant="ghost"
-            color={textColor}
-            aria-label="Open Menu"
-            _hover={{ bg: "whiteAlpha.200" }}
-          >
-            <Menu
-              size={28}
-              style={{
-                filter: !scrolled
-                  ? "drop-shadow(0px 2px 2px rgba(0,0,0,0.6))"
-                  : "none",
-              }}
-            />
+          <IconButton onClick={onOpen} variant="ghost" color={textColor} aria-label="Open Menu">
+            <Menu size={28} />
           </IconButton>
         </Flex>
       </Flex>
 
-      {/* Mobile Menu Drawer */}
-      <Drawer.Root
-        open={open}
-        onOpenChange={(e) => (e.open ? onOpen() : onClose())}
-        placement="end"
-        size="full"
-      >
+      <Drawer.Root open={open} onOpenChange={(e) => (e.open ? onOpen() : onClose())} placement="end" size="full">
         <Drawer.Backdrop />
         <Drawer.Positioner>
           <Drawer.Content bg="white" color="gray.900">
             <Drawer.CloseTrigger asChild position="absolute" top="6" right="6">
-              <IconButton
-                variant="ghost"
-                color="gray.500"
-                _hover={{ bg: "gray.100" }}
-              >
-                <X size={28} />
-              </IconButton>
+              <IconButton variant="ghost" color="gray.500"><X size={28} /></IconButton>
             </Drawer.CloseTrigger>
-
-            <Drawer.Body
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-            >
+            <Drawer.Body display="flex" flexDirection="column" justifyContent="center" alignItems="center">
               <VStack spacing={8}>
                 {navLinks.map((item) => (
-                  <Button
-                    key={item.id}
-                    variant="plain"
-                    fontSize="2xl"
-                    fontWeight="semibold"
-                    color="gray.800"
-                    _hover={{ color: "orange.500" }}
-                    onClick={() => handleNav(item.id)}
-                  >
+                  <Button key={item.id} variant="plain" fontSize="2xl" fontWeight="semibold" color="gray.800" onClick={() => handleNav(item.id)}>
                     {item.label}
                   </Button>
                 ))}
-                <Button
-                  size="xl"
-                  colorPalette="orange"
-                  rounded="full"
-                  px={12}
-                  py={6}
-                  fontSize="xl"
-                  onClick={() => handleNav("contact")}
-                  mt={4}
-                  fontWeight="bold"
-                  boxShadow="xl"
-                >
-                  {t.nav.book}
-                </Button>
               </VStack>
             </Drawer.Body>
           </Drawer.Content>

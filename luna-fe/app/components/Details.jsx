@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Star,
   Wifi,
@@ -404,83 +405,103 @@ export const Rooms = ({ t }) => {
 };
 
 // --- Component: Amenities ---
-export const Amenities = ({ t }) => (
-  <Box id="amenities" py={24} bg="gray.900" color="gray.300">
-    <Container maxW="container.xl">
-      <Flex
-        justify="space-between"
-        align="flex-end"
-        mb={12}
-        borderBottomWidth="1px"
-        borderColor="gray.800"
-        pb={8}
-      >
-        <Box>
-          <Heading as="h2" size="2xl" color="white" mb={2}>
-            {t.amenities.title}
-          </Heading>
-          <Text>{t.amenities.subtitle}</Text>
-        </Box>
-        {/* Arrow removed from here */}
-        <Button
-          variant="ghost"
-          colorPalette="orange"
-          display={{ base: "none", md: "flex" }}
-        >
-          {t.amenities.view_guide}
-        </Button>
-      </Flex>
+export const Amenities = ({ t }) => {
+  const router = useRouter();
 
-      {/* Changed SimpleGrid to Flex for centered alignment of the last row */}
-      <Flex wrap="wrap" justify="center" gap={12}>
-        {t.amenities.items.map((item, i) => {
-          const Icon = icons[i] || Star;
-          return (
-            <VStack
-              key={i}
-              spacing={3}
-              textAlign="center"
-              alignItems="center"
-              role="group"
-              // Width set to behave like a grid: ~50% on mobile, ~22% on desktop
-              w={{ base: "40%", md: "20%" }}
-              minW="150px"
-            >
-              <Flex
-                p={4}
-                bg="gray.800"
-                color="orange.500"
-                borderRadius="full"
-                justifyContent="center"
+  return (
+    <Box id="amenities" py={24} bg="gray.900" color="gray.300">
+      <Container maxW="container.xl">
+        <Flex
+          justify="space-between"
+          align="flex-end"
+          mb={12}
+          borderBottomWidth="1px"
+          borderColor="gray.800"
+          pb={8}
+        >
+          <Box>
+            <Heading as="h2" size="2xl" color="white" mb={2}>
+              {t.amenities.title}
+            </Heading>
+            <Text>{t.amenities.subtitle}</Text>
+          </Box>
+          {/* Arrow removed from here */}
+          <Button
+            variant="ghost"
+            colorPalette="orange"
+            display={{ base: "none", md: "flex" }}
+          >
+            {t.amenities.view_guide}
+          </Button>
+        </Flex>
+
+        {/* Changed SimpleGrid to Flex for centered alignment of the last row */}
+        <Flex wrap="wrap" justify="center" gap={12}>
+          {t.amenities.items.map((item, i) => {
+            const Icon = icons[i] || Star;
+            return (
+              <VStack
+                key={i}
+                spacing={3}
+                textAlign="center"
                 alignItems="center"
-                transition="all 0.3s"
-                _groupHover={{
-                  bg: "orange.600",
-                  color: "white",
-                  transform: "translateY(-4px)",
-                }}
+                role="group"
+                // Width set to behave like a grid: ~50% on mobile, ~22% on desktop
+                w={{ base: "40%", md: "20%" }}
+                minW="150px"
               >
-                <Icon size={32} />
-              </Flex>
-              <Box>
-                <Text fontWeight="bold" color="white">
-                  {item.title}
-                </Text>
-                <Text
-                  fontSize="sm"
-                  color="gray.500"
-                  _groupHover={{ color: "gray.400" }}
+                <Flex
+                  p={4}
+                  bg="gray.800"
+                  color="orange.500"
+                  borderRadius="full"
+                  justifyContent="center"
+                  alignItems="center"
+                  transition="all 0.3s"
+                  _groupHover={{
+                    bg: "orange.600",
+                    color: "white",
+                    transform: "translateY(-4px)",
+                  }}
                 >
-                  {item.desc}
-                </Text>
-              </Box>
-            </VStack>
-          );
-        })}
-      </Flex>
-    </Container>
-  </Box>
-);
+                  <Icon size={32} />
+                </Flex>
+                <Box>
+                  <Text fontWeight="bold" color="white">
+                    {item.title}
+                  </Text>
+                  <Text
+                    fontSize="sm"
+                    color="gray.500"
+                    _groupHover={{ color: "gray.400" }}
+                  >
+                    {item.desc}
+                  </Text>
+                </Box>
+              </VStack>
+            );
+          })}
+        </Flex>
+<Flex justify="center" mt={8}>
+          <Button
+            size="lg"
+            bg="orange.500"
+            color="white"
+            _hover={{ bg: "orange.600" }}
+            transition="all 0.2s"
+            rounded="full"
+            px={10}
+            fontWeight="bold"
+            boxShadow="0 4px 14px 0 rgba(237, 137, 54, 0.39)"
+            onClick={() => router.push("/facilities")}
+          >
+            {t.amenities.view_guide || "Vezi toate facilitățile"}
+          </Button>
+        </Flex>
+      </Container>
+    </Box>
+  );
+};
 
 // --- Component: Location ---
 export const Location = ({ t }) => (
@@ -560,392 +581,3 @@ export const Location = ({ t }) => (
     </Box>
   </Box>
 );
-
-// --- Data & Translations ---
-
-export const galleryImages = [
-  {
-    url: "gallery/outside.jpg",
-    titleKey: "outside",
-  },
-  {
-    url: "gallery/living.jpg",
-    titleKey: "img_living",
-  },
-  {
-    url: "gallery/gratar.jpg",
-    titleKey: "img_gratar",
-  },
-];
-
-export const translations = {
-  en: {
-    nav: {
-      cabin: "The Cabin",
-      rooms: "Rooms",
-      amenities: "Amenities",
-      location: "Location",
-      pricing: "Pricing",
-      contact: "Contact",
-      book: "Book Now",
-    },
-    hero: {
-      title_start: "Escape to the",
-      title_end: "Carpathians",
-      subtitle:
-        "A modern rustic retreat in the heart of the Rucăr-Bran corridor.",
-      check_avail: "Check Availability",
-      explore: "Explore",
-      img_dusk: "Exterior at Dusk",
-      img_living: "Cozy Living Room",
-      img_winter: "Winter View",
-    },
-    intro: {
-      welcome: "Bine ați venit (Welcome)",
-      title: "Authentic Romanian Wilderness.",
-      text: "Built from locally sourced stone and timber, this cabin blends seamlessly into the stunning landscapes between the Piatra Craiului and Bucegi mountains.",
-      bedrooms: "Bedrooms",
-      baths: "Baths",
-      forest: "Mountain View",
-      testimonial: "The fresh mountain air of Rucăr is unforgettable.",
-      guest_name: "Sarah Jenkins, Oct 2023",
-    },
-    rooms: {
-      title: "Space to Breathe",
-      subtitle: "Relaxation and comfort in the midst of nature.",
-      items: [
-        {
-          title: "Main Living Room",
-          desc: "2 Comfortable sofas, fireplace for cool evenings.",
-          feats: ["Generous Space", "Social Area"],
-          img: "living/living-main.jpg",
-          gallery: [
-            "living/living-main.jpg",
-            "living/living2.jpg",
-            "living/living3.jpg",
-            "living/living4.jpg",
-            "living/living5.jpg",
-            "living/living6.jpg",
-          ],
-        },
-        {
-          title: "Chef's Kitchen",
-          desc: "Fully equipped for cooking.",
-          feats: ["Espresso Machine", "Gas Range, Oven"],
-          img: "kitchen/kitchen-main.jpg",
-          gallery: [
-            "kitchen/kitchen-main.jpg",
-            "kitchen/kitchen2.jpg",
-            "kitchen/kitchen3.jpg",
-          ],
-        },
-        {
-          title: "Grill Area",
-          desc: "Wood grill, large table, perfect for families.",
-          feats: ["Traditional Grill", "Smart TV"],
-          img: "grill/grill-main.jpg",
-          gallery: [
-            "grill/grill-main.jpg",
-            "grill/grill2.jpg",
-            "grill/grill3.jpg",
-            "grill/grill4.jpg",
-            "grill/grill5.jpg",
-          ],
-        },
-        {
-          title: "Guest Suite",
-          desc: "Comfortable Queen bed with mountain views.",
-          feats: ["Queen Bed", "Private Bath"],
-          img: "rooms/rooms-main.jpg",
-          gallery: [
-            "rooms/rooms-main.jpg",
-            "rooms/room2.jpg",
-            "rooms/room3.jpg",
-          ],
-        },
-        {
-          title: "The Yard",
-          desc: "Fresh mountain air and green space.",
-          feats: ["Green Space", "Relaxation Zone"],
-          img: "outside/outside-main.jpg",
-          gallery: [
-            "outside/outside-main.jpg",
-            "outside/outside1.jpg",
-            "outside/outside2.jpg",
-            "outside/outside3.jpg",
-            "outside/outside4.jpg",
-            "outside/outside5.jpg",
-            "outside/outside6.jpg",
-            "outside/outside7.jpg",
-          ],
-        },
-        {
-          title: "Outdoor Terrace",
-          desc: "Terrace with swing for quiet mornings.",
-          feats: ["Swing", "Panoramic View"],
-          img: "terrace/terrace-main.jpg",
-          gallery: [
-            "terrace/terrace-main.jpg",
-            "terrace/terrace1.jpg",
-            "terrace/terrace2.jpg",
-          ],
-        },
-      ],
-    },
-    amenities: {
-      title: "Amenities",
-      subtitle: "Everything you need in the mountains.",
-      items: [
-        { title: "Wifi", desc: "Fast internet" },
-        { title: "Artificial Fireplace", desc: "Welcoming atmosphere" },
-        { title: "Air Conditioning", desc: "Climate control" },
-        { title: "Grill Zone", desc: "Equipped gazebo" },
-        { title: "View", desc: "Bucegi Mountains" },
-        { title: "Family Friendly", desc: "Safe yard" },
-        { title: "Smart TV", desc: "Smart TV" },
-      ],
-    },
-    location: {
-      label: "Location",
-      title: "Heart of Rucăr-Bran Corridor",
-      desc: "Located in Rucăr, an oasis of peace at the foot of the mountains.",
-      points: [
-        { name: "Bran Castle", time: "45 min" },
-        { name: "Dâmbovicioara Cave", time: "15 min" },
-        { name: "Brașov City", time: "55 min" },
-        { name: "Mountain Trails", time: "0 min" },
-      ],
-      directions: "Get Directions",
-    },
-    pricing: {
-      title: "Simple Pricing",
-      subtitle: "No hidden fees.",
-      night: "/ night",
-      week: "/ week",
-      tiers: [
-        {
-          title: "Weeknight",
-          price: "1200 RON",
-          features: ["Sun-Thu Check-in", "Min 2 Nights"],
-        },
-        {
-          title: "Weekend",
-          price: "1500 RON",
-          features: ["Fri-Sat Check-in", "Late Checkout"],
-        },
-        {
-          title: "Weekly",
-          price: "7000 RON",
-          features: ["7 Nights", "15% off"],
-        },
-      ],
-    },
-    contact: {
-      title: "Request Booking",
-      tabs: { phone: "Call Us", email: "Email Form" },
-      phone_info: {
-        title: "Speak to a Host",
-        button: "Call +40 700 123 456",
-        avail: "Daily 9AM - 8PM",
-      },
-      email_form: {
-        checkin: "Check-in",
-        checkout: "Check-out",
-        guests: "Guests",
-        email: "Email",
-        msg: "Message",
-        send: "Send Request",
-      },
-    },
-    footer: {
-      slogan: "Disconnect and reconnect.",
-      rights: "All rights reserved.",
-    },
-  },
-  ro: {
-    nav: {
-      cabin: "Cabana",
-      rooms: "Camere",
-      amenities: "Facilități",
-      location: "Locație",
-      pricing: "Prețuri",
-      contact: "Contact",
-      book: "Rezervă",
-    },
-    hero: {
-      title_start: "Evadează în",
-      title_end: "Natură",
-      subtitle: "Un refugiu rustic modern în inima culoarului Rucăr-Bran.",
-      check_avail: "Verifică",
-      explore: "Explorează",
-      img_dusk: "Exterior la Apus",
-      img_living: "Living Primitor",
-      img_winter: "Peisaj de Iarnă",
-    },
-    intro: {
-      welcome: "Bine ați Venit",
-      title: "O experiență montană autentică.",
-      text: "Construită din lemn și piatră locală, cabana se integrează perfect în peisajul spectaculos dintre Munții Bucegi și Piatra Craiului.",
-      bedrooms: "Dormitoare",
-      baths: "Băi",
-      forest: "Pădure Privată",
-    },
-    rooms: {
-      title: "Camere Spațioase",
-      subtitle: "Relaxare și confort în mijlocul naturii.",
-      items: [
-        {
-          title: "Living Room Principal",
-          desc: "2 Canapele confortabile, șemineu pentru seri răcoroase.",
-          feats: ["Spațiu Generos", "Zonă Socială"],
-          img: "living/living-main.jpg",
-          gallery: [
-            "living/living-main.jpg",
-            "living/living2.jpg",
-            "living/living3.jpg",
-            "living/living4.jpg",
-            "living/living5.jpg",
-            "living/living6.jpg",
-          ],
-        },
-        {
-          title: "Bucătărie Chef",
-          desc: "Complet echipată pentru gătit.",
-          feats: ["Espressor", "Aragaz Gaz, Cuptor"],
-          img: "kitchen/kitchen-main.jpg",
-          gallery: [
-            "kitchen/kitchen-main.jpg",
-            "kitchen/kitchen2.jpg",
-            "kitchen/kitchen3.jpg",
-          ],
-        },
-        {
-          title: "Zona Grill",
-          desc: "Grătar pe lemne, Masă mare, perfect pentru familie.",
-          feats: ["Grătar Tradițional", "Smart TV"],
-          img: "grill/grill-main.jpg",
-          gallery: [
-            "grill/grill-main.jpg",
-            "grill/grill2.jpg",
-            "grill/grill3.jpg",
-            "grill/grill4.jpg",
-            "grill/grill5.jpg",
-          ],
-        },
-        {
-          title: "Suită Oaspeți",
-          desc: "Pat Queen confortabil cu vedere spre munte.",
-          feats: ["Pat Queen", "Baie Privată"],
-          img: "rooms/rooms-main.jpg",
-          gallery: [
-            "rooms/rooms-main.jpg",
-            "rooms/room2.jpg",
-            "rooms/room3.jpg",
-            "rooms/room4.jpg",
-            "rooms/room5.jpg",
-            "rooms/room6.jpg",
-            "rooms/room7.jpg",
-            "rooms/room8.jpg",
-            "rooms/roomvid.mp4",
-          ],
-        },
-        {
-          title: "Curte",
-          desc: "Aer curat de munte și spațiu verde.",
-          feats: ["Spațiu Verde", "Zonă Relaxare"],
-          img: "outside/outside-main.jpg",
-          gallery: [
-            "outside/outside-main.jpg",
-            "outside/outside1.jpg",
-            "outside/outside2.jpg",
-            "outside/outside3.jpg",
-            "outside/outside4.jpg",
-            "outside/outside5.jpg",
-            "outside/outside6.jpg",
-            "outside/outside7.jpg",
-          ],
-        },
-        {
-          title: "Terasă Exterioară",
-          desc: "Terasă cu balansoar pentru dimineți liniștite.",
-          feats: ["Balansoar", "Vedere Panoramică"],
-          img: "terrace/terrace-main.jpg",
-          gallery: [
-            "terrace/terrace-main.jpg",
-            "terrace/terrace1.jpg",
-            "terrace/terrace2.jpg",
-          ],
-        },
-      ],
-    },
-    amenities: {
-      title: "Facilități",
-      subtitle: "Tot ce ai nevoie la munte.",
-      items: [
-        { title: "Wifi", desc: "Internet rapid" },
-        { title: "Șemineu Artificial", desc: "Atmosferă primitoare" },
-        { title: "Aer Condiționat", desc: "Climatizare" },
-        { title: "Zonă Grill", desc: "Foișor echipat" },
-        { title: "Priveliște", desc: "Munții Bucegi" },
-        { title: "Family Friendly", desc: "Curte sigură" },
-        { title: "Smart TV", desc: "Smart TV" },
-      ],
-    },
-    location: {
-      label: "Locație",
-      title: "Inima Culoarului Rucăr-Bran",
-      desc: "Situată în Rucăr, o oază de liniște la poalele munților.",
-      points: [
-        { name: "Castelul Bran", time: "45 min" },
-        { name: "Peștera Dâmbovicioara", time: "15 min" },
-        { name: "Brașov", time: "55 min" },
-        { name: "Trasee Montane", time: "0 min" },
-      ],
-      directions: "Indicații",
-    },
-    pricing: {
-      title: "Prețuri Simple",
-      subtitle: "Fără taxe ascunse.",
-      night: "/ noapte",
-      week: "/ săpt",
-      tiers: [
-        {
-          title: "În timpul săptămânii",
-          price: "1200 RON",
-          features: ["Dum-Joi Check-in", "Min 2 Nopți"],
-        },
-        {
-          title: "Weekend",
-          price: "1500 RON",
-          features: ["Vin-Sâm Check-in", "Checkout Târziu"],
-        },
-        {
-          title: "Săptămânal",
-          price: "7000 RON",
-          features: ["7 Nopți", "15% reducere"],
-        },
-      ],
-    },
-    contact: {
-      title: "Rezervare",
-      tabs: { phone: "Sună-ne", email: "Email" },
-      phone_info: {
-        title: "Vorbește cu o Gazdă",
-        button: "Sună +40 700 123 456",
-        avail: "Zilnic 09:00 - 20:00",
-      },
-      email_form: {
-        checkin: "Check-in",
-        checkout: "Check-out",
-        guests: "Oaspeți",
-        email: "Email",
-        msg: "Mesaj",
-        send: "Trimite",
-      },
-    },
-    footer: {
-      slogan: "Deconectează-te de lume.",
-      rights: "Toate drepturile rezervate.",
-    },
-  },
-};

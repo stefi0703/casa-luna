@@ -202,7 +202,8 @@ export const translations = {
     nav: {
       cabin: "Cabana",
       rooms: "Camere",
-      amenities: "Facilități",
+      amenities: "Ce găsești la Casa Luna",
+      facilitiesPage: "Facilități",
       location: "Locație",
       gallery: "Galerie",
       pricing: "Prețuri",
@@ -210,30 +211,29 @@ export const translations = {
       book: "Rezervă",
     },
     hero: {
-      title_start: "Evadează în",
-      title_end: "Natură",
-      subtitle: "Un refugiu rustic modern în inima culoarului Rucăr-Bran.",
-      check_avail: "Verifică",
-      explore: "Explorează",
-      img_dusk: "Exterior la Apus",
-      img_living: "Living Primitor",
-      img_winter: "Peisaj de Iarnă",
+      title_start: "Casa Luna",
+      title_end: "Rucăr, Argeș",
+      subtitle:
+        "Pensiune cu design inspirat din natură, ideală pentru grupuri și familii, situată în culoarul Rucăr–Bran.",
+      check_avail: "Verifică disponibilitatea",
+      explore: "Explorează casa",
     },
     intro: {
-      welcome: "Bine ați Venit",
-      title: "O experiență montană autentică.",
-      text: "Construită din lemn și piatră locală, cabana se integrează perfect în peisajul spectaculos dintre Munții Bucegi și Piatra Craiului.",
+      welcome: "Bine ați venit",
+      title: "Cazare completă în Rucăr, Argeș",
+      text: "Casa Luna este o pensiune închiriată integral, potrivită pentru grupuri de prieteni și familii care caută spațiu generos, confort și o locație bine poziționată, aproape de atracțiile turistice din zonă.",
       bedrooms: "Dormitoare",
       baths: "Băi",
-      forest: "Pădure Privată",
+      forest: "Capacitate",
     },
     rooms: {
-      title: "Camere Spațioase",
-      subtitle: "Relaxare și confort în mijlocul naturii.",
+      title: "Spații și zone ale pensiunii",
+      subtitle:
+        "Zone gândite pentru confort, socializare și relaxare, atât la interior, cât și la exterior.",
       items: [
         {
           title: "Living Room Principal",
-          desc: "2 Canapele confortabile, șemineu pentru seri răcoroase.",
+          desc: "Dotat cu 2 canapele confortabile si un șemineu pentru seri răcoroase.",
           feats: ["Spațiu Generos", "Zonă Socială"],
           img: "living/living-main.jpg",
           gallery: [
@@ -247,7 +247,7 @@ export const translations = {
         },
         {
           title: "Bucătărie Chef",
-          desc: "Complet echipată pentru gătit.",
+          desc: "Complet echipată si utilata.",
           feats: ["Espressor", "Aragaz Gaz, Cuptor"],
           img: "kitchen/kitchen-main.jpg",
           gallery: [
@@ -257,8 +257,8 @@ export const translations = {
           ],
         },
         {
-          title: "Zona Grill",
-          desc: "Grătar pe lemne, Masă mare, perfect pentru familie.",
+          title: "Foisor incalzit, integrat in casa",
+          desc: "Grătar pe lemne, soba cu plita, loc de servit masa pentru 18-20 persoane, perfect pentru familie. (canapea)",
           feats: ["Grătar Tradițional", "Smart TV"],
           img: "grill/grill-main.jpg",
           gallery: [
@@ -270,8 +270,8 @@ export const translations = {
           ],
         },
         {
-          title: "Suită Oaspeți",
-          desc: "Pat Queen confortabil cu vedere spre munte.",
+          title: "Camere Oaspeți",
+          desc: "Camere confortabile, fiecare cu baie privată.",
           feats: ["Pat Queen", "Baie Privată"],
           img: "rooms/rooms-main.jpg",
           gallery: [
@@ -287,7 +287,7 @@ export const translations = {
           ],
         },
         {
-          title: "Curte",
+          title: "Curte cu parcare proprie",
           desc: "Aer curat de munte și spațiu verde.",
           feats: ["Spațiu Verde", "Zonă Relaxare"],
           img: "outside/outside-main.jpg",
@@ -303,8 +303,8 @@ export const translations = {
           ],
         },
         {
-          title: "Terasă Exterioară",
-          desc: "Terasă cu balansoar pentru dimineți liniștite.",
+          title: "Terasă si Foisor Exterior",
+          desc: "",
           feats: ["Balansoar", "Vedere Panoramică"],
           img: "terrace/terrace-main.jpg",
           gallery: [
@@ -320,12 +320,13 @@ export const translations = {
       subtitle: "Tot ce ai nevoie la munte.",
       items: [
         { title: "Wifi", desc: "Internet rapid" },
-        { title: "Șemineu Artificial", desc: "Atmosferă primitoare" },
+        { title: "Șemineu", desc: "Atmosferă primitoare" },
         { title: "Aer Condiționat", desc: "Climatizare" },
         { title: "Zonă Grill", desc: "Foișor echipat" },
-        { title: "Priveliște", desc: "Munții Bucegi" },
+        { title: "Priveliște", desc: "?" },
         { title: "Family Friendly", desc: "Curte sigură" },
         { title: "Smart TV", desc: "Smart TV" },
+        { title: "Spațiu de recreere", desc: "Ping pong, badminton, leagăn" }
       ],
     },
     location: {
