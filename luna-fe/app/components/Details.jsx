@@ -478,7 +478,7 @@ export const Amenities = ({ t }) => {
                   </Text>
                   <Text
                     fontSize="sm" // fontSize redus de la md la sm
-                    color="gray.500"
+                    color="gray.300"
                     _groupHover={{ color: "gray.400" }}
                     lineHeight="shorter"
                   >

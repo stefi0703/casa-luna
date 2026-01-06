@@ -79,7 +79,13 @@ export default function Navbar({
       pt={isNavbarWhite ? 3 : 8}
       pb={isNavbarWhite ? 3 : 8}
     >
-      <Flex align="center" justify="space-between" maxW="container.xl" mx="auto" px={6}>
+      <Flex
+        align="center"
+        justify="space-between"
+        maxW="container.xl"
+        mx="auto"
+        px={6}
+      >
         <HStack gap={2} cursor="pointer" onClick={() => handleNav("hero")}>
           <Image
             src={prefix("/logo.png")}
@@ -88,7 +94,11 @@ export default function Navbar({
             w="auto"
             objectFit="contain"
             transition="all 0.3s"
-            filter={isNavbarWhite ? "invert(1) brightness(0.2)" : "drop-shadow(0 2px 4px rgba(0,0,0,0.6))"}
+            filter={
+              isNavbarWhite
+                ? "invert(1) brightness(0.2)"
+                : "drop-shadow(0 2px 4px rgba(0,0,0,0.6))"
+            }
           />
         </HStack>
 
@@ -114,7 +124,11 @@ export default function Navbar({
             onClick={toggleLanguage}
             color={textColor}
             textShadow={textShadow}
-            _hover={{ bg: "whiteAlpha.200", color: hoverColor, textShadow: "none" }}
+            _hover={{
+              bg: "whiteAlpha.200",
+              color: hoverColor,
+              textShadow: "none",
+            }}
             fontWeight="bold"
             size="sm"
           >
@@ -123,7 +137,7 @@ export default function Navbar({
           </Button>
 
           <Button
-            onClick={() => handleNav("contact")}
+            onClick={() => handleNav("pricing")}
             bg={isNavbarWhite ? "orange.500" : "white"}
             color={isNavbarWhite ? "white" : "gray.900"}
             _hover={{ bg: isNavbarWhite ? "orange.600" : "gray.100" }}
@@ -137,23 +151,47 @@ export default function Navbar({
         </Flex>
 
         <Flex display={{ md: "none" }} gap={4} align="center">
-          <IconButton onClick={onOpen} variant="ghost" color={textColor} aria-label="Open Menu">
+          <IconButton
+            onClick={onOpen}
+            variant="ghost"
+            color={textColor}
+            aria-label="Open Menu"
+          >
             <Menu size={28} />
           </IconButton>
         </Flex>
       </Flex>
 
-      <Drawer.Root open={open} onOpenChange={(e) => (e.open ? onOpen() : onClose())} placement="end" size="full">
+      <Drawer.Root
+        open={open}
+        onOpenChange={(e) => (e.open ? onOpen() : onClose())}
+        placement="end"
+        size="full"
+      >
         <Drawer.Backdrop />
         <Drawer.Positioner>
           <Drawer.Content bg="white" color="gray.900">
             <Drawer.CloseTrigger asChild position="absolute" top="6" right="6">
-              <IconButton variant="ghost" color="gray.500"><X size={28} /></IconButton>
+              <IconButton variant="ghost" color="gray.500">
+                <X size={28} />
+              </IconButton>
             </Drawer.CloseTrigger>
-            <Drawer.Body display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+            <Drawer.Body
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+            >
               <VStack spacing={8}>
                 {navLinks.map((item) => (
-                  <Button key={item.id} variant="plain" fontSize="2xl" fontWeight="semibold" color="gray.800" onClick={() => handleNav(item.id)}>
+                  <Button
+                    key={item.id}
+                    variant="plain"
+                    fontSize="2xl"
+                    fontWeight="semibold"
+                    color="gray.800"
+                    onClick={() => handleNav(item.id)}
+                  >
                     {item.label}
                   </Button>
                 ))}
