@@ -224,7 +224,6 @@ export const translations = {
       text: "Casa Luna este o pensiune închiriată integral, potrivită pentru grupuri de prieteni și familii care caută spațiu generos, confort și o locație bine poziționată, aproape de atracțiile turistice din zonă.",
       bedrooms: "Dormitoare",
       baths: "Băi",
-      forest: "Capacitate",
     },
     rooms: {
       title: "Spații și zone ale pensiunii",

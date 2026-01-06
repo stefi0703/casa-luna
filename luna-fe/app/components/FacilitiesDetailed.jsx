@@ -96,8 +96,7 @@ export default function FacilitiesDetailed({ onClose, t }) {
             </Heading>
             <Text fontSize="xl" color="gray.600" maxW="3xl" mx="auto">
               Casa Luna îmbină confortul modern cu o atmosferă magică, oferind o
-              oază de liniște pentru grupuri restrânse de prieteni
-              sau familii.
+              oază de liniște pentru grupuri restrânse de prieteni sau familii.
             </Text>
           </Box>
 
@@ -121,8 +120,8 @@ export default function FacilitiesDetailed({ onClose, t }) {
               </HStack>
               <Text mb={6} color="gray.600">
                 Paturile și noptierele cu design artistic din fier forjat oferă
-                un plus de rafinament fiecărei camere ✨(capacitate: 2 adulți și 1
-                copil sub 10 ani).
+                un plus de rafinament fiecărei camere ✨(capacitate: 2 adulți și
+                1 copil sub 10 ani).
               </Text>
               <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
                 <List.Root variant="plain" spacing={2} color={mainTextColor}>
@@ -166,17 +165,26 @@ export default function FacilitiesDetailed({ onClose, t }) {
                 </Heading>
               </HStack>
               <Text mb={6} color="gray.600">
-                Descoperă un ambient magic cu copac decorativ 🌳, picturi 3D și
-                detalii de basm, totul într-un decor inspirat din natură 🌿🌙.
+                Lăsați-vă purtați într-un univers de basm 🌙, unde elementele
+                naturale se împletesc cu un copac decorativ maiestuos 🌳 și
+                picturi tridimensionale spectaculoase 🎨 pentru un ambient cu
+                adevărat magic 🌿✨.
               </Text>
               <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
                 <List.Root variant="plain" spacing={2} color={mainTextColor}>
+                  <List.Item>
+                    🌳 Decor de poveste cu elemente 3D și copac ornamental
+                  </List.Item>
+                  <List.Item>
+                    🚽 Baie de serviciu accesibilă din zona comună
+                  </List.Item>
                   <List.Item>🔥 Șemineu & Pardoseală încălzită</List.Item>
                   <List.Item>🛋️ 2 canapele confortabile</List.Item>
                   <List.Item>📺 TV Smart & Sistem audio</List.Item>
-                  <List.Item>🎲 Jocuri: remi, table, cărți de joc</List.Item>
                 </List.Root>
                 <List.Root variant="plain" spacing={2} color={mainTextColor}>
+                  <List.Item>🎲 Jocuri: remi, table, cărți de joc</List.Item>
+
                   <List.Item>🎯 Țintă cu scai pentru copii</List.Item>
                   <List.Item>
                     🌡️ Sistem încălzire prin pardoseală și calorifere
@@ -397,7 +405,6 @@ export default function FacilitiesDetailed({ onClose, t }) {
                 </Box>
               </SimpleGrid>
             </Box>
-
           </Stack>
 
           <Box

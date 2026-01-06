@@ -69,8 +69,7 @@ export const Intro = ({ t }) => (
           <HStack spacing={8} pt={4}>
             {[
               { val: "6", lbl: t.intro.bedrooms },
-              { val: "5", lbl: t.intro.baths },
-              { val: "6ac", lbl: t.intro.forest },
+              { val: "7", lbl: t.intro.baths },
             ].map((stat, i) => (
               <Box key={i}>
                 <Text
