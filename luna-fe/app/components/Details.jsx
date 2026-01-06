@@ -15,6 +15,10 @@ import {
   MapPin,
   X,
   Play, // Added for video thumbnails
+ Sparkles, // Pentru Decor de Poveste
+  ThermometerSun, // Pentru Climatizare (sugerează control termic)
+  UtensilsCrossed, // Pentru Zonă Grill
+  CheckCircle2 // Pentru Dotări Complete
 } from "lucide-react";
 import { prefix } from "../utils/prefix"; // Import prefix
 import {
@@ -36,7 +40,16 @@ import {
   Circle,
 } from "@chakra-ui/react";
 
-const icons = [Wifi, Flame, Wind, Coffee, Zap, Baby, Mountain, Key];
+const icons = [
+  Wifi,             // WiFi
+  Sparkles,         // Decor de Poveste (mult mai sugestiv decât o paletă)
+  Flame,            // Șemineu Magic
+  ThermometerSun,   // Climatizare (arată că e și cald și rece)
+  UtensilsCrossed,  // Zonă Grill
+  Mountain,         // Vedere Panoramică
+  Baby,             // Ideal pentru Familii
+  CheckCircle2      // Dotări Complete (sugerează că totul este inclus și verificat)
+];
 
 // --- Helper: Check if file is video ---
 const isVideo = (src) => {
@@ -110,7 +123,7 @@ export const Rooms = ({ t }) => {
 
   const handleOpenRoom = (room) => {
     setSelectedRoom(room);
-    setActiveIndex(0); // Reset to first slide
+    setActiveIndex(0); 
     onOpen();
   };
 
@@ -130,7 +143,7 @@ export const Rooms = ({ t }) => {
             <Heading as="h2" size="2xl" mb={4} color="gray.900">
               {t.rooms.title}
             </Heading>
-            <Text color="gray.600">{t.rooms.subtitle}</Text>
+            <Text color="gray.600" fontSize="lg">{t.rooms.subtitle}</Text>
           </Box>
           <Grid
             templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "1fr 1fr 1fr" }}
@@ -201,7 +214,12 @@ export const Rooms = ({ t }) => {
                     <Heading as="h3" size="md" mb={2} color="gray.800">
                       {room.title}
                     </Heading>
-                    <Text fontSize="sm" color="gray.500" mb={4}>
+                    <Text 
+                      fontSize="md" 
+                      color="gray.600" 
+                      mb={4}
+                      lineHeight="tall"
+                    >
                       {room.desc}
                     </Text>
                   </Box>
@@ -263,7 +281,6 @@ export const Rooms = ({ t }) => {
                   gap={4}
                   p={{ base: 4, md: 8 }}
                 >
-                  {/* MAIN VIEWPORT (Top) */}
                   <Flex
                     justify="center"
                     align="center"
@@ -317,7 +334,6 @@ export const Rooms = ({ t }) => {
                     </Box>
                   </Flex>
 
-                  {/* THUMBNAIL GRID (Bottom) */}
                   <Box
                     overflowY="auto"
                     pr={2}
@@ -409,49 +425,39 @@ export const Amenities = ({ t }) => {
   const router = useRouter();
 
   return (
-    <Box id="amenities" py={24} bg="gray.900" color="gray.300">
-      <Container maxW="container.xl">
+    <Box id="amenities" py={16} bg="gray.900" color="gray.300"> {/* py redus de la 24 la 16 */}
+      <Container maxW="container.lg"> {/* Container redus de la xl la lg pentru a fi mai strâns */}
         <Flex
           justify="space-between"
           align="flex-end"
-          mb={12}
+          mb={10}
           borderBottomWidth="1px"
           borderColor="gray.800"
-          pb={8}
+          pb={6}
         >
           <Box>
-            <Heading as="h2" size="2xl" color="white" mb={2}>
+            <Heading as="h2" size="xl" color="white" mb={1}> {/* size redus de la 2xl la xl */}
               {t.amenities.title}
             </Heading>
-            <Text>{t.amenities.subtitle}</Text>
+            <Text fontSize="md">{t.amenities.subtitle}</Text> {/* fontSize redus de la lg la md */}
           </Box>
-          {/* Arrow removed from here */}
-          <Button
-            variant="ghost"
-            colorPalette="orange"
-            display={{ base: "none", md: "flex" }}
-          >
-            {t.amenities.view_guide}
-          </Button>
         </Flex>
 
-        {/* Changed SimpleGrid to Flex for centered alignment of the last row */}
-        <Flex wrap="wrap" justify="center" gap={12}>
+        <Flex wrap="wrap" justify="center" gap={8}> {/* gap redus de la 12 la 8 */}
           {t.amenities.items.map((item, i) => {
             const Icon = icons[i] || Star;
             return (
               <VStack
                 key={i}
-                spacing={3}
+                spacing={3} // spacing redus de la 4 la 3
                 textAlign="center"
                 alignItems="center"
                 role="group"
-                // Width set to behave like a grid: ~50% on mobile, ~22% on desktop
-                w={{ base: "40%", md: "20%" }}
-                minW="150px"
+                w={{ base: "45%", md: "20%" }} // lățime ajustată pentru 4 pe rând mai compact
+                minW="140px"
               >
                 <Flex
-                  p={4}
+                  p={4} // p redus de la 5 la 4
                   bg="gray.800"
                   color="orange.500"
                   borderRadius="full"
@@ -461,19 +467,20 @@ export const Amenities = ({ t }) => {
                   _groupHover={{
                     bg: "orange.600",
                     color: "white",
-                    transform: "translateY(-4px)",
+                    transform: "translateY(-3px)",
                   }}
                 >
-                  <Icon size={32} />
+                  <Icon size={28} /> {/* Icon size redus de la 36 la 28 */}
                 </Flex>
                 <Box>
-                  <Text fontWeight="bold" color="white">
+                  <Text fontWeight="bold" color="white" fontSize="lg" mb={0.5}> {/* fontSize redus de la xl la lg */}
                     {item.title}
                   </Text>
                   <Text
-                    fontSize="sm"
+                    fontSize="sm" // fontSize redus de la md la sm
                     color="gray.500"
                     _groupHover={{ color: "gray.400" }}
+                    lineHeight="shorter"
                   >
                     {item.desc}
                   </Text>
@@ -482,20 +489,21 @@ export const Amenities = ({ t }) => {
             );
           })}
         </Flex>
-<Flex justify="center" mt={8}>
+
+        <Flex justify="center" mt={10}>
           <Button
-            size="lg"
+            size="lg" // size redus de la xl la lg
             bg="orange.500"
             color="white"
-            _hover={{ bg: "orange.600" }}
+            _hover={{ bg: "orange.600", transform: "scale(1.03)" }}
             transition="all 0.2s"
             rounded="full"
             px={10}
             fontWeight="bold"
-            boxShadow="0 4px 14px 0 rgba(237, 137, 54, 0.39)"
+            boxShadow="0 4px 15px 0 rgba(237, 137, 54, 0.3)"
             onClick={() => router.push("/facilities")}
           >
-            {t.amenities.view_guide || "Vezi toate facilitățile"}
+            {t.amenities.view_guide}
           </Button>
         </Flex>
       </Container>
@@ -508,7 +516,7 @@ export const Location = ({ t }) => (
   <Box
     id="location"
     position="relative"
-    h="600px"
+    h="800px"
     display="flex"
     alignItems="center"
     justifyContent="center"
@@ -568,15 +576,7 @@ export const Location = ({ t }) => (
           </Flex>
         ))}
       </VStack>
-      <Button
-        w="full"
-        size="lg"
-        bg="gray.900"
-        color="white"
-        _hover={{ bg: "gray.800" }}
-      >
-        {t.location.directions}
-      </Button>
+
     </Box>
   </Box>
 );
@@ -598,48 +598,95 @@ export const BookingTerms = ({ t }) => (
             <Heading as="h3" size="xl" mb={4} color="gray.900">
               🏠 Condiții de Rezervare & Plată
             </Heading>
-            <Box w="60px" h="4px" bg="orange.400" mx="auto" borderRadius="full" />
+            <Box
+              w="60px"
+              h="4px"
+              bg="orange.400"
+              mx="auto"
+              borderRadius="full"
+            />
           </Box>
 
           {/* Am schimbat columns la 2 pe tableta si 4 pe desktop */}
           <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={8}>
             <VStack align="center" textAlign="center" spacing={3}>
-              <Circle size="50px" bg="white" color="orange.600" boxShadow="sm" fontSize="xl">
+              <Circle
+                size="50px"
+                bg="white"
+                color="orange.600"
+                boxShadow="sm"
+                fontSize="xl"
+              >
                 🗝️
               </Circle>
               <Box>
-                <Text fontWeight="bold" color="gray.800">Închiriere Integrală</Text>
-                <Text color="gray.600" fontSize="xs">Se închiriază doar unitatea completă pentru intimitate totală.</Text>
+                <Text fontWeight="bold" color="gray.800" fontSize="lg">
+                  Închiriere Integrală
+                </Text>
+                <Text color="gray.600" fontSize="s">
+                  Se închiriază doar unitatea completă pentru intimitate totală.
+                </Text>
               </Box>
             </VStack>
 
             <VStack align="center" textAlign="center" spacing={3}>
-              <Circle size="50px" bg="white" color="orange.600" boxShadow="sm" fontSize="xl">
+              <Circle
+                size="50px"
+                bg="white"
+                color="orange.600"
+                boxShadow="sm"
+                fontSize="xl"
+              >
                 🌙
               </Circle>
               <Box>
-                <Text fontWeight="bold" color="gray.800">Sejur Minim</Text>
-                <Text color="gray.600" fontSize="xs">Rezervările se fac pentru o perioadă de minimum 2 nopți.</Text>
+                <Text fontWeight="bold" color="gray.800" fontSize="lg">
+                  Sejur Minim
+                </Text>
+                <Text color="gray.600" fontSize="s">
+                  Rezervările se fac pentru o perioadă de minimum 2 nopți.
+                </Text>
               </Box>
             </VStack>
 
             <VStack align="center" textAlign="center" spacing={3}>
-              <Circle size="50px" bg="white" color="orange.600" boxShadow="sm" fontSize="xl">
+              <Circle
+                size="50px"
+                bg="white"
+                color="orange.600"
+                boxShadow="sm"
+                fontSize="xl"
+              >
                 👶
               </Circle>
               <Box>
-                <Text fontWeight="bold" color="gray.800">Gratuitate Copii</Text>
-                <Text color="gray.600" fontSize="xs">Copiii până la 8 ani beneficiază de gratuitate (în pat cu părinții).</Text>
+                <Text fontWeight="bold" color="gray.800" fontSize="lg">
+                  Gratuitate Copii
+                </Text>
+                <Text color="gray.600" fontSize="s">
+                  Copiii până la 8 ani beneficiază de gratuitate (în pat cu
+                  părinții).
+                </Text>
               </Box>
             </VStack>
 
             <VStack align="center" textAlign="center" spacing={3}>
-              <Circle size="50px" bg="white" color="orange.600" boxShadow="sm" fontSize="xl">
+              <Circle
+                size="50px"
+                bg="white"
+                color="orange.600"
+                boxShadow="sm"
+                fontSize="xl"
+              >
                 💳
               </Circle>
               <Box>
-                <Text fontWeight="bold" color="gray.800">Metode de Plată</Text>
-                <Text color="gray.600" fontSize="xs">Acceptăm numerar sau transfer bancar pentru plata sejurului.</Text>
+                <Text fontWeight="bold" color="gray.800" fontSize="lg">
+                  Metode de Plată
+                </Text>
+                <Text color="gray.600" fontSize="s">
+                  Acceptăm numerar sau transfer bancar pentru plata sejurului.
+                </Text>
               </Box>
             </VStack>
           </SimpleGrid>

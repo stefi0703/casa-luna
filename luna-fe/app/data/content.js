@@ -231,9 +231,13 @@ export const translations = {
         "Zone gândite pentru confort, socializare și relaxare, atât la interior, cât și la exterior.",
       items: [
         {
-          title: "Living Room Principal",
-          desc: "Dotat cu 2 canapele confortabile si un șemineu pentru seri răcoroase.",
-          feats: ["Spațiu Generos", "Zonă Socială"],
+          title: "Living Room de Poveste 🌙",
+          desc: "Relaxați-vă sub ramurile unui copac decorativ maiestuos, într-un ambient magic cu picturi 3D, căldura șemineului și divertisment digital. Dispune de o baie de serviciu accesibilă direct din zona comună.",
+          feats: [
+            "Șemineu & Smart TV",
+            "Jocuri & Sistem Audio",
+            "Baie de Serviciu",
+          ],
           img: "living/living-main.jpg",
           gallery: [
             "living/living-main.jpg",
@@ -245,9 +249,9 @@ export const translations = {
           ],
         },
         {
-          title: "Bucătărie Chef",
-          desc: "Complet echipată si utilata.",
-          feats: ["Espressor", "Aragaz Gaz, Cuptor"],
+          title: "Bucătăria Turistului 🍳",
+          desc: "Un spațiu complet utilat pentru experiențe culinare reușite, dotat cu aragaz, cuptor electric, cuptor cu microunde, espresso și veselă completă. Include frigidere și congelator pentru provizii generoase.",
+          feats: ["Complet Utilată", "Zonă de Cafea", "Frigider & Congelator"],
           img: "kitchen/kitchen-main.jpg",
           gallery: [
             "kitchen/kitchen-main.jpg",
@@ -256,9 +260,9 @@ export const translations = {
           ],
         },
         {
-          title: "Foisor incalzit, integrat in casa",
-          desc: "Grătar pe lemne, soba cu plita, loc de servit masa pentru 18-20 persoane, perfect pentru familie. (canapea)",
-          feats: ["Grătar Tradițional", "Smart TV"],
+          title: "Foișorul Magic (Încălzit, integrat în casă) 🔥",
+          desc: "Spațiul ideal pentru seri lungi la grătarul profesional sau plita integrate, dotat cu dining rustic, chiuvetă, Smart TV și canapea confortabilă, totul într-un ambient încălzit integrat în casă.",
+          feats: ["Grătar Profesional", "Dining Rustic", "Canapea & Smart TV"],
           img: "grill/grill-main.jpg",
           gallery: [
             "grill/grill-main.jpg",
@@ -269,9 +273,9 @@ export const translations = {
           ],
         },
         {
-          title: "Camere Oaspeți",
-          desc: "Camere confortabile, fiecare cu baie privată.",
-          feats: ["Pat Queen", "Baie Privată"],
+          title: "Dormitoare cu Design Artistic 🛏️",
+          desc: "Odihnă binemeritată în 6 dormitoare cu paturi matrimoniale din fier forjat. Fiecare cameră dispune de baie proprie, Smart TV, pardoseală încălzită din parchet SPC și plase de țânțari la geamuri.",
+          feats: ["Baie Privată", "Mobilier Fier Forjat", "Smart TV & WiFi"],
           img: "rooms/rooms-main.jpg",
           gallery: [
             "rooms/rooms-main.jpg",
@@ -286,9 +290,9 @@ export const translations = {
           ],
         },
         {
-          title: "Curte cu parcare proprie",
-          desc: "Aer curat de munte și spațiu verde.",
-          feats: ["Spațiu Verde", "Zonă Relaxare"],
+          title: "Curtea Generoasă & Parcare 🚗",
+          desc: "O curte privată ce include loc de joacă cu balansoar pentru copii, facilități de gătit (grătar, sobă cu plită/ceaun) și activități sportive (ping-pong, baschet, badminton). Parcarea privată securizată oferă o capacitate de 7-8 autoturisme.",
+          feats: ["Parcare 7-8 Locuri", "Loc de Joacă", "Grătar & Ceaun"],
           img: "outside/outside-main.jpg",
           gallery: [
             "outside/outside-main.jpg",
@@ -302,9 +306,9 @@ export const translations = {
           ],
         },
         {
-          title: "Terasă si Foisor Exterior",
-          desc: "",
-          feats: ["Balansoar", "Vedere Panoramică"],
+          title: "Terasă și Foișor Exterior 🧘",
+          desc: "Savurați aerul de munte pe terasa spațioasă dotată cu mobilier de grădină și balansoar, sau relaxați-vă în foișorul exterior dedicat deconectării totale, înconjurați de liniștea naturii.",
+          feats: ["Balansoar", "Mobilier Grădină", "Zonă Relaxare"],
           img: "terrace/terrace-main.jpg",
           gallery: [
             "terrace/terrace-main.jpg",
@@ -315,18 +319,44 @@ export const translations = {
       ],
     },
     amenities: {
-      title: "Facilități",
-      subtitle: "Tot ce ai nevoie la munte.",
+      title: "Dotări & Confort",
+      subtitle:
+        "Micile detalii care fac diferența între o cazare și o experiență.",
       items: [
-        { title: "Wifi", desc: "Internet rapid" },
-        { title: "Șemineu", desc: "Atmosferă primitoare" },
-        { title: "Aer Condiționat", desc: "Climatizare" },
-        { title: "Zonă Grill", desc: "Foișor echipat" },
-        { title: "Priveliște", desc: "?" },
-        { title: "Family Friendly", desc: "Curte sigură" },
-        { title: "Smart TV", desc: "Smart TV" },
-        { title: "Spațiu de recreere", desc: "Ping pong, badminton, leagăn" },
+        {
+          title: "WiFi",
+          desc: "Conexiune stabilă în orice colț al casei.",
+        },
+        {
+          title: "Decor de Poveste",
+          desc: "Picturi 3D și detalii care prind viață.",
+        },
+        {
+          title: "Șemineu Magic",
+          desc: "Locul ideal pentru povești la gura sobei.",
+        },
+        {
+          title: "Climatizare",
+          desc: "Confort termic perfect în orice anotimp.",
+        },
+        {
+          title: "Zonă Grill",
+          desc: "Foișor închis, pregătit pentru orice vreme.",
+        },
+        {
+          title: "Vedere Panoramică",
+          desc: "Priveliște ce te conectează cu natura.",
+        },
+        {
+          title: "Ideal pentru Familii",
+          desc: "Spațiu sigur și distracție pentru cei mici.",
+        },
+        {
+          title: "Dotări Complete",
+          desc: "Tot ce ai nevoie în fiecare cameră.",
+        },
       ],
+      view_guide: "Vezi detaliile complete pentru fiecare spațiu",
     },
     location: {
       label: "Locație",
@@ -359,7 +389,10 @@ export const translations = {
         {
           title: "Weekend",
           price: "1500 RON",
-          features: ["Check-in vineri, ora aprox.14:30", "Checkout duminică, ora aprox. 11:30"],
+          features: [
+            "Check-in vineri, ora aprox.14:30",
+            "Checkout duminică, ora aprox. 11:30",
+          ],
         },
         {
           title: "Săptămânal",

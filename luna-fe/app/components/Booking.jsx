@@ -20,7 +20,8 @@ import {
 
 export default function Booking({ t }) {
   return (
-    <Box as="section" id="pricing" py={24} bg="white">
+    <Box as="section" id="pricing" pt={0} pb={24} bg="white">
+      {/* pt setat la 0 pentru a elimina spațiul superior */}
       <Container maxW="6xl">
         <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={16}>
           {/* Pricing Column */}
