@@ -38,7 +38,7 @@ export default function Navbar({
     if (id === "gallery") {
       onOpenGallery();
     } else if (id === "facilities-page") {
-      window.location.href = "/facilities";
+      window.location.href = prefix("/facilities");
     } else {
       scrollToSection(id);
     }
