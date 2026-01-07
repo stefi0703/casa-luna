@@ -1,6 +1,7 @@
 "use client";
-import React from "react";
-import { Mail, Phone, CheckCircle } from "lucide-react";
+import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
+import { Mail, CheckCircle } from "lucide-react";
 import {
   Box,
   Container,
@@ -11,18 +12,99 @@ import {
   Button,
   Input,
   Textarea,
-  Badge,
   Flex,
-  List,
-  Tabs,
+  Badge,
   Icon,
+  Stack
 } from "@chakra-ui/react";
+import { toaster } from "../../components/ui/toaster";
 
 export default function Booking({ t }) {
+  const [msgType, setMsgType] = useState("rezervare");
+  const [hasChildren, setHasChildren] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData(e.target);
+    const rawData = Object.fromEntries(formData.entries());
+
+    const isRezervare = msgType === "rezervare";
+
+    // 🔹 Construim textul dinamic AICI, nu în EmailJS
+    let rezervareBlock = "";
+    if (isRezervare) {
+      rezervareBlock = `
+Vă scriu pentru o rezervare la Casa Luna (${rawData.group_type || "Nespecificat"}).
+Perioada: ${rawData.date_from} — ${rawData.date_to}
+Număr persoane: ${rawData.guests_count}
+`;
+
+      if (hasChildren && rawData.children_details) {
+        rezervareBlock += `
+Detalii copii:
+${rawData.children_details}
+`;
+      }
+    }
+
+    const templateParams = {
+      subject: isRezervare ? "Rezervare nouă" : "Întrebare nouă",
+      user_name: rawData.user_name || "Client",
+      user_email: rawData.user_email || "",
+      user_phone: rawData.user_phone || "",
+      mesaj_rezervare: rezervareBlock,
+      mesaj_intrebare: !isRezervare
+        ? "Vă contactez pentru o întrebare legată de Casa Luna."
+        : "",
+      message: rawData.message || ""
+    };
+
+    emailjs
+      .send(
+        "service_nz73b9k",
+        "template_q36tj1l",
+        templateParams,
+        "YSXKo1bxXIThTmkua"
+      )
+      .then(() => {
+        toaster.create({
+          title: "Mesaj trimis cu succes!",
+          type: "success"
+        });
+        setLoading(false);
+        e.target.reset();
+        setHasChildren(false);
+        setMsgType("rezervare");
+      })
+      .catch((err) => {
+        console.error("EROARE EmailJS:", err);
+        toaster.create({
+          title: "Eroare la trimiterea mesajului.",
+          type: "error"
+        });
+        setLoading(false);
+      });
+  };
+
+  const selectStyle = {
+    width: "100%",
+    padding: "10px 12px",
+    borderRadius: "8px",
+    border: "1px solid #E2E8F0",
+    backgroundColor: "white",
+    fontSize: "14px",
+    outline: "none",
+    appearance: "auto"
+  };
+
   return (
-    <Box as="section" id="pricing" pt={0} pb={24} bg="white">
+    <Box as="section" id="pricing" py={24} bg="white">
       <Container maxW="6xl">
-        <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={16}>
+        <Grid templateColumns={{ base: "1fr", lg: "1.1fr 0.9fr" }} gap={16}>
+          {/* PRICING */}
           <Box>
             <Heading as="h2" size="2xl" mb={6} color="gray.900">
               {t.pricing.title}
@@ -32,189 +114,247 @@ export default function Booking({ t }) {
             </Text>
 
             <VStack spacing={6} align="stretch">
-              {t.pricing.tiers.map((tier, i) => {
-                const isPopular = i === 1;
-                return (
-                  <Box
-                    key={i}
-                    p={6}
-                    borderRadius="xl"
-                    borderWidth="1px"
-                    borderColor={isPopular ? "orange.400" : "gray.200"}
-                    bg={isPopular ? "orange.50" : "transparent"}
-                    position="relative"
-                    shadow={isPopular ? "sm" : "none"}
-                  >
-                    <Flex justify="space-between" align="center" mb={2}>
-                      <Heading as="h3" size="md" color="gray.800">
-                        {tier.title}
-                      </Heading>
-                      {isPopular && (
-                        <Badge
-                          colorPalette="orange"
-                          variant="solid"
-                          px={3}
-                          py={1}
-                          borderRadius="full"
-                        >
-                          Popular
-                        </Badge>
-                      )}
-                    </Flex>
-                    <Text
-                      fontSize="3xl"
-                      fontWeight="bold"
-                      color="orange.600"
-                      mb={4}
-                    >
-                      {tier.price}{" "}
-                      <Text
-                        as="span"
-                        fontSize="sm"
-                        color="gray.500"
-                        fontWeight="normal"
+              {t.pricing.tiers.map((tier, i) => (
+                <Box
+                  key={i}
+                  p={6}
+                  borderRadius="xl"
+                  borderWidth="1px"
+                  borderColor={i === 1 ? "orange.400" : "gray.200"}
+                  bg={i === 1 ? "orange.50" : "transparent"}
+                >
+                  <Flex justify="space-between" align="center" mb={2}>
+                    <Heading as="h3" size="md" color="gray.800">
+                      {tier.title}
+                    </Heading>
+                    {i === 1 && (
+                      <Badge
+                        bg="orange.500"
+                        color="white"
+                        px={3}
+                        py={1}
+                        borderRadius="full"
                       >
-                        {i === 2 ? t.pricing.week : t.pricing.night}
-                      </Text>
+                        Popular
+                      </Badge>
+                    )}
+                  </Flex>
+
+                  <Text
+                    fontSize="3xl"
+                    fontWeight="bold"
+                    color="orange.600"
+                    mb={4}
+                  >
+                    {tier.price}{" "}
+                    <Text
+                      as="span"
+                      fontSize="sm"
+                      color="gray.500"
+                      fontWeight="normal"
+                    >
+                      {i === 2 ? t.pricing.week : t.pricing.night}
                     </Text>
-                    <List.Root spacing={3} variant="plain">
-                      {tier.features.map((f, idx) => (
-                        <List.Item
-                          key={idx}
-                          display="flex"
-                          alignItems="center"
-                          fontSize="sm"
-                          color="gray.700"
-                        >
-                          <List.Indicator asChild>
-                            <Icon as={CheckCircle} color="orange.500" mr={3} />
-                          </List.Indicator>
-                          {f}
-                        </List.Item>
-                      ))}
-                    </List.Root>
-                  </Box>
-                );
-              })}
+                  </Text>
+
+                  <Stack spacing={3}>
+                    {tier.features.map((f, idx) => (
+                      <Flex
+                        align="center"
+                        fontSize="sm"
+                        color="gray.700"
+                        key={`${i}-${idx}`}
+                      >
+                        <Icon as={CheckCircle} color="orange.500" mr={3} />
+                        {f}
+                      </Flex>
+                    ))}
+                  </Stack>
+                </Box>
+              ))}
             </VStack>
           </Box>
 
-          {/* Contact/Form Column */}
+          {/* FORMULAR */}
           <Box
             bg="gray.50"
-            p={8}
-            borderRadius="2xl"
+            p={{ base: 6, md: 10 }}
+            borderRadius="3xl"
             borderWidth="1px"
             borderColor="gray.200"
-            height="fit-content"
             position="sticky"
-            top="24"
+            top="32"
+            height="fit-content"
           >
-            <Heading
-              as="h3"
-              size="lg"
-              mb={6}
-              display="flex"
-              alignItems="center"
-              gap={2}
-              color="gray.800"
-            >
-              <Mail color="#DD6B20" /> {t.contact.title}
-            </Heading>
-
-            <Tabs.Root
-              defaultValue="phone"
-              variant="enclosed"
-              colorPalette="orange"
-            >
-              <Tabs.List mb={6} w="full">
-                <Tabs.Trigger value="phone" flex="1" fontWeight="semibold">
-                  {t.contact.tabs.phone}
-                </Tabs.Trigger>
-                <Tabs.Trigger value="email" flex="1" fontWeight="semibold">
-                  {t.contact.tabs.email}
-                </Tabs.Trigger>
-              </Tabs.List>
-
-              <Tabs.Content value="phone" p={0}>
-                <VStack py={8} spacing={4} textAlign="center">
-                  <Flex
-                    w={16}
-                    h={16}
-                    bg="orange.100"
-                    color="orange.600"
-                    borderRadius="full"
-                    align="center"
-                    justify="center"
-                  >
-                    <Phone size={32} />
-                  </Flex>
-                  <Heading as="h4" size="md" color="gray.900">
-                    {t.contact.phone_info.title}
-                  </Heading>
-                  <Button
-                    as="a"
-                    href="tel:+40700123456"
-                    w="full"
+            <form onSubmit={sendEmail}>
+              <VStack spacing={5} align="stretch">
+                <Box>
+                  <Heading
                     size="lg"
-                    colorPalette="orange"
-                    mt={2}
+                    display="flex"
+                    alignItems="center"
+                    gap={3}
+                    color="gray.800"
+                    mb={2}
                   >
-                    {t.contact.phone_info.button}
-                  </Button>
-                  <Text fontSize="sm" color="gray.500" mt={2}>
-                    {t.contact.phone_info.avail}
+                    <Mail color="#DD6B20" />
+                    {t.contact.title}
+                  </Heading>
+                  <Text fontSize="sm" color="gray.500">
+                    Completează datele de mai jos și revenim noi.
                   </Text>
-                </VStack>
-              </Tabs.Content>
+                </Box>
 
-              <Tabs.Content value="email" p={0}>
-                <form onSubmit={(e) => e.preventDefault()}>
-                  <VStack spacing={4}>
-                    <Grid templateColumns="1fr 1fr" gap={4} w="full">
-                      <Input
-                        type="date"
-                        bg="white"
-                        borderColor="gray.300"
-                        placeholder="Check-in"
-                        _placeholder={{ color: "gray.400" }}
-                      />
-                      <Input
-                        type="date"
-                        bg="white"
-                        borderColor="gray.300"
-                        placeholder="Check-out"
-                        _placeholder={{ color: "gray.400" }}
-                      />
-                    </Grid>
+                <Box>
+                  <Text fontSize="sm" fontWeight="bold" mb={2}>
+                    Ce dorești să faci?
+                  </Text>
+                  <select
+                    name="subject_type"
+                    style={selectStyle}
+                    value={msgType}
+                    onChange={(e) => setMsgType(e.target.value)}
+                  >
+                    <option value="rezervare">Vreau o rezervare</option>
+                    <option value="intrebare">Am o întrebare</option>
+                  </select>
+                </Box>
+
+                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+                  <Input
+                    required
+                    name="user_name"
+                    placeholder="Nume complet"
+                    bg="white"
+                  />
+                  <Input
+                    required
+                    name="user_email"
+                    type="email"
+                    placeholder="E-mail"
+                    bg="white"
+                  />
+                </Grid>
+
+                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+                  <Box>
+                    <Text fontSize="sm" mb={1}>
+                      Tipul grupului
+                    </Text>
+                    <select name="group_type" style={selectStyle}>
+                      <option value="familie">Familie</option>
+                      <option value="grup de prieteni">
+                        Grup de prieteni
+                      </option>
+                      <option value="cuplu">Cuplu</option>
+                      <option value="eveniment">Eveniment</option>
+                    </select>
+                  </Box>
+
+                  <Box>
+                    <Text fontSize="sm" mb={1}>
+                      Telefon
+                    </Text>
                     <Input
-                      type="email"
-                      placeholder={t.contact.email_form.email}
+                      required
+                      name="user_phone"
+                      type="tel"
+                      placeholder="07xx xxx xxx"
                       bg="white"
-                      borderColor="gray.300"
-                      _placeholder={{ color: "gray.400" }}
                     />
-                    <Textarea
-                      placeholder={t.contact.email_form.msg}
-                      rows={3}
-                      bg="white"
-                      borderColor="gray.300"
-                      _placeholder={{ color: "gray.400" }}
-                    />
-                    <Button
-                      type="submit"
-                      w="full"
-                      size="lg"
-                      bg="gray.900"
-                      color="white"
-                      _hover={{ bg: "gray.700" }}
-                    >
-                      {t.contact.email_form.send}
-                    </Button>
-                  </VStack>
-                </form>
-              </Tabs.Content>
-            </Tabs.Root>
+                  </Box>
+                </Grid>
+
+                {msgType === "rezervare" && (
+                  <Box
+                    p={4}
+                    bg="orange.50"
+                    borderRadius="xl"
+                    border="1px dashed"
+                    borderColor="orange.200"
+                  >
+                    <VStack spacing={4} align="stretch">
+                      <Grid templateColumns="1fr 1fr" gap={4}>
+                        <Input
+                          required
+                          name="date_from"
+                          type="date"
+                          bg="white"
+                          size="sm"
+                        />
+                        <Input
+                          required
+                          name="date_to"
+                          type="date"
+                          bg="white"
+                          size="sm"
+                        />
+                      </Grid>
+
+                      <Input
+                        required
+                        name="guests_count"
+                        placeholder="Nr. total persoane"
+                        bg="white"
+                        size="sm"
+                      />
+
+                      <Flex align="center" gap={3}>
+                        <input
+                          type="checkbox"
+                          checked={hasChildren}
+                          onChange={(e) =>
+                            setHasChildren(e.target.checked)
+                          }
+                          style={{
+                            width: 18,
+                            height: 18,
+                            cursor: "pointer"
+                          }}
+                        />
+                        <Text fontSize="sm">
+                          Venim cu copii?
+                        </Text>
+                      </Flex>
+
+                      {hasChildren && (
+                        <Textarea
+                          name="children_details"
+                          placeholder="Detalii copii (vârste)"
+                          bg="white"
+                          fontSize="xs"
+                          rows={2}
+                        />
+                      )}
+                    </VStack>
+                  </Box>
+                )}
+
+                <Textarea
+                  required
+                  name="message"
+                  placeholder={
+                    msgType === "rezervare"
+                      ? "Alte detalii"
+                      : "Întrebarea ta..."
+                  }
+                  bg="white"
+                  rows={4}
+                />
+
+                <Button
+                  type="submit"
+                  isLoading={loading}
+                  size="lg"
+                  w="full"
+                  bg="gray.900"
+                  color="white"
+                  _hover={{ bg: "gray.700" }}
+                >
+                  Trimite solicitarea
+                </Button>
+              </VStack>
+            </form>
           </Box>
         </Grid>
       </Container>
