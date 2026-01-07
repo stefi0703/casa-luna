@@ -375,6 +375,31 @@ export const translations = {
       ],
       directions: "Vezi indicații pe hartă",
     },
+    bookingTerms: {
+      title: "🏠 Condiții de Rezervare & Plată",
+      items: [
+        {
+          title: "Închiriere Integrală",
+          desc: "Se închiriază doar unitatea completă pentru intimitate totală.",
+          icon: "🗝️",
+        },
+        {
+          title: "Sejur Minim",
+          desc: "Rezervările se fac pentru o perioadă de minimum 2 nopți.",
+          icon: "🌙",
+        },
+        {
+          title: "Gratuitate Copii",
+          desc: "Copiii până la 8 ani beneficiază de gratuitate (în pat cu părinții).",
+          icon: "👶",
+        },
+        {
+          title: "Metode de Plată",
+          desc: "Acceptăm numerar sau transfer bancar pentru plata sejurului.",
+          icon: "💳",
+        },
+      ],
+    },
     pricing: {
       title: "Prețuri Simple",
       subtitle: "Fără taxe ascunse.",
@@ -417,6 +442,104 @@ export const translations = {
         msg: "Mesaj",
         send: "Trimite",
       },
+    },
+    facilitiesDetailed: {
+      badge: "Locație recent deschisă",
+      title_start: "Facilități ",
+      title_accent: "Casa Luna",
+      description: "Casa Luna îmbină confortul modern cu o atmosferă magică, oferind o oază de liniște pentru grupuri restrânse de prieteni sau familii.",
+      back_btn: "Înapoi la site",
+      sections: {
+        bedrooms: {
+          title: "Dormitoare Matrimoniale",
+          desc: "Paturile și noptierele cu design artistic din fier forjat oferă un plus de rafinament fiecărei camere ✨(capacitate: 2 adulți și 1 copil sub 10 ani).",
+          items: [
+            "🛏️ Pat matrimonial & noptiere cu design artistic din fier forjat",
+            "📺 TV Smart & Priză lângă pat",
+            "👗 Dulap / Garderobă & umerașe pentru haine",
+            "🪞 Oglindă, masă și scaun",
+            "🌡️ Confort termic prin pardoseală încălzită și calorifere",
+            "🚿 Cabină / paravan de duș",
+            "🧖‍♀️ Uscător de păr & Prosoape",
+            "🧼 Săpun / gel de duș",
+            "🦟 Plasă țânțari la geamuri"
+          ]
+        },
+        living: {
+          title: "În Living",
+          desc: "Lăsați-vă purtați într-un univers de basm 🌙, unde elementele naturale se împletesc cu un copac decorativ maiestuos 🌳 și picturi tridimensionale spectaculoase 🎨 pentru un ambient cu adevărat magic 🌿✨.",
+          items: [
+            "🌳 Decor de poveste cu elemente 3D și copac ornamental",
+            "🚽 Baie de serviciu accesibilă din zona comună",
+            "🔥 Șemineu & Pardoseală încălzită",
+            "🛋️ 2 canapele confortabile",
+            "📺 TV Smart & Sistem audio",
+            "🎲 Jocuri: remi, table, cărți de joc",
+            "🎯 Țintă cu scai pentru copii",
+            "🌡️ Sistem încălzire prin pardoseală și calorifere",
+            "📶 WiFi gratuit în întreaga unitate"
+          ]
+        },
+        kitchen: {
+          title: "Bucătăria Turistului",
+          desc: "O bucătărie complet utilată și mobilată pentru a satisface toate nevoile tale culinare în timpul sejurului.",
+          items: [
+            "🍳 Aragaz & Cuptor electric",
+            "☕ Expresor cafea & Fierbător electric",
+            "🍞 Sandwitch maker & Prăjitor de pâine",
+            "♨ Cuptor cu microunde",
+            "🧊 Frigidere & Congelator",
+            "🍽️ Veselă și tacâmuri complete"
+          ]
+        },
+        gazebo: {
+          title: "Foișorul Interior (Încălzit)",
+          desc: "Un spațiu închis și primitor, ideal pentru seri relaxante indiferent de anotimp, dotat cu zonă de dining rustică și spațiu de relaxare.",
+          items: [
+            "🏠 Foișor încălzit (integrat in casă) cu zonă de dining rustică",
+            "🍖 Grătar profesional și plită integrate",
+            "🛋️ Canapea confortabilă și spațiu de socializare",
+            "📺 TV Smart dedicat pentru divertisment"
+          ]
+        },
+        outdoor: {
+          title: "Curte, Terasă & Activități",
+          desc: "Bucură-te de aerul curat de munte în curtea generoasă sau pe terasa special amenajată pentru relaxare.",
+          items: [
+            "🌳 Grădină / curte cu loc de recreere",
+            "⛱️ Foișor exterior, cu spatiu de relaxare",
+            "🧘 Terasă spatioasă & Mobilier grădină",
+            "🥘 Sobă cu plită / ceaun în aer liber",
+            "🚗 Parcare privată în curte (7-8 autoturisme)",
+            "🎠 Loc de joacă & Balansoar pentru copii",
+            "🏓 Tenis de masă (exterior) & Darts",
+            "🏸 Badminton & Coș de baschet",
+            "⛰️ Posibilități de drumeții în zonă",
+            "📍 Acces facil pe drum asfaltat (vis-a-vis de Petrom)"
+          ]
+        },
+        security: {
+          title: "Securitate & Confort",
+          items: [
+            "📹 Camere de supraveghere exterior & interior zone comune",
+            "🚨 Detector de monoxid de carbon & extinctoare",
+            "⏰ Check In: 14:30 | Check Out: 11:30",
+            "👶 Copii pana la 8 ani: Gratuit (în pat cu părinții)"
+          ]
+        },
+        smoking: {
+          title: "Politica Fumatului",
+          items: [
+            "🚭 Fumatul interzis în toate spațiile interioare",
+            "🚭 Vape-ul și țigările electronice sunt interzise la interior",
+            "🚬 Fumatul este permis în zone speciale la exterior"
+          ]
+        }
+      },
+      footer: {
+        title: "Casa Luna – locul în care povestea începe!",
+        info: "Pentru rezervări și informații: 0750 849 137"
+      }
     },
     footer: {
       slogan: "Deconectează-te de lume.",

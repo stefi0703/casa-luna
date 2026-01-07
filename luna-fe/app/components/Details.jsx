@@ -603,20 +603,20 @@ export const Location = ({ t }) => (
 
 // --- Component: BookingTerms ---
 export const BookingTerms = ({ t }) => (
-  <Box py={16} bg="white">
+  <Box py={6} bg="white">
     <Container maxW="6xl">
       <Box
-        p={{ base: 8, md: 12 }}
+        p={{ base: 6, md: 8 }}
         bg="orange.50"
         borderRadius="3xl"
         border="1px solid"
         borderColor="orange.100"
         position="relative"
       >
-        <VStack spacing={8} align="stretch">
+        <VStack spacing={6} align="stretch">
           <Box textAlign="center">
-            <Heading as="h3" size="xl" mb={4} color="gray.900">
-              🏠 Condiții de Rezervare & Plată
+            <Heading as="h3" size="xl" mb={2} color="gray.900">
+              {t.bookingTerms.title}
             </Heading>
             <Box
               w="60px"
@@ -627,87 +627,28 @@ export const BookingTerms = ({ t }) => (
             />
           </Box>
 
-          <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={8}>
-            <VStack align="center" textAlign="center" spacing={3}>
-              <Circle
-                size="50px"
-                bg="white"
-                color="orange.600"
-                boxShadow="sm"
-                fontSize="xl"
-              >
-                🗝️
-              </Circle>
-              <Box>
-                <Text fontWeight="bold" color="gray.800" fontSize="lg">
-                  Închiriere Integrală
-                </Text>
-                <Text color="gray.600" fontSize="s">
-                  Se închiriază doar unitatea completă pentru intimitate totală.
-                </Text>
-              </Box>
-            </VStack>
-
-            <VStack align="center" textAlign="center" spacing={3}>
-              <Circle
-                size="50px"
-                bg="white"
-                color="orange.600"
-                boxShadow="sm"
-                fontSize="xl"
-              >
-                🌙
-              </Circle>
-              <Box>
-                <Text fontWeight="bold" color="gray.800" fontSize="lg">
-                  Sejur Minim
-                </Text>
-                <Text color="gray.600" fontSize="s">
-                  Rezervările se fac pentru o perioadă de minimum 2 nopți.
-                </Text>
-              </Box>
-            </VStack>
-
-            <VStack align="center" textAlign="center" spacing={3}>
-              <Circle
-                size="50px"
-                bg="white"
-                color="orange.600"
-                boxShadow="sm"
-                fontSize="xl"
-              >
-                👶
-              </Circle>
-              <Box>
-                <Text fontWeight="bold" color="gray.800" fontSize="lg">
-                  Gratuitate Copii
-                </Text>
-                <Text color="gray.600" fontSize="s">
-                  Copiii până la 8 ani beneficiază de gratuitate (în pat cu
-                  părinții).
-                </Text>
-              </Box>
-            </VStack>
-
-            <VStack align="center" textAlign="center" spacing={3}>
-              <Circle
-                size="50px"
-                bg="white"
-                color="orange.600"
-                boxShadow="sm"
-                fontSize="xl"
-              >
-                💳
-              </Circle>
-              <Box>
-                <Text fontWeight="bold" color="gray.800" fontSize="lg">
-                  Metode de Plată
-                </Text>
-                <Text color="gray.600" fontSize="s">
-                  Acceptăm numerar sau transfer bancar pentru plata sejurului.
-                </Text>
-              </Box>
-            </VStack>
+          <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={6}>
+            {t.bookingTerms.items.map((item, idx) => (
+              <VStack key={idx} align="center" textAlign="center" spacing={2}>
+                <Circle
+                  size="50px"
+                  bg="white"
+                  color="orange.600"
+                  boxShadow="sm"
+                  fontSize="xl"
+                >
+                  {item.icon}
+                </Circle>
+                <Box>
+                  <Text fontWeight="bold" color="gray.800" fontSize="lg">
+                    {item.title}
+                  </Text>
+                  <Text color="gray.600" fontSize="sm">
+                    {item.desc}
+                  </Text>
+                </Box>
+              </VStack>
+            ))}
           </SimpleGrid>
         </VStack>
       </Box>
