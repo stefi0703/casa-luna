@@ -14,46 +14,46 @@ export const galleryImages = [
 ];
 
 export const translations = {
-  en: {
+en: {
     nav: {
       cabin: "The Cabin",
       rooms: "Rooms",
-      amenities: "Amenities",
+      amenities: "What you find at Casa Luna",
+      facilitiesPage: "Facilities",
       location: "Location",
-      pricing: "Pricing",
       gallery: "Gallery",
+      pricing: "Pricing",
       contact: "Contact",
       book: "Book Now",
     },
     hero: {
-      title_start: "Escape to the",
-      title_end: "Carpathians",
+      title_start: "Casa Luna",
+      title_end: "Rucăr, Argeș",
       subtitle:
-        "A modern rustic retreat in the heart of the Rucăr-Bran corridor.",
+        "Nature-inspired guest house, ideal for groups and families, located in the Rucăr–Bran corridor.",
       check_avail: "Check Availability",
-      explore: "Explore",
-      img_dusk: "Exterior at Dusk",
-      img_living: "Cozy Living Room",
-      img_winter: "Winter View",
+      explore: "Explore the house",
     },
     intro: {
-      welcome: "Bine ați venit (Welcome)",
-      title: "Authentic Romanian Wilderness.",
-      text: "Built from locally sourced stone and timber, this cabin blends seamlessly into the stunning landscapes between the Piatra Craiului and Bucegi mountains.",
+      welcome: "Welcome",
+      title: "Entire guest house in Rucăr, Argeș",
+      text: "Casa Luna is a guest house rented in its entirety (minimum 2 nights), being the ideal choice for groups of friends and families looking for generous space, comfort, and a well-positioned location, close to local tourist attractions.",
       bedrooms: "Bedrooms",
       baths: "Baths",
-      forest: "Mountain View",
-      testimonial: "The fresh mountain air of Rucăr is unforgettable.",
-      guest_name: "Sarah Jenkins, Oct 2023",
     },
     rooms: {
-      title: "Space to Breathe",
-      subtitle: "Relaxation and comfort in the midst of nature.",
+      title: "Spaces and areas of the house",
+      subtitle:
+        "Zones designed for comfort, socialization, and relaxation, both indoors and outdoors.",
       items: [
         {
-          title: "Main Living Room",
-          desc: "2 Comfortable sofas, fireplace for cool evenings.",
-          feats: ["Generous Space", "Social Area"],
+          title: "Fairytale Living Room 🌙",
+          desc: "Relax under the branches of a majestic decorative tree, in a magical ambient with 3D paintings, the warmth of the fireplace, and digital entertainment. It features a powder room accessible directly from the common area.",
+          feats: [
+            "Fireplace & Smart TV",
+            "Games & Audio System",
+            "Powder Room",
+          ],
           img: "living/living-main.jpg",
           gallery: [
             "living/living-main.jpg",
@@ -65,9 +65,9 @@ export const translations = {
           ],
         },
         {
-          title: "Chef's Kitchen",
-          desc: "Fully equipped for cooking.",
-          feats: ["Espresso Machine", "Gas Range, Oven"],
+          title: "The Tourist's Kitchen 🍳",
+          desc: "A fully equipped space for successful culinary experiences, equipped with a stove, electric oven, microwave, espresso machine, and complete tableware. Includes refrigerators and a freezer for generous supplies.",
+          feats: ["Fully Equipped", "Coffee Zone", "Fridge & Freezer"],
           img: "kitchen/kitchen-main.jpg",
           gallery: [
             "kitchen/kitchen-main.jpg",
@@ -76,9 +76,9 @@ export const translations = {
           ],
         },
         {
-          title: "Grill Area",
-          desc: "Wood grill, large table, perfect for families.",
-          feats: ["Traditional Grill", "Smart TV"],
+          title: "Magic Gazebo (Heated, indoor) 🔥",
+          desc: "The ideal space for long evenings at the professional grill or integrated stove, equipped with rustic dining, sink, Smart TV, and a comfortable sofa, all in a heated environment integrated into the house.",
+          feats: ["Professional Grill", "Rustic Dining", "Sofa & Smart TV"],
           img: "grill/grill-main.jpg",
           gallery: [
             "grill/grill-main.jpg",
@@ -89,20 +89,26 @@ export const translations = {
           ],
         },
         {
-          title: "Guest Suite",
-          desc: "Comfortable Queen bed with mountain views.",
-          feats: ["Queen Bed", "Private Bath"],
+          title: "Artistic Design Bedrooms 🛏️",
+          desc: "Well-deserved rest in 6 bedrooms with wrought iron double beds. Each room has a private bathroom, Smart TV, SPC parquet underfloor heating, and mosquito nets on the windows.",
+          feats: ["Private Bath", "Wrought Iron Furniture", "Smart TV & WiFi"],
           img: "rooms/rooms-main.jpg",
           gallery: [
             "rooms/rooms-main.jpg",
             "rooms/room2.jpg",
             "rooms/room3.jpg",
+            "rooms/room4.jpg",
+            "rooms/room5.jpg",
+            "rooms/room6.jpg",
+            "rooms/room7.jpg",
+            "rooms/room8.jpg",
+            "rooms/roomvid.mp4",
           ],
         },
         {
-          title: "The Yard",
-          desc: "Fresh mountain air and green space.",
-          feats: ["Green Space", "Relaxation Zone"],
+          title: "Generous Yard & Parking 🚗",
+          desc: "A private yard including a playground with a swing for children, cooking facilities (grill, stove with hob/cauldron), and sports activities (ping-pong, basketball, badminton). The secure private parking offers a capacity for 7-8 cars.",
+          feats: ["7-8 Parking Spots", "Playground", "Grill & Cauldron"],
           img: "outside/outside-main.jpg",
           gallery: [
             "outside/outside-main.jpg",
@@ -116,9 +122,9 @@ export const translations = {
           ],
         },
         {
-          title: "Outdoor Terrace",
-          desc: "Terrace with swing for quiet mornings.",
-          feats: ["Swing", "Panoramic View"],
+          title: "Terrace and Outdoor Gazebo 🧘",
+          desc: "Enjoy the mountain air on the spacious terrace equipped with garden furniture and a swing, or relax in the outdoor gazebo dedicated to total disconnection, surrounded by the silence of nature.",
+          feats: ["Swing", "Garden Furniture", "Relaxation Zone"],
           img: "terrace/terrace-main.jpg",
           gallery: [
             "terrace/terrace-main.jpg",
@@ -129,29 +135,61 @@ export const translations = {
       ],
     },
     amenities: {
-      title: "Amenities",
-      subtitle: "Everything you need in the mountains.",
+      title: "Comfort & Amenities",
+      subtitle: "Small details that make the difference between a stay and an experience.",
       items: [
-        { title: "Wifi", desc: "Fast internet" },
-        { title: "Artificial Fireplace", desc: "Welcoming atmosphere" },
-        { title: "Air Conditioning", desc: "Climate control" },
-        { title: "Grill Zone", desc: "Equipped gazebo" },
-        { title: "View", desc: "Bucegi Mountains" },
-        { title: "Family Friendly", desc: "Safe yard" },
-        { title: "Smart TV", desc: "Smart TV" },
+        { title: "WiFi", desc: "Stable connection in every corner of the house." },
+        { title: "Fairytale Decor", desc: "3D paintings and details that come to life." },
+        { title: "Magic Fireplace", desc: "The ideal place for stories by the fire." },
+        { title: "Climate Control", desc: "Perfect thermal comfort in any season." },
+        { title: "Grill Zone", desc: "Enclosed gazebo, ready for any weather." },
+        { title: "Panoramic View", desc: "A view that connects you with nature." },
+        { title: "Ideal for Families", desc: "Safe space and fun for the little ones." },
+        { title: "Complete Amenities", desc: "Everything you need in every room." },
       ],
+      view_guide: "See full details for each space",
     },
     location: {
       label: "Location",
-      title: "Heart of Rucăr-Bran Corridor",
-      desc: "Located in Rucăr, an oasis of peace at the foot of the mountains.",
+      title: "Tourist attractions and points of interest",
+      desc: "Casa Luna is located in a spectacular natural setting in Rucăr, being the ideal starting point for exploring the area.",
       points: [
-        { name: "Bran Castle", time: "45 min" },
-        { name: "Dâmbovicioara Cave", time: "15 min" },
-        { name: "Brașov City", time: "55 min" },
-        { name: "Mountain Trails", time: "0 min" },
+        { name: "⛰️ Dâmbovicioara Cave & Gorges", time: "6 km" },
+        { name: "🏛️ Mateiaș Mausoleum", time: "13 km" },
+        { name: "🐎 Horseback Riding at 7 Cai", time: "17 km" },
+        { name: "⛪ Nămăiești Monastery & Topîrceanu House", time: "18 km" },
+        { name: "🏙️ Câmpulung Muscel", time: "23 km" },
+        { name: "🏰 Bran Castle", time: "33 km" },
+        { name: "🏔️ Brașov", time: "62 km" },
+        { name: "🛒 Profi Store", time: "750 m" },
+        { name: "✝️ Cross Peak", time: "1.5 km" },
       ],
-      directions: "Get Directions",
+      directions: "See directions on map",
+    },
+    bookingTerms: {
+      title: "🏠 Booking & Payment Conditions",
+      items: [
+        {
+          title: "Entire Rental",
+          desc: "Only the full unit is rented for total privacy.",
+          icon: "🗝️",
+        },
+        {
+          title: "Minimum Stay",
+          desc: "Bookings are made for a period of at least 2 nights.",
+          icon: "🌙",
+        },
+        {
+          title: "Child Discount",
+          desc: "Children up to 8 years old stay for free (sharing bed with parents).",
+          icon: "👶",
+        },
+        {
+          title: "Payment Methods",
+          desc: "We accept cash or bank transfer for the stay payment.",
+          icon: "💳",
+        },
+      ],
     },
     pricing: {
       title: "Simple Pricing",
@@ -160,29 +198,32 @@ export const translations = {
       week: "/ week",
       tiers: [
         {
-          title: "Weeknight",
+          title: "Weeknights",
           price: "1200 RON",
           features: ["Sun-Thu Check-in", "Min 2 Nights"],
         },
         {
           title: "Weekend",
           price: "1500 RON",
-          features: ["Fri-Sat Check-in", "Late Checkout"],
+          features: [
+            "Check-in Friday, approx. 14:30",
+            "Checkout Sunday, approx. 11:30",
+          ],
         },
         {
           title: "Weekly",
           price: "7000 RON",
-          features: ["7 Nights", "15% off"],
+          features: ["7 Nights", "15% discount"],
         },
       ],
     },
     contact: {
-      title: "Request Booking",
-      tabs: { phone: "Call Us", email: "Email Form" },
+      title: "Booking",
+      tabs: { phone: "Call Us", email: "Email" },
       phone_info: {
-        title: "Speak to a Host",
-        button: "Call +40 700 123 456",
-        avail: "Daily 9AM - 8PM",
+        title: "Speak with a Host",
+        button: "Call 0750 849 137",
+        avail: "Daily 09:00 - 20:00",
       },
       email_form: {
         checkin: "Check-in",
@@ -190,11 +231,109 @@ export const translations = {
         guests: "Guests",
         email: "Email",
         msg: "Message",
-        send: "Send Request",
+        send: "Send",
       },
     },
+    facilitiesDetailed: {
+      badge: "Recently opened location",
+      title_start: "Casa Luna ",
+      title_accent: "Facilities",
+      description: "Casa Luna combines modern comfort with a magical atmosphere, offering an oasis of peace for small groups of friends or families.",
+      back_btn: "Back to site",
+      sections: {
+        bedrooms: {
+          title: "Double Bedrooms",
+          desc: "Beds and nightstands with artistic wrought iron design offer a touch of refinement to each room ✨ (capacity: 2 adults and 1 child under 10).",
+          items: [
+            "🛏️ Double bed & nightstands with artistic wrought iron design",
+            "📺 Smart TV & Outlet near the bed",
+            "👗 Closet / Wardrobe & hangers",
+            "🪞 Mirror, table, and chair",
+            "🌡️ Underfloor and radiator heating",
+            "🚿 Shower cabin / screen",
+            "🧖‍♀️ Hairdryer & Towels",
+            "🧼 Soap / shower gel",
+            "🦟 Mosquito nets on windows"
+          ]
+        },
+        living: {
+          title: "In the Living Room",
+          desc: "Let yourself be carried away into a fairytale universe 🌙, where natural elements intertwine with a majestic decorative tree 🌳 and spectacular 3D paintings 🎨 for a truly magical ambient 🌿✨.",
+          items: [
+            "🌳 Fairytale decor with 3D elements and ornamental tree",
+            "🚽 Powder room accessible from the common area",
+            "🔥 Fireplace & Underfloor heating",
+            "🛋️ 2 comfortable sofas",
+            "📺 Smart TV & Audio system",
+            "🎲 Games: rummy, backgammon, cards",
+            "🎯 Velcro dartboard for children",
+            "🌡️ Underfloor and radiator heating system",
+            "📶 Free WiFi throughout the unit"
+          ]
+        },
+        kitchen: {
+          title: "The Tourist's Kitchen",
+          desc: "A fully equipped and furnished kitchen to satisfy all your culinary needs during your stay.",
+          items: [
+            "🍳 Stove & Electric oven",
+            "☕ Coffee machine & Electric kettle",
+            "🍞 Sandwich maker & Toaster",
+            "♨ Microwave oven",
+            "🧊 Refrigerators & Freezer",
+            "🍽️ Complete tableware and cutlery"
+          ]
+        },
+        gazebo: {
+          title: "Indoor Gazebo (Heated)",
+          desc: "An enclosed and welcoming space, ideal for relaxing evenings regardless of the season, equipped with a rustic dining area and relaxation space.",
+          items: [
+            "🏠 Heated gazebo (integrated into the house) with rustic dining",
+            "🍖 Professional grill and integrated stove",
+            "🛋️ Comfortable sofa and social space",
+            "📺 Dedicated Smart TV for entertainment"
+          ]
+        },
+        outdoor: {
+          title: "Yard, Terrace & Activities",
+          desc: "Enjoy the fresh mountain air in the generous yard or on the specially arranged terrace for relaxation.",
+          items: [
+            "🌳 Garden / yard with recreation area",
+            "⛱️ Outdoor gazebo with relaxation space",
+            "🧘 Spacious terrace & Garden furniture",
+            "🥘 Outdoor stove with hob / cauldron",
+            "🚗 Private parking in the yard (7-8 cars)",
+            "🎠 Playground & Swing for children",
+            "🏓 Table tennis (outdoor) & Darts",
+            "🏸 Badminton & Basketball hoop",
+            "⛰️ Hiking opportunities in the area",
+            "📍 Easy access on paved road (opposite Petrom)"
+          ]
+        },
+        security: {
+          title: "Security & Comfort",
+          items: [
+            "📹 Exterior & common interior surveillance cameras",
+            "🚨 Carbon monoxide detector & extinguishers",
+            "⏰ Check In: 14:30 | Check Out: 11:30",
+            "👶 Children up to 8 years: Free (sharing bed with parents)"
+          ]
+        },
+        smoking: {
+          title: "Smoking Policy",
+          items: [
+            "🚭 Smoking prohibited in all indoor spaces",
+            "🚭 Vaping and electronic cigarettes are prohibited indoors",
+            "🚬 Smoking is allowed in designated outdoor areas"
+          ]
+        }
+      },
+      footer: {
+        title: "Casa Luna – where the story begins!",
+        info: "For bookings and information: 0750 849 137"
+      }
+    },
     footer: {
-      slogan: "Disconnect and reconnect.",
+      slogan: "Disconnect from the world.",
       rights: "All rights reserved.",
     },
   },

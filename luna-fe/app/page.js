@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
-import { useDisclosure } from "@chakra-ui/react"; // Import useDisclosure
+import React, { useState, useEffect } from "react"; // Adăugat useEffect
+import { useDisclosure } from "@chakra-ui/react";
 import { translations } from "./data/content";
 import { Provider } from "../components/ui/provider";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import { Gallery } from "./components/Gallery"; // Ensure this matches your file path
+import { Gallery } from "./components/Gallery";
 import {
   Intro,
   Rooms,
@@ -18,17 +18,37 @@ import Footer from "./components/Footer";
 
 export default function Home() {
   const [language, setLanguage] = useState("ro");
+
+  // Efect pentru încărcarea limbii salvate la pornire
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem("preferredLanguage");
+    if (savedLanguage) {
+      setLanguage(savedLanguage);
+    }
+
+    // Gestionare scroll dacă venim de pe altă pagină cu un hash (ex: #rooms)
+    const hash = window.location.hash.replace("#", "");
+    if (hash) {
+      setTimeout(() => {
+        scrollToSection(hash);
+      }, 500);
+    }
+  }, []);
+
   const t = translations[language];
 
-  // 1. Manage Gallery Modal State here
   const {
     open: isGalleryOpen,
     onOpen: onOpenGallery,
     onClose: onCloseGallery,
   } = useDisclosure();
 
-  const toggleLanguage = () =>
-    setLanguage((prev) => (prev === "en" ? "ro" : "en"));
+  // Actualizat pentru a salva în localStorage
+  const toggleLanguage = () => {
+    const newLang = language === "en" ? "ro" : "en";
+    setLanguage(newLang);
+    localStorage.setItem("preferredLanguage", newLang);
+  };
 
   const scrollToSection = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -42,16 +62,13 @@ export default function Home() {
           language={language}
           toggleLanguage={toggleLanguage}
           scrollToSection={scrollToSection}
-          onOpenGallery={onOpenGallery} // 2. Pass the trigger to Navbar
+          onOpenGallery={onOpenGallery}
         />
 
         <Hero t={t} scrollToSection={scrollToSection} />
         <Intro t={t} />
         <Rooms t={t} />
-
-        {/* 3. Render Gallery as a hidden Modal controlled by props */}
         <Gallery t={t} isOpen={isGalleryOpen} onClose={onCloseGallery} />
-
         <Amenities t={t} />
         <Location t={t} />
         <BookingTerms t={t} />
