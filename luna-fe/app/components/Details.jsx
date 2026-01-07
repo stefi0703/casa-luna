@@ -14,13 +14,13 @@ import {
   ArrowRight,
   MapPin,
   X,
-  Play, // Added for video thumbnails
- Sparkles, // Pentru Decor de Poveste
-  ThermometerSun, // Pentru Climatizare (sugerează control termic)
-  UtensilsCrossed, // Pentru Zonă Grill
-  CheckCircle2 // Pentru Dotări Complete
+  Play,
+  Sparkles,
+  ThermometerSun,
+  UtensilsCrossed,
+  CheckCircle2,
 } from "lucide-react";
-import { prefix } from "../utils/prefix"; // Import prefix
+import { prefix } from "../utils/prefix"; 
 import {
   Box,
   Container,
@@ -41,14 +41,14 @@ import {
 } from "@chakra-ui/react";
 
 const icons = [
-  Wifi,             // WiFi
-  Sparkles,         // Decor de Poveste (mult mai sugestiv decât o paletă)
-  Flame,            // Șemineu Magic
-  ThermometerSun,   // Climatizare (arată că e și cald și rece)
-  UtensilsCrossed,  // Zonă Grill
-  Mountain,         // Vedere Panoramică
-  Baby,             // Ideal pentru Familii
-  CheckCircle2      // Dotări Complete (sugerează că totul este inclus și verificat)
+  Wifi,
+  Sparkles,
+  Flame,
+  ThermometerSun,
+  UtensilsCrossed,
+  Mountain,
+  Baby,
+  CheckCircle2,
 ];
 
 // --- Helper: Check if file is video ---
@@ -123,7 +123,7 @@ export const Rooms = ({ t }) => {
 
   const handleOpenRoom = (room) => {
     setSelectedRoom(room);
-    setActiveIndex(0); 
+    setActiveIndex(0);
     onOpen();
   };
 
@@ -143,7 +143,9 @@ export const Rooms = ({ t }) => {
             <Heading as="h2" size="2xl" mb={4} color="gray.900">
               {t.rooms.title}
             </Heading>
-            <Text color="gray.600" fontSize="lg">{t.rooms.subtitle}</Text>
+            <Text color="gray.600" fontSize="lg">
+              {t.rooms.subtitle}
+            </Text>
           </Box>
           <Grid
             templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "1fr 1fr 1fr" }}
@@ -214,9 +216,9 @@ export const Rooms = ({ t }) => {
                     <Heading as="h3" size="md" mb={2} color="gray.800">
                       {room.title}
                     </Heading>
-                    <Text 
-                      fontSize="md" 
-                      color="gray.600" 
+                    <Text
+                      fontSize="md"
+                      color="gray.600"
                       mb={4}
                       lineHeight="tall"
                     >
@@ -425,8 +427,8 @@ export const Amenities = ({ t }) => {
   const router = useRouter();
 
   return (
-    <Box id="amenities" py={16} bg="gray.900" color="gray.300"> {/* py redus de la 24 la 16 */}
-      <Container maxW="container.lg"> {/* Container redus de la xl la lg pentru a fi mai strâns */}
+    <Box id="amenities" py={16} bg="gray.900" color="gray.300">
+      <Container maxW="container.lg">
         <Flex
           justify="space-between"
           align="flex-end"
@@ -436,28 +438,28 @@ export const Amenities = ({ t }) => {
           pb={6}
         >
           <Box>
-            <Heading as="h2" size="xl" color="white" mb={1}> {/* size redus de la 2xl la xl */}
+            <Heading as="h2" size="xl" color="white" mb={1}>
               {t.amenities.title}
             </Heading>
-            <Text fontSize="md">{t.amenities.subtitle}</Text> {/* fontSize redus de la lg la md */}
+            <Text fontSize="md">{t.amenities.subtitle}</Text>
           </Box>
         </Flex>
 
-        <Flex wrap="wrap" justify="center" gap={8}> {/* gap redus de la 12 la 8 */}
+        <Flex wrap="wrap" justify="center" gap={8}>
           {t.amenities.items.map((item, i) => {
             const Icon = icons[i] || Star;
             return (
               <VStack
                 key={i}
-                spacing={3} // spacing redus de la 4 la 3
+                spacing={3}
                 textAlign="center"
                 alignItems="center"
                 role="group"
-                w={{ base: "45%", md: "20%" }} // lățime ajustată pentru 4 pe rând mai compact
+                w={{ base: "45%", md: "20%" }}
                 minW="140px"
               >
                 <Flex
-                  p={4} // p redus de la 5 la 4
+                  p={4}
                   bg="gray.800"
                   color="orange.500"
                   borderRadius="full"
@@ -470,15 +472,15 @@ export const Amenities = ({ t }) => {
                     transform: "translateY(-3px)",
                   }}
                 >
-                  <Icon size={28} /> {/* Icon size redus de la 36 la 28 */}
+                  <Icon size={28} />
                 </Flex>
                 <Box>
-                  <Text fontWeight="bold" color="white" fontSize="lg" mb={0.5}> {/* fontSize redus de la xl la lg */}
+                  <Text fontWeight="bold" color="white" fontSize="lg" mb={0.5}>
                     {item.title}
                   </Text>
                   <Text
-                    fontSize="sm" // fontSize redus de la md la sm
-                    color="gray.300"
+                    fontSize="sm"
+                    color="gray.500"
                     _groupHover={{ color: "gray.400" }}
                     lineHeight="shorter"
                   >
@@ -490,18 +492,19 @@ export const Amenities = ({ t }) => {
           })}
         </Flex>
 
-        <Flex justify="center" mt={10}>
+        <Flex justify="center" mt={{ base: 6, md: 10 }}>
           <Button
-            size="lg" // size redus de la xl la lg
+            size={{ base: "md", md: "xl" }}
             bg="orange.500"
             color="white"
             _hover={{ bg: "orange.600", transform: "scale(1.03)" }}
             transition="all 0.2s"
             rounded="full"
-            px={10}
+            px={{ base: 6, md: 12 }}
             fontWeight="bold"
+            fontSize={{ base: "xs", md: "md" }}
             boxShadow="0 4px 15px 0 rgba(237, 137, 54, 0.3)"
-            onClick={() => router.push("/facilities")}
+            onClick={() => router.push(prefix("/facilities"))}
           >
             {t.amenities.view_guide}
           </Button>
@@ -516,28 +519,32 @@ export const Location = ({ t }) => (
   <Box
     id="location"
     position="relative"
-    h="800px"
+    h={{ base: "auto", md: "750px" }}
+    py={{ base: 16, md: 0 }}
     display="flex"
     alignItems="center"
     justifyContent="center"
     bg="gray.200"
+    overflow="hidden"
   >
-    <Box position="absolute" inset={0} filter="grayscale(100%) opacity(0.5)">
+    <Box position="absolute" inset={0}>
       <Image
         src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070"
         w="full"
         h="full"
         objectFit="cover"
         alt="Map"
+        filter="grayscale(100%) opacity(0.5)"
       />
     </Box>
     <Box
       position="relative"
       zIndex={10}
       bg="white"
-      p={8}
-      borderRadius="xl"
+      p={{ base: 6, md: 8 }}
+      borderRadius="2xl"
       boxShadow="2xl"
+      w="full"
       maxW="lg"
       mx={4}
     >
@@ -547,16 +554,16 @@ export const Location = ({ t }) => (
         color="orange.600"
         fontWeight="bold"
         textTransform="uppercase"
-        fontSize="sm"
+        fontSize="xs"
         letterSpacing="wider"
-        mb={4}
+        mb={3}
       >
         <MapPin size={16} /> {t.location.label}
       </Flex>
-      <Heading as="h3" size="lg" mb={4} color="gray.900">
+      <Heading as="h3" size="lg" mb={3} color="gray.900">
         {t.location.title}
       </Heading>
-      <Text color="gray.600" mb={6}>
+      <Text color="gray.600" mb={6} fontSize="sm">
         {t.location.desc}
       </Text>
       <VStack spacing={2} align="stretch" mb={6}>
@@ -565,18 +572,31 @@ export const Location = ({ t }) => (
             key={i}
             justify="space-between"
             borderBottomWidth="1px"
-            borderColor="gray.100"
-            pb={1}
+            borderColor="gray.50"
+            pb={1.5}
             fontSize="sm"
           >
-            <Text color="gray.700">{p.name}</Text>
+            <Text color="gray.700" fontWeight="medium">
+              {p.name}
+            </Text>
             <Text fontWeight="bold" color="gray.900">
               {p.time}
             </Text>
           </Flex>
         ))}
       </VStack>
-
+      <Button
+        w="full"
+        size="md"
+        bg="gray.900"
+        color="white"
+        _hover={{ bg: "gray.800", transform: "translateY(-1px)" }}
+        transition="all 0.2s"
+        fontWeight="bold"
+        fontSize="sm"
+      >
+        {t.location.directions}
+      </Button>
     </Box>
   </Box>
 );
@@ -607,7 +627,6 @@ export const BookingTerms = ({ t }) => (
             />
           </Box>
 
-          {/* Am schimbat columns la 2 pe tableta si 4 pe desktop */}
           <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={8}>
             <VStack align="center" textAlign="center" spacing={3}>
               <Circle

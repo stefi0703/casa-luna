@@ -31,19 +31,31 @@ export default function Navbar({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Navbar devine alb la scroll SAU dacă isSolid este true
   const isNavbarWhite = scrolled || isSolid;
 
-  const handleNav = (id) => {
-    if (id === "gallery") {
-      onOpenGallery();
-    } else if (id === "facilities-page") {
-      window.location.href = prefix("/facilities");
+const handleNav = (id) => {
+  const isFacilitiesPage = window.location.pathname.includes("/facilities");
+
+  if (id === "gallery") {
+    if (isFacilitiesPage) {
+      window.location.href = prefix("/#gallery");
     } else {
+      onOpenGallery();
+    }
+  } else if (id === "facilities-page") {
+    window.location.href = prefix("/facilities");
+  } else if (id === "hero") {
+    isFacilitiesPage ? (window.location.href = prefix("/")) : scrollToSection("hero");
+  } else {
+    if (isFacilitiesPage) {
+      window.location.href = prefix(`/#${id}`);
+    } else {
+      // Standard smooth scroll if already on home page
       scrollToSection(id);
     }
-    onClose();
-  };
+  }
+  onClose();
+};
 
   // Lista completă de link-uri
   const navLinks = [

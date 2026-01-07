@@ -21,10 +21,8 @@ import {
 export default function Booking({ t }) {
   return (
     <Box as="section" id="pricing" pt={0} pb={24} bg="white">
-      {/* pt setat la 0 pentru a elimina spațiul superior */}
       <Container maxW="6xl">
         <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={16}>
-          {/* Pricing Column */}
           <Box>
             <Heading as="h2" size="2xl" mb={6} color="gray.900">
               {t.pricing.title}
@@ -42,7 +40,6 @@ export default function Booking({ t }) {
                     p={6}
                     borderRadius="xl"
                     borderWidth="1px"
-                    // Use standard orange/gray palette
                     borderColor={isPopular ? "orange.400" : "gray.200"}
                     bg={isPopular ? "orange.50" : "transparent"}
                     position="relative"
