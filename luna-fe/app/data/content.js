@@ -243,7 +243,7 @@ en: {
       sections: {
         bedrooms: {
           title: "Double Bedrooms",
-          desc: "Beds and nightstands with artistic wrought iron design offer a touch of refinement to each room ✨ (capacity: 2 adults and 1 child under 10).",
+          desc: "Beds and nightstands with artistic wrought iron design offer a touch of refinement to each room ✨ (capacity: 2 adults and 1 child under 8).",
           items: [
             "🛏️ Double bed & nightstands with artistic wrought iron design",
             "📺 Smart TV & Outlet near the bed",
@@ -591,7 +591,7 @@ en: {
       sections: {
         bedrooms: {
           title: "Dormitoare Matrimoniale",
-          desc: "Paturile și noptierele cu design artistic din fier forjat oferă un plus de rafinament fiecărei camere ✨(capacitate: 2 adulți și 1 copil sub 10 ani).",
+          desc: "Paturile și noptierele cu design artistic din fier forjat oferă un plus de rafinament fiecărei camere ✨(capacitate: 2 adulți și 1 copil sub 8 ani).",
           items: [
             "🛏️ Pat matrimonial & noptiere cu design artistic din fier forjat",
             "📺 TV Smart & Priză lângă pat",
