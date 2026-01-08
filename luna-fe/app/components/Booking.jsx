@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
-import { Mail, CheckCircle } from "lucide-react";
+import { Mail, CheckCircle, Phone } from "lucide-react";
 import {
   Box,
   Container,
@@ -15,7 +15,9 @@ import {
   Flex,
   Badge,
   Icon,
-  Stack
+  Stack,
+  Tabs,
+  NativeSelect,
 } from "@chakra-ui/react";
 import { toaster } from "../../components/ui/toaster";
 
@@ -30,23 +32,19 @@ export default function Booking({ t }) {
 
     const formData = new FormData(e.target);
     const rawData = Object.fromEntries(formData.entries());
-
     const isRezervare = msgType === "rezervare";
 
-    // 🔹 Construim textul dinamic AICI, nu în EmailJS
     let rezervareBlock = "";
     if (isRezervare) {
       rezervareBlock = `
-Vă scriu pentru o rezervare la Casa Luna (${rawData.group_type || "Nespecificat"}).
+Vă scriu pentru o rezervare la Casa Luna (${
+        rawData.group_type || "Nespecificat"
+      }).
 Perioada: ${rawData.date_from} — ${rawData.date_to}
 Număr persoane: ${rawData.guests_count}
 `;
-
       if (hasChildren && rawData.children_details) {
-        rezervareBlock += `
-Detalii copii:
-${rawData.children_details}
-`;
+        rezervareBlock += `Detalii copii: ${rawData.children_details}`;
       }
     }
 
@@ -56,10 +54,8 @@ ${rawData.children_details}
       user_email: rawData.user_email || "",
       user_phone: rawData.user_phone || "",
       mesaj_rezervare: rezervareBlock,
-      mesaj_intrebare: !isRezervare
-        ? "Vă contactez pentru o întrebare legată de Casa Luna."
-        : "",
-      message: rawData.message || ""
+      mesaj_intrebare: !isRezervare ? "Vă contactez pentru o întrebare." : "",
+      message: rawData.message || "",
     };
 
     emailjs
@@ -71,8 +67,8 @@ ${rawData.children_details}
       )
       .then(() => {
         toaster.create({
-          title: "Mesaj trimis cu succes!",
-          type: "success"
+          title: t.contact.success_msg || "Success!",
+          type: "success",
         });
         setLoading(false);
         e.target.reset();
@@ -82,22 +78,11 @@ ${rawData.children_details}
       .catch((err) => {
         console.error("EROARE EmailJS:", err);
         toaster.create({
-          title: "Eroare la trimiterea mesajului.",
-          type: "error"
+          title: t.contact.error_msg || "Error",
+          type: "error",
         });
         setLoading(false);
       });
-  };
-
-  const selectStyle = {
-    width: "100%",
-    padding: "10px 12px",
-    borderRadius: "8px",
-    border: "1px solid #E2E8F0",
-    backgroundColor: "white",
-    fontSize: "14px",
-    outline: "none",
-    appearance: "auto"
   };
 
   return (
@@ -112,7 +97,6 @@ ${rawData.children_details}
             <Text color="gray.600" mb={8} fontSize="lg">
               {t.pricing.subtitle}
             </Text>
-
             <VStack spacing={6} align="stretch">
               {t.pricing.tiers.map((tier, i) => (
                 <Box
@@ -139,7 +123,6 @@ ${rawData.children_details}
                       </Badge>
                     )}
                   </Flex>
-
                   <Text
                     fontSize="3xl"
                     fontWeight="bold"
@@ -156,7 +139,6 @@ ${rawData.children_details}
                       {i === 2 ? t.pricing.week : t.pricing.night}
                     </Text>
                   </Text>
-
                   <Stack spacing={3}>
                     {tier.features.map((f, idx) => (
                       <Flex
@@ -165,8 +147,7 @@ ${rawData.children_details}
                         color="gray.700"
                         key={`${i}-${idx}`}
                       >
-                        <Icon as={CheckCircle} color="orange.500" mr={3} />
-                        {f}
+                        <Icon as={CheckCircle} color="orange.500" mr={3} /> {f}
                       </Flex>
                     ))}
                   </Stack>
@@ -175,10 +156,10 @@ ${rawData.children_details}
             </VStack>
           </Box>
 
-          {/* FORMULAR */}
+          {/* CONTACT TABS */}
           <Box
             bg="gray.50"
-            p={{ base: 6, md: 10 }}
+            p={{ base: 6, md: 8 }}
             borderRadius="3xl"
             borderWidth="1px"
             borderColor="gray.200"
@@ -186,175 +167,250 @@ ${rawData.children_details}
             top="32"
             height="fit-content"
           >
-            <form onSubmit={sendEmail}>
-              <VStack spacing={5} align="stretch">
-                <Box>
-                  <Heading
-                    size="lg"
-                    display="flex"
-                    alignItems="center"
-                    gap={3}
-                    color="gray.800"
-                    mb={2}
-                  >
-                    <Mail color="#DD6B20" />
-                    {t.contact.title}
-                  </Heading>
-                  <Text fontSize="sm" color="gray.500">
-                    Completează datele de mai jos și revenim noi.
-                  </Text>
-                </Box>
+            <Heading size="md" mb={6} textAlign="center" color="gray.800">
+              {t.contact.title}
+            </Heading>
+            <Tabs.Root
+              variant="subtle"
+              colorPalette="orange"
+              fitted
+              defaultValue="phone"
+            >
+              <Tabs.List mb={6} bg="gray.200" p={1} borderRadius="full">
+                <Tabs.Trigger
+                  value="phone"
+                  py={2}
+                  fontSize="sm"
+                  fontWeight="semibold"
+                >
+                  <Icon as={Phone} mr={2} boxSize={4} /> {t.contact.tabs.phone}
+                </Tabs.Trigger>
+                <Tabs.Trigger
+                  value="online"
+                  py={2}
+                  fontSize="sm"
+                  fontWeight="semibold"
+                >
+                  <Icon as={Mail} mr={2} boxSize={4} /> {t.contact.tabs.email}
+                </Tabs.Trigger>
+              </Tabs.List>
 
-                <Box>
-                  <Text fontSize="sm" fontWeight="bold" mb={2}>
-                    Ce dorești să faci?
-                  </Text>
-                  <select
-                    name="subject_type"
-                    style={selectStyle}
-                    value={msgType}
-                    onChange={(e) => setMsgType(e.target.value)}
-                  >
-                    <option value="rezervare">Vreau o rezervare</option>
-                    <option value="intrebare">Am o întrebare</option>
-                  </select>
-                </Box>
-
-                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
-                  <Input
-                    required
-                    name="user_name"
-                    placeholder="Nume complet"
-                    bg="white"
-                  />
-                  <Input
-                    required
-                    name="user_email"
-                    type="email"
-                    placeholder="E-mail"
-                    bg="white"
-                  />
-                </Grid>
-
-                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
-                  <Box>
-                    <Text fontSize="sm" mb={1}>
-                      Tipul grupului
-                    </Text>
-                    <select name="group_type" style={selectStyle}>
-                      <option value="familie">Familie</option>
-                      <option value="grup de prieteni">
-                        Grup de prieteni
-                      </option>
-                      <option value="cuplu">Cuplu</option>
-                      <option value="eveniment">Eveniment</option>
-                    </select>
-                  </Box>
-
-                  <Box>
-                    <Text fontSize="sm" mb={1}>
-                      Telefon
-                    </Text>
-                    <Input
-                      required
-                      name="user_phone"
-                      type="tel"
-                      placeholder="07xx xxx xxx"
-                      bg="white"
-                    />
-                  </Box>
-                </Grid>
-
-                {msgType === "rezervare" && (
+              {/* PANEL 1: PHONE */}
+              <Tabs.Content value="phone" p={0}>
+                <VStack
+                  spacing={6}
+                  py={8}
+                  bg="white"
+                  borderRadius="2xl"
+                  border="1px dashed"
+                  borderColor="gray.300"
+                  textAlign="center"
+                >
                   <Box
                     p={4}
-                    bg="orange.50"
-                    borderRadius="xl"
-                    border="1px dashed"
-                    borderColor="orange.200"
+                    bg="orange.100"
+                    color="orange.600"
+                    borderRadius="full"
                   >
-                    <VStack spacing={4} align="stretch">
-                      <Grid templateColumns="1fr 1fr" gap={4}>
-                        <Input
-                          required
-                          name="date_from"
-                          type="date"
-                          bg="white"
-                          size="sm"
-                        />
-                        <Input
-                          required
-                          name="date_to"
-                          type="date"
-                          bg="white"
-                          size="sm"
-                        />
-                      </Grid>
+                    <Icon as={Phone} boxSize={8} />
+                  </Box>
+                  <Box>
+                    <Text color="gray.500" fontSize="sm" mb={1}>
+                      {t.contact.phone_info.avail}
+                    </Text>
+                    <Heading size="lg" color="gray.800">
+                      +40 (750) 849 137
+                    </Heading>
+                  </Box>
+                  <Button
+                    as="a"
+                    href="tel:0750849137"
+                    size="lg"
+                    w="80%"
+                    colorScheme="orange"
+                  >
+                    <Icon as={Phone} mr={2} size={18} />{" "}
+                    {t.contact.phone_info.button}
+                  </Button>
+                </VStack>
+              </Tabs.Content>
 
+              {/* PANEL 2: FORM */}
+              <Tabs.Content value="online" p={0}>
+                <form onSubmit={sendEmail}>
+                  <VStack spacing={5} align="stretch">
+                    <Box>
+                      <Text fontSize="sm" fontWeight="bold" mb={2}>
+                        {t.contact.email_form.subject_label}
+                      </Text>
+                      <NativeSelect.Root>
+                        <NativeSelect.Field
+                          name="subject_type"
+                          bg="white"
+                          value={msgType}
+                          onChange={(e) => setMsgType(e.target.value)}
+                        >
+                          <option value="rezervare">
+                            {t.contact.email_form.opt_res}
+                          </option>
+                          <option value="intrebare">
+                            {t.contact.email_form.opt_q}
+                          </option>
+                        </NativeSelect.Field>
+                      </NativeSelect.Root>
+                    </Box>
+                    <Grid
+                      templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+                      gap={4}
+                    >
                       <Input
                         required
-                        name="guests_count"
-                        placeholder="Nr. total persoane"
+                        name="user_name"
+                        placeholder={t.contact.email_form.name_placeholder}
                         bg="white"
-                        size="sm"
                       />
-
-                      <Flex align="center" gap={3}>
-                        <input
-                          type="checkbox"
-                          checked={hasChildren}
-                          onChange={(e) =>
-                            setHasChildren(e.target.checked)
-                          }
-                          style={{
-                            width: 18,
-                            height: 18,
-                            cursor: "pointer"
-                          }}
-                        />
-                        <Text fontSize="sm">
-                          Venim cu copii?
+                      <Input
+                        required
+                        name="user_email"
+                        type="email"
+                        placeholder={t.contact.email_form.email}
+                        bg="white"
+                      />
+                    </Grid>
+                    <Grid
+                      templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+                      gap={4}
+                    >
+                      <Box>
+                        <Text fontSize="sm" mb={1}>
+                          {t.contact.email_form.group_label}
                         </Text>
-                      </Flex>
-
-                      {hasChildren && (
-                        <Textarea
-                          name="children_details"
-                          placeholder="Detalii copii (vârste)"
+                        <NativeSelect.Root>
+                          <NativeSelect.Field name="group_type" bg="white">
+                            <option value="familie">
+                              {t.contact.email_form.group_types.family}
+                            </option>
+                            <option value="grup de prieteni">
+                              {t.contact.email_form.group_types.friends}
+                            </option>
+                            <option value="cuplu">
+                              {t.contact.email_form.group_types.couple}
+                            </option>
+                            <option value="eveniment">
+                              {t.contact.email_form.group_types.event}
+                            </option>
+                          </NativeSelect.Field>
+                        </NativeSelect.Root>
+                      </Box>
+                      <Box>
+                        <Text fontSize="sm" mb={1}>
+                          {t.contact.email_form.phone_label}
+                        </Text>
+                        <Input
+                          required
+                          name="user_phone"
+                          type="tel"
+                          placeholder="07xx xxx xxx"
                           bg="white"
-                          fontSize="xs"
-                          rows={2}
                         />
-                      )}
-                    </VStack>
-                  </Box>
-                )}
+                      </Box>
+                    </Grid>
 
-                <Textarea
-                  required
-                  name="message"
-                  placeholder={
-                    msgType === "rezervare"
-                      ? "Alte detalii"
-                      : "Întrebarea ta..."
-                  }
-                  bg="white"
-                  rows={4}
-                />
-
-                <Button
-                  type="submit"
-                  isLoading={loading}
-                  size="lg"
-                  w="full"
-                  bg="gray.900"
-                  color="white"
-                  _hover={{ bg: "gray.700" }}
-                >
-                  Trimite solicitarea
-                </Button>
-              </VStack>
-            </form>
+                    {msgType === "rezervare" && (
+                      <Box
+                        p={4}
+                        bg="orange.50"
+                        borderRadius="xl"
+                        border="1px dashed"
+                        borderColor="orange.200"
+                      >
+                        <VStack spacing={4} align="stretch">
+                          <Grid templateColumns="1fr 1fr" gap={4}>
+                            <Box>
+                              <Text fontSize="xs" mb={1} color="gray.500">
+                                {t.contact.email_form.checkin}
+                              </Text>
+                              <Input
+                                required
+                                name="date_from"
+                                type="date"
+                                bg="white"
+                                size="sm"
+                              />
+                            </Box>
+                            <Box>
+                              <Text fontSize="xs" mb={1} color="gray.500">
+                                {t.contact.email_form.checkout}
+                              </Text>
+                              <Input
+                                required
+                                name="date_to"
+                                type="date"
+                                bg="white"
+                                size="sm"
+                              />
+                            </Box>
+                          </Grid>
+                          <Input
+                            required
+                            name="guests_count"
+                            placeholder={t.contact.email_form.guests}
+                            bg="white"
+                            size="sm"
+                          />
+                          <Flex align="center" gap={3}>
+                            <input
+                              type="checkbox"
+                              checked={hasChildren}
+                              onChange={(e) => setHasChildren(e.target.checked)}
+                              style={{
+                                width: 18,
+                                height: 18,
+                                accentColor: "#DD6B20",
+                              }}
+                            />
+                            <Text fontSize="sm">
+                              {t.contact.email_form.kids_q}
+                            </Text>
+                          </Flex>
+                          {hasChildren && (
+                            <Textarea
+                              name="children_details"
+                              placeholder={t.contact.email_form.kids_details}
+                              bg="white"
+                              fontSize="xs"
+                              rows={2}
+                            />
+                          )}
+                        </VStack>
+                      </Box>
+                    )}
+                    <Textarea
+                      required
+                      name="message"
+                      placeholder={
+                        msgType === "rezervare"
+                          ? t.contact.email_form.other_details
+                          : t.contact.email_form.msg
+                      }
+                      bg="white"
+                      rows={4}
+                    />
+                    <Button
+                      type="submit"
+                      isLoading={loading}
+                      size="lg"
+                      w="full"
+                      bg="gray.900"
+                      color="white"
+                      _hover={{ bg: "gray.700" }}
+                    >
+                      {t.contact.email_form.send}
+                    </Button>
+                  </VStack>
+                </form>
+              </Tabs.Content>
+            </Tabs.Root>
           </Box>
         </Grid>
       </Container>

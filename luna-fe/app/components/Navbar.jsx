@@ -13,6 +13,8 @@ import {
   HStack,
   Image,
 } from "@chakra-ui/react";
+// IMPORT SOCIAL MEDIA
+import SocialMedia from "./SocialMedia";
 
 export default function Navbar({
   t,
@@ -20,7 +22,7 @@ export default function Navbar({
   toggleLanguage,
   scrollToSection,
   onOpenGallery,
-  isSolid = false, // Prop pentru a forța fundalul alb
+  isSolid = false,
 }) {
   const { open, onOpen, onClose } = useDisclosure();
   const [scrolled, setScrolled] = useState(false);
@@ -33,31 +35,31 @@ export default function Navbar({
 
   const isNavbarWhite = scrolled || isSolid;
 
-const handleNav = (id) => {
-  const isFacilitiesPage = window.location.pathname.includes("/facilities");
+  const handleNav = (id) => {
+    const isFacilitiesPage = window.location.pathname.includes("/facilities");
 
-  if (id === "gallery") {
-    if (isFacilitiesPage) {
-      window.location.href = prefix("/#gallery");
+    if (id === "gallery") {
+      if (isFacilitiesPage) {
+        window.location.href = prefix("/#gallery");
+      } else {
+        onOpenGallery();
+      }
+    } else if (id === "facilities-page") {
+      window.location.href = prefix("/facilities");
+    } else if (id === "hero") {
+      isFacilitiesPage
+        ? (window.location.href = prefix("/"))
+        : scrollToSection("hero");
     } else {
-      onOpenGallery();
+      if (isFacilitiesPage) {
+        window.location.href = prefix(`/#${id}`);
+      } else {
+        scrollToSection(id);
+      }
     }
-  } else if (id === "facilities-page") {
-    window.location.href = prefix("/facilities");
-  } else if (id === "hero") {
-    isFacilitiesPage ? (window.location.href = prefix("/")) : scrollToSection("hero");
-  } else {
-    if (isFacilitiesPage) {
-      window.location.href = prefix(`/#${id}`);
-    } else {
-      // Standard smooth scroll if already on home page
-      scrollToSection(id);
-    }
-  }
-  onClose();
-};
+    onClose();
+  };
 
-  // Lista completă de link-uri
   const navLinks = [
     { id: "rooms", label: t.nav.rooms },
     { id: "amenities", label: t.nav.amenities },
@@ -114,7 +116,7 @@ const handleNav = (id) => {
           />
         </HStack>
 
-        <Flex display={{ base: "none", md: "flex" }} gap={8} align="center">
+        <Flex display={{ base: "none", md: "flex" }} gap={4} align="center">
           {navLinks.map((item) => (
             <Button
               key={item.id}
@@ -130,6 +132,14 @@ const handleNav = (id) => {
               {item.label}
             </Button>
           ))}
+
+          {/* --- SOCIAL MEDIA MODAL (DESKTOP) --- */}
+          {/* Passed t prop here */}
+          <SocialMedia
+            color={textColor}
+            t={t}
+            label={language === "en" ? "See More" : "Vezi mai mult"}
+          />
 
           <Button
             variant="ghost"
@@ -207,6 +217,17 @@ const handleNav = (id) => {
                     {item.label}
                   </Button>
                 ))}
+
+                {/* --- SOCIAL MEDIA MODAL (MOBILE MENU) --- */}
+                {/* Passed t prop here */}
+                <Box pt={4}>
+                  <SocialMedia
+                    isMobile={true}
+                    color="gray.800"
+                    t={t}
+                    label={language === "en" ? "Follow Us" : "Urmărește-ne"}
+                  />
+                </Box>
               </VStack>
             </Drawer.Body>
           </Drawer.Content>

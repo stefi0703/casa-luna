@@ -14,7 +14,7 @@ export const galleryImages = [
 ];
 
 export const translations = {
-en: {
+  en: {
     nav: {
       cabin: "The Cabin",
       rooms: "Rooms",
@@ -136,18 +136,43 @@ en: {
     },
     amenities: {
       title: "Comfort & Amenities",
-      subtitle: "Small details that make the difference between a stay and an experience.",
+      subtitle:
+        "Small details that make the difference between a stay and an experience.",
       items: [
-        { title: "WiFi", desc: "Stable connection in every corner of the house." },
-        { title: "Fairytale Decor", desc: "3D paintings and details that come to life." },
-        { title: "Magic Fireplace", desc: "The ideal place for stories by the fire." },
-        { title: "Climate Control", desc: "Perfect thermal comfort in any season." },
-        { title: "Grill Zone", desc: "Enclosed gazebo, ready for any weather." },
-        { title: "Panoramic View", desc: "A view that connects you with nature." },
-        { title: "Ideal for Families", desc: "Safe space and fun for the little ones." },
-        { title: "Complete Amenities", desc: "Everything you need in every room." },
+        {
+          title: "WiFi",
+          desc: "Stable connection in every corner of the house.",
+        },
+        {
+          title: "Fairytale Decor",
+          desc: "3D paintings and details that come to life.",
+        },
+        {
+          title: "Magic Fireplace",
+          desc: "The ideal place for stories by the fire.",
+        },
+        {
+          title: "Climate Control",
+          desc: "Perfect thermal comfort in any season.",
+        },
+        {
+          title: "Grill Zone",
+          desc: "Enclosed gazebo, ready for any weather.",
+        },
+        {
+          title: "Panoramic View",
+          desc: "A view that connects you with nature.",
+        },
+        {
+          title: "Ideal for Families",
+          desc: "Safe space and fun for the little ones.",
+        },
+        {
+          title: "Complete Amenities",
+          desc: "Everything you need in every room.",
+        },
       ],
-      view_guide: "See full details for each space",
+      view_guide: "See more",
     },
     location: {
       label: "Location",
@@ -218,27 +243,45 @@ en: {
       ],
     },
     contact: {
-      title: "Booking",
-      tabs: { phone: "Call Us", email: "Email" },
+      title: "How would you like to contact us?",
+      tabs: { phone: "Phone", email: "Online" },
+      success_msg: "Message sent successfully!",
+      error_msg: "Error sending message.",
       phone_info: {
         title: "Speak with a Host",
-        button: "Call 0750 849 137",
+        button: "Call Now",
         avail: "Daily 09:00 - 20:00",
       },
       email_form: {
+        subject_label: "What would you like to do?",
+        opt_res: "I want a reservation",
+        opt_q: "I have a question",
+        name_placeholder: "Full Name",
+        email: "Email",
+        group_label: "Group type",
+        group_types: {
+          family: "Family",
+          friends: "Group of friends",
+          couple: "Couple",
+          event: "Event",
+        },
+        phone_label: "Phone",
         checkin: "Check-in",
         checkout: "Check-out",
-        guests: "Guests",
-        email: "Email",
-        msg: "Message",
-        send: "Send",
+        guests: "Total number of guests",
+        kids_q: "Coming with children?",
+        kids_details: "Child details (ages)",
+        other_details: "Other details",
+        msg: "Your question...",
+        send: "Send Request",
       },
     },
     facilitiesDetailed: {
       badge: "Recently opened location",
       title_start: "Casa Luna ",
       title_accent: "Facilities",
-      description: "Casa Luna combines modern comfort with a magical atmosphere, offering an oasis of peace for small groups of friends or families.",
+      description:
+        "Casa Luna combines modern comfort with a magical atmosphere, offering an oasis of peace for small groups of friends or families.",
       back_btn: "Back to site",
       sections: {
         bedrooms: {
@@ -253,8 +296,8 @@ en: {
             "🚿 Shower cabin / screen",
             "🧖‍♀️ Hairdryer & Towels",
             "🧼 Soap / shower gel",
-            "🦟 Mosquito nets on windows"
-          ]
+            "🦟 Mosquito nets on windows",
+          ],
         },
         living: {
           title: "In the Living Room",
@@ -268,8 +311,8 @@ en: {
             "🎲 Games: rummy, backgammon, cards",
             "🎯 Velcro dartboard for children",
             "🌡️ Underfloor and radiator heating system",
-            "📶 Free WiFi throughout the unit"
-          ]
+            "📶 Free WiFi throughout the unit",
+          ],
         },
         kitchen: {
           title: "The Tourist's Kitchen",
@@ -280,8 +323,8 @@ en: {
             "🍞 Sandwich maker & Toaster",
             "♨ Microwave oven",
             "🧊 Refrigerators & Freezer",
-            "🍽️ Complete tableware and cutlery"
-          ]
+            "🍽️ Complete tableware and cutlery",
+          ],
         },
         gazebo: {
           title: "Indoor Gazebo (Heated)",
@@ -290,8 +333,8 @@ en: {
             "🏠 Heated gazebo (integrated into the house) with rustic dining",
             "🍖 Professional grill and integrated stove",
             "🛋️ Comfortable sofa and social space",
-            "📺 Dedicated Smart TV for entertainment"
-          ]
+            "📺 Dedicated Smart TV for entertainment",
+          ],
         },
         outdoor: {
           title: "Yard, Terrace & Activities",
@@ -306,8 +349,8 @@ en: {
             "🏓 Table tennis (outdoor) & Darts",
             "🏸 Badminton & Basketball hoop",
             "⛰️ Hiking opportunities in the area",
-            "📍 Easy access on paved road (opposite Petrom)"
-          ]
+            "📍 Easy access on paved road (opposite Petrom)",
+          ],
         },
         security: {
           title: "Security & Comfort",
@@ -315,22 +358,22 @@ en: {
             "📹 Exterior & common interior surveillance cameras",
             "🚨 Carbon monoxide detector & extinguishers",
             "⏰ Check In: 14:30 | Check Out: 11:30",
-            "👶 Children up to 8 years: Free (sharing bed with parents)"
-          ]
+            "👶 Children up to 8 years: Free (sharing bed with parents)",
+          ],
         },
         smoking: {
           title: "Smoking Policy",
           items: [
             "🚭 Smoking prohibited in all indoor spaces",
             "🚭 Vaping and electronic cigarettes are prohibited indoors",
-            "🚬 Smoking is allowed in designated outdoor areas"
-          ]
-        }
+            "🚬 Smoking is allowed in designated outdoor areas",
+          ],
+        },
       },
       footer: {
         title: "Casa Luna – where the story begins!",
-        info: "For bookings and information: 0750 849 137"
-      }
+        info: "For bookings and information: 0750 849 137",
+      },
     },
     footer: {
       slogan: "Disconnect from the world.",
@@ -495,12 +538,12 @@ en: {
           desc: "Tot ce ai nevoie în fiecare cameră.",
         },
       ],
-      view_guide: "Vezi detaliile complete pentru fiecare spațiu",
+      view_guide: "Vezi mai mult",
     },
     location: {
       label: "Locație",
       title: "Obiective turistice și puncte de interes",
-      desc: "Casa Luna se află într-un cadru natural spectaculos din Rucăr, fiind punctul de plecare ideal pentru explorarea zonei.",
+      desc: "Casa Luna se află întrun cadru natural spectaculos din Rucăr, fiind punctul de plecare ideal pentru explorarea zonei.",
       points: [
         { name: "⛰️ Peștera & Cheile Dâmbovicioarei", time: "6 km" },
         { name: "🏛️ Mausoleul Mateiaș", time: "13 km" },
@@ -554,7 +597,7 @@ en: {
           title: "Weekend",
           price: "1500 RON",
           features: [
-            "Check-in vineri, ora aprox.14:30",
+            "Check-in vineri, ora aprox. 14:30",
             "Checkout duminică, ora aprox. 11:30",
           ],
         },
@@ -566,32 +609,50 @@ en: {
       ],
     },
     contact: {
-      title: "Rezervare",
-      tabs: { phone: "Sună-ne", email: "Email" },
+      title: "Cum dorești să ne contactezi?",
+      tabs: { phone: "Telefonic", email: "Online" },
+      success_msg: "Mesaj trimis cu succes!",
+      error_msg: "Eroare la trimiterea mesajului.",
       phone_info: {
         title: "Vorbește cu o Gazdă",
-        button: "Sună 0750 849 137",
+        button: "Sună acum",
         avail: "Zilnic 09:00 - 20:00",
       },
       email_form: {
+        subject_label: "Ce dorești să faci?",
+        opt_res: "Vreau o rezervare",
+        opt_q: "Am o întrebare",
+        name_placeholder: "Nume complet",
+        email: "Email",
+        group_label: "Tipul grupului",
+        group_types: {
+          family: "Familie",
+          friends: "Grup de prieteni",
+          couple: "Cuplu",
+          event: "Eveniment",
+        },
+        phone_label: "Telefon",
         checkin: "Check-in",
         checkout: "Check-out",
-        guests: "Oaspeți",
-        email: "Email",
-        msg: "Mesaj",
-        send: "Trimite",
+        guests: "Nr. total persoane",
+        kids_q: "Venim cu copii?",
+        kids_details: "Detalii copii (vârste)",
+        other_details: "Alte detalii",
+        msg: "Întrebarea ta...",
+        send: "Trimite solicitarea",
       },
     },
     facilitiesDetailed: {
       badge: "Locație recent deschisă",
       title_start: "Facilități ",
       title_accent: "Casa Luna",
-      description: "Casa Luna îmbină confortul modern cu o atmosferă magică, oferind o oază de liniște pentru grupuri restrânse de prieteni sau familii.",
+      description:
+        "Casa Luna îmbină confortul modern cu o atmosferă magică, oferind o oază de liniște pentru grupuri restrânse de prieteni sau familii.",
       back_btn: "Înapoi la site",
       sections: {
         bedrooms: {
           title: "Dormitoare Matrimoniale",
-          desc: "Paturile și noptierele cu design artistic din fier forjat oferă un plus de rafinament fiecărei camere ✨(capacitate: 2 adulți și 1 copil sub 8 ani).",
+          desc: "Paturile și noptierele cu design artistic din fier forjat oferă un plus de rafinament fiecărei camere ✨ (capacitate: 2 adulți și 1 copil sub 8 ani).",
           items: [
             "🛏️ Pat matrimonial & noptiere cu design artistic din fier forjat",
             "📺 TV Smart & Priză lângă pat",
@@ -601,8 +662,8 @@ en: {
             "🚿 Cabină / paravan de duș",
             "🧖‍♀️ Uscător de păr & Prosoape",
             "🧼 Săpun / gel de duș",
-            "🦟 Plasă țânțari la geamuri"
-          ]
+            "🦟 Plasă țânțari la geamuri",
+          ],
         },
         living: {
           title: "În Living",
@@ -616,8 +677,8 @@ en: {
             "🎲 Jocuri: remi, table, cărți de joc",
             "🎯 Țintă cu scai pentru copii",
             "🌡️ Sistem încălzire prin pardoseală și calorifere",
-            "📶 WiFi gratuit în întreaga unitate"
-          ]
+            "📶 WiFi gratuit în întreaga unitate",
+          ],
         },
         kitchen: {
           title: "Bucătăria Turistului",
@@ -628,8 +689,8 @@ en: {
             "🍞 Sandwitch maker & Prăjitor de pâine",
             "♨ Cuptor cu microunde",
             "🧊 Frigidere & Congelator",
-            "🍽️ Veselă și tacâmuri complete"
-          ]
+            "🍽️ Veselă și tacâmuri complete",
+          ],
         },
         gazebo: {
           title: "Foișorul Interior (Încălzit)",
@@ -638,8 +699,8 @@ en: {
             "🏠 Foișor încălzit (integrat in casă) cu zonă de dining rustică",
             "🍖 Grătar profesional și plită integrate",
             "🛋️ Canapea confortabilă și spațiu de socializare",
-            "📺 TV Smart dedicat pentru divertisment"
-          ]
+            "📺 TV Smart dedicat pentru divertisment",
+          ],
         },
         outdoor: {
           title: "Curte, Terasă & Activități",
@@ -654,8 +715,8 @@ en: {
             "🏓 Tenis de masă (exterior) & Darts",
             "🏸 Badminton & Coș de baschet",
             "⛰️ Posibilități de drumeții în zonă",
-            "📍 Acces facil pe drum asfaltat (vis-a-vis de Petrom)"
-          ]
+            "📍 Acces facil pe drum asfaltat (vis-a-vis de Petrom)",
+          ],
         },
         security: {
           title: "Securitate & Confort",
@@ -663,22 +724,22 @@ en: {
             "📹 Camere de supraveghere exterior & interior zone comune",
             "🚨 Detector de monoxid de carbon & extinctoare",
             "⏰ Check In: 14:30 | Check Out: 11:30",
-            "👶 Copii pana la 8 ani: Gratuit (în pat cu părinții)"
-          ]
+            "👶 Copii pana la 8 ani: Gratuit (în pat cu părinții)",
+          ],
         },
         smoking: {
           title: "Politica Fumatului",
           items: [
             "🚭 Fumatul interzis în toate spațiile interioare",
             "🚭 Vape-ul și țigările electronice sunt interzise la interior",
-            "🚬 Fumatul este permis în zone speciale la exterior"
-          ]
-        }
+            "🚬 Fumatul este permis în zone speciale la exterior",
+          ],
+        },
       },
       footer: {
         title: "Casa Luna – locul în care povestea începe!",
-        info: "Pentru rezervări și informații: 0750 849 137"
-      }
+        info: "Pentru rezervări și informații: 0750 849 137",
+      },
     },
     footer: {
       slogan: "Deconectează-te de lume.",

@@ -9,8 +9,10 @@ import {
   Image,
   Stack,
   IconButton,
+  Link,
+  VStack // Added Link for interactivity
 } from "@chakra-ui/react";
-import { Instagram, Facebook, Mail } from "lucide-react";
+import { Instagram, Facebook, Mail, Phone } from "lucide-react"; // Added Phone icon
 
 export default function Footer({ t }) {
   const currentYear = new Date().getFullYear();
@@ -29,10 +31,10 @@ export default function Footer({ t }) {
           direction={{ base: "column", md: "row" }}
           justify="space-between"
           align="center"
-          gap={6}
+          gap={8}
         >
-          {/* LEFT: Logo & Copyright */}
-          <Stack align={{ base: "center", md: "flex-start" }} gap={3}>
+          {/* LEFT: Logo & Contact Info */}
+          <Stack align={{ base: "center", md: "flex-start" }} gap={4}>
             <Image
               src={prefix("logo.png")}
               alt="Casa Luna Logo"
@@ -41,7 +43,35 @@ export default function Footer({ t }) {
               objectFit="contain"
               opacity={0.9}
             />
-            <Text fontSize="xs" color="gray.500">
+
+            <VStack align={{ base: "center", md: "flex-start" }} gap={1}>
+              <Link
+                href="tel:+407xx xxx xxx"
+                variant="plain"
+                color="gray.400"
+                _hover={{ color: "orange.500" }}
+                fontSize="sm"
+                display="flex"
+                alignItems="center"
+                gap={2}
+              >
+                <Phone size={14} /> +40 (750) 849 137
+              </Link>
+              <Link
+                href="mailto:casaluna.rezervari@gmail.com"
+                variant="plain"
+                color="gray.400"
+                _hover={{ color: "orange.500" }}
+                fontSize="sm"
+                display="flex"
+                alignItems="center"
+                gap={2}
+              >
+                <Mail size={14} /> casaluna.rezervari@gmail.com
+              </Link>
+            </VStack>
+
+            <Text fontSize="xs" color="gray.600">
               &copy; {currentYear} Casa Luna. {t.footer.rights}
             </Text>
           </Stack>
@@ -55,8 +85,8 @@ export default function Footer({ t }) {
             <Flex gap={2}>
               {/* INSTAGRAM */}
               <IconButton
-                as="a" // Renders as an <a> tag
-                href="https://www.instagram.com/casalunaromania/" // <--- PUT LINK HERE
+                as="a"
+                href="https://www.instagram.com/casalunaromania/"
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="ghost"
@@ -71,7 +101,7 @@ export default function Footer({ t }) {
               {/* FACEBOOK */}
               <IconButton
                 as="a"
-                href="https://www.facebook.com/profile.php?id=61584490931813" // <--- PUT LINK HERE
+                href="https://www.facebook.com/profile.php?id=61584490931813"
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="ghost"
@@ -83,10 +113,10 @@ export default function Footer({ t }) {
                 <Facebook size={18} />
               </IconButton>
 
-              {/* EMAIL (Opens default mail app) */}
+              {/* EMAIL */}
               <IconButton
                 as="a"
-                href="mailto:contact@casaluna.com"
+                href="mailto:casaluna.rezervari@gmail.com"
                 variant="ghost"
                 color="gray.400"
                 _hover={{ color: "orange.500", bg: "whiteAlpha.100" }}
