@@ -217,31 +217,44 @@ export const translations = {
       ],
     },
     pricing: {
-      title: "Simple Pricing",
-      subtitle: "No hidden fees.",
+      title: "Pricing",
+      subtitle: "Clear rates, no hidden fees.",
       night: "/ night",
-      week: "/ week",
+      week: "/ night",
       tiers: [
         {
-          title: "Weeknights",
-          price: "1200 RON",
-          features: ["Sun-Thu Check-in", "Min 2 Nights"],
-        },
-        {
-          title: "Weekend",
-          price: "1500 RON",
+          title: "Weekdays",
+          price: "1980 RON",
           features: [
-            "Check-in Friday, approx. 14:30",
-            "Checkout Sunday, approx. 11:30",
+            "Monday – Friday",
+            "Check-in: 14:00 – 17:30",
+            "Check-out: 11:00 – 12:00",
+            "Minimum 2 nights",
           ],
         },
         {
-          title: "Weekly",
-          price: "7000 RON",
-          features: ["7 Nights", "15% discount"],
+          title: "Weekend",
+          price: "2250 RON",
+          features: [
+            "Friday – Sunday",
+            "Check-in: 14:00 – 17:30",
+            "Check-out: 11:00 – 12:00",
+          ],
+        },
+        {
+          title: "Full Week",
+          price: "1500 RON",
+          features: [
+            "Monday – Sunday",
+            "6 nights",
+            "Check-in: 14:00 – 17:30",
+            "Check-out: 11:00 – 12:00",
+            "25% discount",
+          ],
         },
       ],
     },
+
     contact: {
       title: "How would you like to contact us?",
       tabs: { phone: "Phone", email: "Online" },
@@ -583,31 +596,44 @@ export const translations = {
       ],
     },
     pricing: {
-      title: "Prețuri Simple",
-      subtitle: "Fără taxe ascunse.",
+      title: "Prețuri",
+      subtitle: "Tarife clare, fără costuri ascunse.",
       night: "/ noapte",
-      week: "/ săpt",
+      week: "/ noapte",
       tiers: [
         {
           title: "În timpul săptămânii",
-          price: "1200 RON",
-          features: ["Dum-Joi Check-in", "Min 2 Nopți"],
-        },
-        {
-          title: "Weekend",
-          price: "1500 RON",
+          price: "1980 RON",
           features: [
-            "Check-in vineri, ora aprox. 14:30",
-            "Checkout duminică, ora aprox. 11:30",
+            "Luni – Vineri",
+            "Check-in: 14:00 – 17:30",
+            "Check-out: 11:00 – 12:00",
+            "Minim 2 nopți",
           ],
         },
         {
-          title: "Săptămânal",
-          price: "7000 RON",
-          features: ["7 Nopți", "15% reducere"],
+          title: "Weekend",
+          price: "2250 RON",
+          features: [
+            "Vineri – Duminică",
+            "Check-in: 14:00 – 17:30",
+            "Check-out: 11:00 – 12:00",
+          ],
+        },
+        {
+          title: "Săptămână completă",
+          price: "1500 RON",
+          features: [
+            "Luni – Duminică",
+            "6 nopți",
+            "Check-in: 14:00 – 17:30",
+            "Check-out: 11:00 – 12:00",
+            "25% reducere",
+          ],
         },
       ],
     },
+
     contact: {
       title: "Cum dorești să ne contactezi?",
       tabs: { phone: "Telefonic", email: "Online" },
