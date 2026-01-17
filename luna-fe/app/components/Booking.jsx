@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
-import { Mail, CheckCircle, Phone } from "lucide-react";
+import { Mail, CheckCircle, Phone, ChevronDown } from "lucide-react";
 import {
   Box,
   Container,
@@ -17,14 +17,21 @@ import {
   Icon,
   Stack,
   Tabs,
-  NativeSelect,
+  Menu,
 } from "@chakra-ui/react";
 import { toaster } from "../../components/ui/toaster";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { ro } from "date-fns/locale";
+import { format } from "date-fns";
 
 export default function Booking({ t }) {
   const [msgType, setMsgType] = useState("rezervare");
+  const [groupType, setGroupType] = useState("familie");
   const [hasChildren, setHasChildren] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [checkIn, setCheckIn] = useState(null);
+  const [checkOut, setCheckOut] = useState(null);
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -37,9 +44,7 @@ export default function Booking({ t }) {
     let rezervareBlock = "";
     if (isRezervare) {
       rezervareBlock = `
-Vă scriu pentru o rezervare la Casa Luna (${
-        rawData.group_type || "Nespecificat"
-      }).
+Vă scriu pentru o rezervare la Casa Luna (${groupType}).
 Perioada: ${rawData.date_from} — ${rawData.date_to}
 Număr persoane: ${rawData.guests_count}
 `;
@@ -89,7 +94,7 @@ Număr persoane: ${rawData.guests_count}
     <Box as="section" id="pricing" py={24} bg="white">
       <Container maxW="6xl">
         <Grid templateColumns={{ base: "1fr", lg: "1.1fr 0.9fr" }} gap={16}>
-          {/* PRICING */}
+          {/* PRICING SECTION */}
           <Box>
             <Heading as="h2" size="2xl" mb={6} color="gray.900">
               {t.pricing.title}
@@ -156,109 +161,167 @@ Număr persoane: ${rawData.guests_count}
             </VStack>
           </Box>
 
-          {/* CONTACT TABS */}
+          {/* CONTACT SECTION */}
           <Box
-            bg="gray.50"
-            p={{ base: 6, md: 8 }}
+            bg="white"
+            p={{ base: 6, md: 10 }}
             borderRadius="3xl"
             borderWidth="1px"
-            borderColor="gray.200"
+            borderColor="gray.100"
+            boxShadow="sm"
             position="sticky"
             top="32"
             height="fit-content"
           >
-            <Heading size="md" mb={6} textAlign="center" color="gray.800">
+            <Heading
+              size="md"
+              mb={8}
+              textAlign="center"
+              color="gray.800"
+              fontWeight="bold"
+            >
               {t.contact.title}
             </Heading>
-            <Tabs.Root
-              variant="subtle"
-              colorPalette="orange"
-              fitted
-              defaultValue="phone"
-            >
-              <Tabs.List mb={6} bg="gray.200" p={1} borderRadius="full">
+
+            <Tabs.Root variant="subtle" defaultValue="phone" fitted>
+              <Tabs.List
+                mb={8}
+                bg="gray.100"
+                p="1"
+                borderRadius="full"
+                border="none"
+              >
                 <Tabs.Trigger
                   value="phone"
-                  py={2}
+                  py={3}
+                  borderRadius="full"
                   fontSize="sm"
-                  fontWeight="semibold"
+                  fontWeight="bold"
+                  color="gray.500"
+                  _selected={{ bg: "#3D1A0F", color: "#E69B67" }}
                 >
                   <Icon as={Phone} mr={2} boxSize={4} /> {t.contact.tabs.phone}
                 </Tabs.Trigger>
                 <Tabs.Trigger
                   value="online"
-                  py={2}
+                  py={3}
+                  borderRadius="full"
                   fontSize="sm"
-                  fontWeight="semibold"
+                  fontWeight="bold"
+                  color="gray.500"
+                  _selected={{ bg: "#3D1A0F", color: "#E69B67" }}
                 >
                   <Icon as={Mail} mr={2} boxSize={4} /> {t.contact.tabs.email}
                 </Tabs.Trigger>
               </Tabs.List>
 
-              {/* PANEL 1: PHONE */}
               <Tabs.Content value="phone" p={0}>
                 <VStack
                   spacing={6}
-                  py={8}
+                  py={12}
                   bg="white"
-                  borderRadius="2xl"
+                  borderRadius="3xl"
                   border="1px dashed"
                   borderColor="gray.300"
                   textAlign="center"
                 >
                   <Box
-                    p={4}
-                    bg="orange.100"
-                    color="orange.600"
+                    p={5}
+                    bg="#FFF0E6"
+                    color="#D46B13"
                     borderRadius="full"
+                    display="inline-flex"
                   >
-                    <Icon as={Phone} boxSize={8} />
+                    <Icon as={Phone} boxSize={10} />
                   </Box>
                   <Box>
-                    <Text color="gray.500" fontSize="sm" mb={1}>
+                    <Text
+                      color="gray.500"
+                      fontSize="sm"
+                      mb={1}
+                      fontWeight="medium"
+                    >
                       {t.contact.phone_info.avail}
                     </Text>
-                    <Heading size="lg" color="gray.800">
+                    <Heading size="xl" color="gray.800" letterSpacing="tight">
                       +40 (750) 849 137
                     </Heading>
                   </Box>
                   <Button
                     as="a"
                     href="tel:0750849137"
-                    size="lg"
-                    w="80%"
-                    colorScheme="orange"
+                    size="xl"
+                    w="85%"
+                    bg="#FF7A00"
+                    color="white"
+                    borderRadius="xl"
+                    _hover={{ bg: "#E66E00" }}
+                    fontSize="md"
+                    fontWeight="bold"
                   >
-                    <Icon as={Phone} mr={2} size={18} />{" "}
+                    <Icon as={Phone} mr={2} size={20} />{" "}
                     {t.contact.phone_info.button}
                   </Button>
                 </VStack>
               </Tabs.Content>
 
-              {/* PANEL 2: FORM */}
               <Tabs.Content value="online" p={0}>
                 <form onSubmit={sendEmail}>
                   <VStack spacing={5} align="stretch">
                     <Box>
-                      <Text fontSize="sm" fontWeight="bold" mb={2}>
+                      <Text
+                        fontSize="sm"
+                        fontWeight="bold"
+                        mb={2}
+                        color="black"
+                      >
                         {t.contact.email_form.subject_label}
                       </Text>
-                      <NativeSelect.Root>
-                        <NativeSelect.Field
-                          name="subject_type"
+                      <Menu.Root>
+                        <Menu.Trigger asChild>
+                          <Button
+                            variant="outline"
+                            w="full"
+                            justifyContent="space-between"
+                            bg="white"
+                            fontWeight="normal"
+                            color="black"
+                            borderColor="gray.300"
+                          >
+                            {msgType === "rezervare"
+                              ? t.contact.email_form.opt_res
+                              : t.contact.email_form.opt_q}
+                            <Icon as={ChevronDown} color="gray.400" />
+                          </Button>
+                        </Menu.Trigger>
+                        <Menu.Content
                           bg="white"
-                          value={msgType}
-                          onChange={(e) => setMsgType(e.target.value)}
+                          color="black"
+                          borderRadius="lg"
+                          boxShadow="lg"
+                          border="1px solid"
+                          borderColor="gray.200"
                         >
-                          <option value="rezervare">
+                          <Menu.Item
+                            value="rezervare"
+                            onClick={() => setMsgType("rezervare")}
+                            color="black"
+                            _hover={{ bg: "gray.100" }}
+                          >
                             {t.contact.email_form.opt_res}
-                          </option>
-                          <option value="intrebare">
+                          </Menu.Item>
+                          <Menu.Item
+                            value="intrebare"
+                            onClick={() => setMsgType("intrebare")}
+                            color="black"
+                            _hover={{ bg: "gray.100" }}
+                          >
                             {t.contact.email_form.opt_q}
-                          </option>
-                        </NativeSelect.Field>
-                      </NativeSelect.Root>
+                          </Menu.Item>
+                        </Menu.Content>
+                      </Menu.Root>
                     </Box>
+
                     <Grid
                       templateColumns={{ base: "1fr", md: "1fr 1fr" }}
                       gap={4}
@@ -268,6 +331,7 @@ Număr persoane: ${rawData.guests_count}
                         name="user_name"
                         placeholder={t.contact.email_form.name_placeholder}
                         bg="white"
+                        color="black"
                       />
                       <Input
                         required
@@ -275,35 +339,77 @@ Număr persoane: ${rawData.guests_count}
                         type="email"
                         placeholder={t.contact.email_form.email}
                         bg="white"
+                        color="black"
                       />
                     </Grid>
+
                     <Grid
                       templateColumns={{ base: "1fr", md: "1fr 1fr" }}
                       gap={4}
                     >
                       <Box>
-                        <Text fontSize="sm" mb={1}>
+                        <Text fontSize="sm" mb={1} color="black">
                           {t.contact.email_form.group_label}
                         </Text>
-                        <NativeSelect.Root>
-                          <NativeSelect.Field name="group_type" bg="white">
-                            <option value="familie">
+                        <Menu.Root>
+                          <Menu.Trigger asChild>
+                            <Button
+                              variant="outline"
+                              w="full"
+                              justifyContent="space-between"
+                              bg="white"
+                              fontWeight="normal"
+                              size="md"
+                              color="black"
+                              borderColor="gray.300"
+                            >
+                              {groupType}
+                              <Icon as={ChevronDown} color="gray.400" />
+                            </Button>
+                          </Menu.Trigger>
+                          <Menu.Content
+                            bg="white"
+                            color="black"
+                            borderRadius="lg"
+                            boxShadow="lg"
+                          >
+                            <Menu.Item
+                              value="familie"
+                              onClick={() => setGroupType("familie")}
+                              color="black"
+                              _hover={{ bg: "gray.100" }}
+                            >
                               {t.contact.email_form.group_types.family}
-                            </option>
-                            <option value="grup de prieteni">
+                            </Menu.Item>
+                            <Menu.Item
+                              value="prieteni"
+                              onClick={() => setGroupType("grup de prieteni")}
+                              color="black"
+                              _hover={{ bg: "gray.100" }}
+                            >
                               {t.contact.email_form.group_types.friends}
-                            </option>
-                            <option value="cuplu">
+                            </Menu.Item>
+                            <Menu.Item
+                              value="cuplu"
+                              onClick={() => setGroupType("cuplu")}
+                              color="black"
+                              _hover={{ bg: "gray.100" }}
+                            >
                               {t.contact.email_form.group_types.couple}
-                            </option>
-                            <option value="eveniment">
+                            </Menu.Item>
+                            <Menu.Item
+                              value="eveniment"
+                              onClick={() => setGroupType("eveniment")}
+                              color="black"
+                              _hover={{ bg: "gray.100" }}
+                            >
                               {t.contact.email_form.group_types.event}
-                            </option>
-                          </NativeSelect.Field>
-                        </NativeSelect.Root>
+                            </Menu.Item>
+                          </Menu.Content>
+                        </Menu.Root>
                       </Box>
                       <Box>
-                        <Text fontSize="sm" mb={1}>
+                        <Text fontSize="sm" mb={1} color="black">
                           {t.contact.email_form.phone_label}
                         </Text>
                         <Input
@@ -312,6 +418,7 @@ Număr persoane: ${rawData.guests_count}
                           type="tel"
                           placeholder="07xx xxx xxx"
                           bg="white"
+                          color="black"
                         />
                       </Box>
                     </Grid>
@@ -330,24 +437,57 @@ Număr persoane: ${rawData.guests_count}
                               <Text fontSize="xs" mb={1} color="gray.500">
                                 {t.contact.email_form.checkin}
                               </Text>
-                              <Input
-                                required
+                              <DatePicker
+                                selected={checkIn}
+                                onChange={(date) => setCheckIn(date)}
+                                dateFormat="dd/MM/yyyy"
+                                locale={ro}
+                                placeholderText="zi/luna/an"
+                                customInput={
+                                  <Input
+                                    name="date_from"
+                                    required
+                                    bg="white"
+                                    size="sm"
+                                    color="black"
+                                  />
+                                }
+                              />
+                              <input
+                                type="hidden"
                                 name="date_from"
-                                type="date"
-                                bg="white"
-                                size="sm"
+                                value={
+                                  checkIn ? format(checkIn, "dd/MM/yyyy") : ""
+                                }
                               />
                             </Box>
                             <Box>
                               <Text fontSize="xs" mb={1} color="gray.500">
                                 {t.contact.email_form.checkout}
                               </Text>
-                              <Input
-                                required
+                              <DatePicker
+                                selected={checkOut}
+                                onChange={(date) => setCheckOut(date)}
+                                dateFormat="dd/MM/yyyy"
+                                locale={ro}
+                                placeholderText="zi/luna/an"
+                                minDate={checkIn}
+                                customInput={
+                                  <Input
+                                    name="date_to"
+                                    required
+                                    bg="white"
+                                    size="sm"
+                                    color="black"
+                                  />
+                                }
+                              />
+                              <input
+                                type="hidden"
                                 name="date_to"
-                                type="date"
-                                bg="white"
-                                size="sm"
+                                value={
+                                  checkOut ? format(checkOut, "dd/MM/yyyy") : ""
+                                }
                               />
                             </Box>
                           </Grid>
@@ -357,6 +497,7 @@ Număr persoane: ${rawData.guests_count}
                             placeholder={t.contact.email_form.guests}
                             bg="white"
                             size="sm"
+                            color="black"
                           />
                           <Flex align="center" gap={3}>
                             <input
@@ -369,7 +510,7 @@ Număr persoane: ${rawData.guests_count}
                                 accentColor: "#DD6B20",
                               }}
                             />
-                            <Text fontSize="sm">
+                            <Text fontSize="sm" color="black">
                               {t.contact.email_form.kids_q}
                             </Text>
                           </Flex>
@@ -380,11 +521,13 @@ Număr persoane: ${rawData.guests_count}
                               bg="white"
                               fontSize="xs"
                               rows={2}
+                              color="black"
                             />
                           )}
                         </VStack>
                       </Box>
                     )}
+
                     <Textarea
                       required
                       name="message"
@@ -395,6 +538,7 @@ Număr persoane: ${rawData.guests_count}
                       }
                       bg="white"
                       rows={4}
+                      color="black"
                     />
                     <Button
                       type="submit"
