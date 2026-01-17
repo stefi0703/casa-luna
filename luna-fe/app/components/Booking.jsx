@@ -148,16 +148,37 @@ Număr persoane: ${rawData.guests_count}
                     </Text>
                   </Text>
                   <Stack spacing={3}>
-                    {tier.features.map((f, idx) => (
-                      <Flex
-                        align="center"
-                        fontSize="sm"
-                        color="gray.700"
-                        key={`${i}-${idx}`}
-                      >
-                        <Icon as={CheckCircle} color="orange.500" mr={3} /> {f}
-                      </Flex>
-                    ))}
+                    {tier.features.map((f, idx) => {
+                      const lower = f.toLowerCase();
+
+                      const isStandardPrice = lower.includes("standard");
+
+                      const isPackagePrice =
+                        lower.includes("pachet") || lower.includes("package");
+
+                      return (
+                        <Flex
+                          align="center"
+                          fontSize="sm"
+                          color="gray.700"
+                          key={`${i}-${idx}`}
+                        >
+                          <Icon as={CheckCircle} color="orange.500" mr={3} />
+
+                          {isStandardPrice ? (
+                            <Text as="s" color="gray.500">
+                              {f}
+                            </Text>
+                          ) : isPackagePrice ? (
+                            <Text fontWeight="bold" color="gray.900">
+                              {f}
+                            </Text>
+                          ) : (
+                            <Text>{f}</Text>
+                          )}
+                        </Flex>
+                      );
+                    })}
                   </Stack>
                 </Box>
               ))}
