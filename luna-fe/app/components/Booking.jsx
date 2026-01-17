@@ -306,15 +306,45 @@ Număr persoane: ${rawData.guests_count}
                             value="rezervare"
                             onClick={() => setMsgType("rezervare")}
                             color="black"
-                            _hover={{ bg: "gray.100" }}
+                            sx={{
+                              bg: "white",
+                              "&[data-highlighted]": {
+                                bg: "gray.100",
+                                color: "black",
+                              },
+                              "&:active": {
+                                bg: "gray.100",
+                                color: "black",
+                              },
+                              "&:focus": {
+                                bg: "gray.100",
+                                color: "black",
+                              },
+                            }}
                           >
                             {t.contact.email_form.opt_res}
                           </Menu.Item>
+
                           <Menu.Item
                             value="intrebare"
                             onClick={() => setMsgType("intrebare")}
                             color="black"
-                            _hover={{ bg: "gray.100" }}
+                            sx={{
+                              bg: "white",
+                              color: "black",
+                              "&[data-highlighted]": {
+                                bg: "gray.100",
+                                color: "black",
+                              },
+                              "&:active": {
+                                bg: "gray.100",
+                                color: "black",
+                              },
+                              "&:focus": {
+                                bg: "gray.100",
+                                color: "black",
+                              },
+                            }}
                           >
                             {t.contact.email_form.opt_q}
                           </Menu.Item>
@@ -377,7 +407,22 @@ Număr persoane: ${rawData.guests_count}
                               value="familie"
                               onClick={() => setGroupType("familie")}
                               color="black"
-                              _hover={{ bg: "gray.100" }}
+                              sx={{
+                                bg: "white",
+                                color: "black",
+                                "&[data-highlighted]": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                                "&:active": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                                "&:focus": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                              }}
                             >
                               {t.contact.email_form.group_types.family}
                             </Menu.Item>
@@ -385,7 +430,22 @@ Număr persoane: ${rawData.guests_count}
                               value="prieteni"
                               onClick={() => setGroupType("grup de prieteni")}
                               color="black"
-                              _hover={{ bg: "gray.100" }}
+                              sx={{
+                                bg: "white",
+                                color: "black",
+                                "&[data-highlighted]": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                                "&:active": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                                "&:focus": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                              }}
                             >
                               {t.contact.email_form.group_types.friends}
                             </Menu.Item>
@@ -393,7 +453,22 @@ Număr persoane: ${rawData.guests_count}
                               value="cuplu"
                               onClick={() => setGroupType("cuplu")}
                               color="black"
-                              _hover={{ bg: "gray.100" }}
+                              sx={{
+                                bg: "white",
+                                color: "black",
+                                "&[data-highlighted]": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                                "&:active": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                                "&:focus": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                              }}
                             >
                               {t.contact.email_form.group_types.couple}
                             </Menu.Item>
@@ -401,7 +476,22 @@ Număr persoane: ${rawData.guests_count}
                               value="eveniment"
                               onClick={() => setGroupType("eveniment")}
                               color="black"
-                              _hover={{ bg: "gray.100" }}
+                              sx={{
+                                bg: "white",
+                                color: "black",
+                                "&[data-highlighted]": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                                "&:active": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                                "&:focus": {
+                                  bg: "gray.100",
+                                  color: "black",
+                                },
+                              }}
                             >
                               {t.contact.email_form.group_types.event}
                             </Menu.Item>
