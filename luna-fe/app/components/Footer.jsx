@@ -10,7 +10,7 @@ import {
   Stack,
   IconButton,
   Link,
-  VStack // Added Link for interactivity
+  VStack, // Added Link for interactivity
 } from "@chakra-ui/react";
 import { Instagram, Facebook, Mail, Phone } from "lucide-react"; // Added Phone icon
 
@@ -126,6 +126,34 @@ export default function Footer({ t }) {
                 <Mail size={18} />
               </IconButton>
             </Flex>
+            {/* TURISTINFO BADGE */}
+            <VStack spacing={1} mt={2}>
+              <Link
+                href="https://www.turistinfo.ro/u/128502"
+                title="Casa Luna Rucăr pe TURIST INFO .ro"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Image
+                  src="https://www.turistinfo.ro/images/logo.png"
+                  alt="Cazare hoteluri pensiuni pe turistinfo.ro"
+                  boxSize="85px"
+                  objectFit="contain"
+                />
+              </Link>
+
+              <Link
+                href="https://www.turistinfo.ro/rucar/cazare-hoteluri-vile-pensiuni-rucar.html"
+                title="alte hoteluri si pensiuni in Rucăr"
+                target="_blank"
+                rel="noopener noreferrer"
+                fontSize="xs"
+                color="#3B5998"
+                _hover={{ textDecoration: "underline" }}
+              >
+                Cazare Rucăr
+              </Link>
+            </VStack>
           </Stack>
         </Flex>
       </Container>
