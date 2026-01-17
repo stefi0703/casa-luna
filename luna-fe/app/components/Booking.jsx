@@ -32,6 +32,7 @@ export default function Booking({ t }) {
   const [loading, setLoading] = useState(false);
   const [checkIn, setCheckIn] = useState(null);
   const [checkOut, setCheckOut] = useState(null);
+  const [sent, setSent] = useState(false);
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -76,10 +77,12 @@ Număr persoane: ${rawData.guests_count}
           type: "success",
         });
         setLoading(false);
+        setSent(true);
         e.target.reset();
         setHasChildren(false);
         setMsgType("rezervare");
       })
+
       .catch((err) => {
         console.error("EROARE EmailJS:", err);
         toaster.create({
@@ -266,120 +269,55 @@ Număr persoane: ${rawData.guests_count}
               </Tabs.Content>
 
               <Tabs.Content value="online" p={0}>
-                <form onSubmit={sendEmail}>
-                  <VStack spacing={5} align="stretch">
-                    <Box>
-                      <Text
-                        fontSize="sm"
-                        fontWeight="bold"
-                        mb={2}
-                        color="black"
-                      >
-                        {t.contact.email_form.subject_label}
-                      </Text>
-                      <Menu.Root>
-                        <Menu.Trigger asChild>
-                          <Button
-                            variant="outline"
-                            w="full"
-                            justifyContent="space-between"
-                            bg="white"
-                            fontWeight="normal"
-                            color="black"
-                            borderColor="gray.300"
-                          >
-                            {msgType === "rezervare"
-                              ? t.contact.email_form.opt_res
-                              : t.contact.email_form.opt_q}
-                            <Icon as={ChevronDown} color="gray.400" />
-                          </Button>
-                        </Menu.Trigger>
-                        <Menu.Content
-                          bg="white"
-                          color="black"
-                          borderRadius="lg"
-                          boxShadow="lg"
-                          border="1px solid"
-                          borderColor="gray.200"
-                        >
-                          <Menu.Item
-                            value="rezervare"
-                            onClick={() => setMsgType("rezervare")}
-                            color="black"
-                            sx={{
-                              bg: "white",
-                              "&[data-highlighted]": {
-                                bg: "gray.100",
-                                color: "black",
-                              },
-                              "&:active": {
-                                bg: "gray.100",
-                                color: "black",
-                              },
-                              "&:focus": {
-                                bg: "gray.100",
-                                color: "black",
-                              },
-                            }}
-                          >
-                            {t.contact.email_form.opt_res}
-                          </Menu.Item>
-
-                          <Menu.Item
-                            value="intrebare"
-                            onClick={() => setMsgType("intrebare")}
-                            color="black"
-                            sx={{
-                              bg: "white",
-                              color: "black",
-                              "&[data-highlighted]": {
-                                bg: "gray.100",
-                                color: "black",
-                              },
-                              "&:active": {
-                                bg: "gray.100",
-                                color: "black",
-                              },
-                              "&:focus": {
-                                bg: "gray.100",
-                                color: "black",
-                              },
-                            }}
-                          >
-                            {t.contact.email_form.opt_q}
-                          </Menu.Item>
-                        </Menu.Content>
-                      </Menu.Root>
+                {sent ? (
+                  <VStack
+                    spacing={6}
+                    py={12}
+                    bg="green.50"
+                    borderRadius="3xl"
+                    border="1px solid"
+                    borderColor="green.200"
+                    textAlign="center"
+                  >
+                    <Box
+                      p={5}
+                      bg="green.100"
+                      color="green.600"
+                      borderRadius="full"
+                      display="inline-flex"
+                    >
+                      <Icon as={CheckCircle} boxSize={10} />
                     </Box>
 
-                    <Grid
-                      templateColumns={{ base: "1fr", md: "1fr 1fr" }}
-                      gap={4}
-                    >
-                      <Input
-                        required
-                        name="user_name"
-                        placeholder={t.contact.email_form.name_placeholder}
-                        bg="white"
-                        color="black"
-                      />
-                      <Input
-                        required
-                        name="user_email"
-                        type="email"
-                        placeholder={t.contact.email_form.email}
-                        bg="white"
-                        color="black"
-                      />
-                    </Grid>
+                    <Heading size="md" color="green.700">
+                      Mesaj trimis cu succes!
+                    </Heading>
 
-                    <Grid
-                      templateColumns={{ base: "1fr", md: "1fr 1fr" }}
-                      gap={4}
+                    <Text color="gray.600" fontSize="sm" maxW="sm">
+                      Îți mulțumim! Am primit mesajul tău și te vom contacta în
+                      cel mai scurt timp pentru confirmarea detaliilor.
+                    </Text>
+
+                    <Button
+                      size="md"
+                      variant="outline"
+                      colorScheme="green"
+                      onClick={() => setSent(false)}
                     >
+                      Trimite un alt mesaj
+                    </Button>
+                  </VStack>
+                ) : (
+                  <form onSubmit={sendEmail}>
+                    <VStack spacing={5} align="stretch">
                       <Box>
-                        <Text fontSize="sm" mb={1} color="black">
-                          {t.contact.email_form.group_label}
+                        <Text
+                          fontSize="sm"
+                          fontWeight="bold"
+                          mb={2}
+                          color="black"
+                        >
+                          {t.contact.email_form.subject_label}
                         </Text>
                         <Menu.Root>
                           <Menu.Trigger asChild>
@@ -389,11 +327,12 @@ Număr persoane: ${rawData.guests_count}
                               justifyContent="space-between"
                               bg="white"
                               fontWeight="normal"
-                              size="md"
                               color="black"
                               borderColor="gray.300"
                             >
-                              {groupType}
+                              {msgType === "rezervare"
+                                ? t.contact.email_form.opt_res
+                                : t.contact.email_form.opt_q}
                               <Icon as={ChevronDown} color="gray.400" />
                             </Button>
                           </Menu.Trigger>
@@ -402,14 +341,15 @@ Număr persoane: ${rawData.guests_count}
                             color="black"
                             borderRadius="lg"
                             boxShadow="lg"
+                            border="1px solid"
+                            borderColor="gray.200"
                           >
                             <Menu.Item
-                              value="familie"
-                              onClick={() => setGroupType("familie")}
+                              value="rezervare"
+                              onClick={() => setMsgType("rezervare")}
                               color="black"
                               sx={{
                                 bg: "white",
-                                color: "black",
                                 "&[data-highlighted]": {
                                   bg: "gray.100",
                                   color: "black",
@@ -424,11 +364,12 @@ Număr persoane: ${rawData.guests_count}
                                 },
                               }}
                             >
-                              {t.contact.email_form.group_types.family}
+                              {t.contact.email_form.opt_res}
                             </Menu.Item>
+
                             <Menu.Item
-                              value="prieteni"
-                              onClick={() => setGroupType("grup de prieteni")}
+                              value="intrebare"
+                              onClick={() => setMsgType("intrebare")}
                               color="black"
                               sx={{
                                 bg: "white",
@@ -447,202 +388,308 @@ Număr persoane: ${rawData.guests_count}
                                 },
                               }}
                             >
-                              {t.contact.email_form.group_types.friends}
-                            </Menu.Item>
-                            <Menu.Item
-                              value="cuplu"
-                              onClick={() => setGroupType("cuplu")}
-                              color="black"
-                              sx={{
-                                bg: "white",
-                                color: "black",
-                                "&[data-highlighted]": {
-                                  bg: "gray.100",
-                                  color: "black",
-                                },
-                                "&:active": {
-                                  bg: "gray.100",
-                                  color: "black",
-                                },
-                                "&:focus": {
-                                  bg: "gray.100",
-                                  color: "black",
-                                },
-                              }}
-                            >
-                              {t.contact.email_form.group_types.couple}
-                            </Menu.Item>
-                            <Menu.Item
-                              value="eveniment"
-                              onClick={() => setGroupType("eveniment")}
-                              color="black"
-                              sx={{
-                                bg: "white",
-                                color: "black",
-                                "&[data-highlighted]": {
-                                  bg: "gray.100",
-                                  color: "black",
-                                },
-                                "&:active": {
-                                  bg: "gray.100",
-                                  color: "black",
-                                },
-                                "&:focus": {
-                                  bg: "gray.100",
-                                  color: "black",
-                                },
-                              }}
-                            >
-                              {t.contact.email_form.group_types.event}
+                              {t.contact.email_form.opt_q}
                             </Menu.Item>
                           </Menu.Content>
                         </Menu.Root>
                       </Box>
-                      <Box>
-                        <Text fontSize="sm" mb={1} color="black">
-                          {t.contact.email_form.phone_label}
-                        </Text>
+
+                      <Grid
+                        templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+                        gap={4}
+                      >
                         <Input
                           required
-                          name="user_phone"
-                          type="tel"
-                          placeholder="07xx xxx xxx"
+                          name="user_name"
+                          placeholder={t.contact.email_form.name_placeholder}
                           bg="white"
                           color="black"
                         />
-                      </Box>
-                    </Grid>
+                        <Input
+                          required
+                          name="user_email"
+                          type="email"
+                          placeholder={t.contact.email_form.email}
+                          bg="white"
+                          color="black"
+                        />
+                      </Grid>
 
-                    {msgType === "rezervare" && (
-                      <Box
-                        p={4}
-                        bg="orange.50"
-                        borderRadius="xl"
-                        border="1px dashed"
-                        borderColor="orange.200"
+                      <Grid
+                        templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+                        gap={4}
                       >
-                        <VStack spacing={4} align="stretch">
-                          <Grid templateColumns="1fr 1fr" gap={4}>
-                            <Box>
-                              <Text fontSize="xs" mb={1} color="gray.500">
-                                {t.contact.email_form.checkin}
-                              </Text>
-                              <DatePicker
-                                selected={checkIn}
-                                onChange={(date) => setCheckIn(date)}
-                                dateFormat="dd/MM/yyyy"
-                                locale={ro}
-                                placeholderText="zi/luna/an"
-                                customInput={
-                                  <Input
-                                    name="date_from"
-                                    required
-                                    bg="white"
-                                    size="sm"
-                                    color="black"
-                                  />
-                                }
-                              />
-                              <input
-                                type="hidden"
-                                name="date_from"
-                                value={
-                                  checkIn ? format(checkIn, "dd/MM/yyyy") : ""
-                                }
-                              />
-                            </Box>
-                            <Box>
-                              <Text fontSize="xs" mb={1} color="gray.500">
-                                {t.contact.email_form.checkout}
-                              </Text>
-                              <DatePicker
-                                selected={checkOut}
-                                onChange={(date) => setCheckOut(date)}
-                                dateFormat="dd/MM/yyyy"
-                                locale={ro}
-                                placeholderText="zi/luna/an"
-                                minDate={checkIn}
-                                customInput={
-                                  <Input
-                                    name="date_to"
-                                    required
-                                    bg="white"
-                                    size="sm"
-                                    color="black"
-                                  />
-                                }
-                              />
-                              <input
-                                type="hidden"
-                                name="date_to"
-                                value={
-                                  checkOut ? format(checkOut, "dd/MM/yyyy") : ""
-                                }
-                              />
-                            </Box>
-                          </Grid>
+                        <Box>
+                          <Text fontSize="sm" mb={1} color="black">
+                            {t.contact.email_form.group_label}
+                          </Text>
+                          <Menu.Root>
+                            <Menu.Trigger asChild>
+                              <Button
+                                variant="outline"
+                                w="full"
+                                justifyContent="space-between"
+                                bg="white"
+                                fontWeight="normal"
+                                size="md"
+                                color="black"
+                                borderColor="gray.300"
+                              >
+                                {groupType}
+                                <Icon as={ChevronDown} color="gray.400" />
+                              </Button>
+                            </Menu.Trigger>
+                            <Menu.Content
+                              bg="white"
+                              color="black"
+                              borderRadius="lg"
+                              boxShadow="lg"
+                            >
+                              <Menu.Item
+                                value="familie"
+                                onClick={() => setGroupType("familie")}
+                                color="black"
+                                sx={{
+                                  bg: "white",
+                                  color: "black",
+                                  "&[data-highlighted]": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                  "&:active": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                  "&:focus": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                }}
+                              >
+                                {t.contact.email_form.group_types.family}
+                              </Menu.Item>
+                              <Menu.Item
+                                value="prieteni"
+                                onClick={() => setGroupType("grup de prieteni")}
+                                color="black"
+                                sx={{
+                                  bg: "white",
+                                  color: "black",
+                                  "&[data-highlighted]": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                  "&:active": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                  "&:focus": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                }}
+                              >
+                                {t.contact.email_form.group_types.friends}
+                              </Menu.Item>
+                              <Menu.Item
+                                value="cuplu"
+                                onClick={() => setGroupType("cuplu")}
+                                color="black"
+                                sx={{
+                                  bg: "white",
+                                  color: "black",
+                                  "&[data-highlighted]": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                  "&:active": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                  "&:focus": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                }}
+                              >
+                                {t.contact.email_form.group_types.couple}
+                              </Menu.Item>
+                              <Menu.Item
+                                value="eveniment"
+                                onClick={() => setGroupType("eveniment")}
+                                color="black"
+                                sx={{
+                                  bg: "white",
+                                  color: "black",
+                                  "&[data-highlighted]": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                  "&:active": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                  "&:focus": {
+                                    bg: "gray.100",
+                                    color: "black",
+                                  },
+                                }}
+                              >
+                                {t.contact.email_form.group_types.event}
+                              </Menu.Item>
+                            </Menu.Content>
+                          </Menu.Root>
+                        </Box>
+                        <Box>
+                          <Text fontSize="sm" mb={1} color="black">
+                            {t.contact.email_form.phone_label}
+                          </Text>
                           <Input
                             required
-                            name="guests_count"
-                            placeholder={t.contact.email_form.guests}
+                            name="user_phone"
+                            type="tel"
+                            placeholder="07xx xxx xxx"
                             bg="white"
-                            size="sm"
                             color="black"
                           />
-                          <Flex align="center" gap={3}>
-                            <input
-                              type="checkbox"
-                              checked={hasChildren}
-                              onChange={(e) => setHasChildren(e.target.checked)}
-                              style={{
-                                width: 18,
-                                height: 18,
-                                accentColor: "#DD6B20",
-                              }}
-                            />
-                            <Text fontSize="sm" color="black">
-                              {t.contact.email_form.kids_q}
-                            </Text>
-                          </Flex>
-                          {hasChildren && (
-                            <Textarea
-                              name="children_details"
-                              placeholder={t.contact.email_form.kids_details}
+                        </Box>
+                      </Grid>
+
+                      {msgType === "rezervare" && (
+                        <Box
+                          p={4}
+                          bg="orange.50"
+                          borderRadius="xl"
+                          border="1px dashed"
+                          borderColor="orange.200"
+                        >
+                          <VStack spacing={4} align="stretch">
+                            <Grid templateColumns="1fr 1fr" gap={4}>
+                              <Box>
+                                <Text fontSize="xs" mb={1} color="gray.500">
+                                  {t.contact.email_form.checkin}
+                                </Text>
+                                <DatePicker
+                                  selected={checkIn}
+                                  onChange={(date) => setCheckIn(date)}
+                                  dateFormat="dd/MM/yyyy"
+                                  locale={ro}
+                                  placeholderText="zi/luna/an"
+                                  customInput={
+                                    <Input
+                                      name="date_from"
+                                      required
+                                      bg="white"
+                                      size="sm"
+                                      color="black"
+                                    />
+                                  }
+                                />
+                                <input
+                                  type="hidden"
+                                  name="date_from"
+                                  value={
+                                    checkIn ? format(checkIn, "dd/MM/yyyy") : ""
+                                  }
+                                />
+                              </Box>
+                              <Box>
+                                <Text fontSize="xs" mb={1} color="gray.500">
+                                  {t.contact.email_form.checkout}
+                                </Text>
+                                <DatePicker
+                                  selected={checkOut}
+                                  onChange={(date) => setCheckOut(date)}
+                                  dateFormat="dd/MM/yyyy"
+                                  locale={ro}
+                                  placeholderText="zi/luna/an"
+                                  minDate={checkIn}
+                                  customInput={
+                                    <Input
+                                      name="date_to"
+                                      required
+                                      bg="white"
+                                      size="sm"
+                                      color="black"
+                                    />
+                                  }
+                                />
+                                <input
+                                  type="hidden"
+                                  name="date_to"
+                                  value={
+                                    checkOut
+                                      ? format(checkOut, "dd/MM/yyyy")
+                                      : ""
+                                  }
+                                />
+                              </Box>
+                            </Grid>
+                            <Input
+                              required
+                              name="guests_count"
+                              placeholder={t.contact.email_form.guests}
                               bg="white"
-                              fontSize="xs"
-                              rows={2}
+                              size="sm"
                               color="black"
                             />
-                          )}
-                        </VStack>
-                      </Box>
-                    )}
+                            <Flex align="center" gap={3}>
+                              <input
+                                type="checkbox"
+                                checked={hasChildren}
+                                onChange={(e) =>
+                                  setHasChildren(e.target.checked)
+                                }
+                                style={{
+                                  width: 18,
+                                  height: 18,
+                                  accentColor: "#DD6B20",
+                                }}
+                              />
+                              <Text fontSize="sm" color="black">
+                                {t.contact.email_form.kids_q}
+                              </Text>
+                            </Flex>
+                            {hasChildren && (
+                              <Textarea
+                                name="children_details"
+                                placeholder={t.contact.email_form.kids_details}
+                                bg="white"
+                                fontSize="xs"
+                                rows={2}
+                                color="black"
+                              />
+                            )}
+                          </VStack>
+                        </Box>
+                      )}
 
-                    <Textarea
-                      required
-                      name="message"
-                      placeholder={
-                        msgType === "rezervare"
-                          ? t.contact.email_form.other_details
-                          : t.contact.email_form.msg
-                      }
-                      bg="white"
-                      rows={4}
-                      color="black"
-                    />
-                    <Button
-                      type="submit"
-                      isLoading={loading}
-                      size="lg"
-                      w="full"
-                      bg="gray.900"
-                      color="white"
-                      _hover={{ bg: "gray.700" }}
-                    >
-                      {t.contact.email_form.send}
-                    </Button>
-                  </VStack>
-                </form>
+                      <Textarea
+                        required
+                        name="message"
+                        placeholder={
+                          msgType === "rezervare"
+                            ? t.contact.email_form.other_details
+                            : t.contact.email_form.msg
+                        }
+                        bg="white"
+                        rows={4}
+                        color="black"
+                      />
+                      <Button
+                        type="submit"
+                        isLoading={loading}
+                        size="lg"
+                        w="full"
+                        bg="gray.900"
+                        color="white"
+                        _hover={{ bg: "gray.700" }}
+                      >
+                        {t.contact.email_form.send}
+                      </Button>
+                    </VStack>
+                  </form>
+                )}
               </Tabs.Content>
             </Tabs.Root>
           </Box>
