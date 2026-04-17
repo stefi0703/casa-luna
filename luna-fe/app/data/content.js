@@ -219,40 +219,42 @@ export const translations = {
     pricing: {
       title: "Pricing",
       subtitle: "Clear rates, no hidden fees.",
+      note: "Last updated: April 17, 2026. Prices must be confirmed by phone.",
       night: "/ night",
       week: "/ night",
       tiers: [
         {
           title: "Weekdays",
-          price: "1980 RON",
+          price: "1600 RON",
           features: [
             "Monday – Friday",
-            "Check-in: 14:00 – 17:30",
-            "Check-out: 11:00 – 12:00",
+            // "Check-in: 14:00 – 17:30",
+            // "Check-out: 11:00 – 12:00",
             "Minimum 2 nights",
           ],
         },
         {
           title: "Weekend",
-          price: "2250 RON",
+          price: "1800 RON",
           features: [
             "Friday – Sunday",
-            "Check-in: 14:00 – 17:30",
-            "Check-out: 11:00 – 12:00",
+            "Minimum 2 nights",
+            // "Check-in: 14:00 – 17:30",
+            // "Check-out: 11:00 – 12:00",
           ],
-        },
-        {
-          title: "Full Week",
-          price: "1500 RON",
-          features: [
-            "Monday – Sunday",
-            "6 nights",
-            "Check-in: 14:00 – 17:30",
-            "Check-out: 11:00 – 12:00",
-            "Standard price: 12.420 RON / week",
-            "Package price: 9.000 RON / week",
-          ],
-        },
+        }
+        // {
+        //   title: "Full Week",
+        //   price: "1500 RON",
+        //   features: [
+        //     "Monday – Sunday",
+        //     "6 nights",
+        //     "Check-in: 14:00 – 17:30",
+        //     "Check-out: 11:00 – 12:00",
+        //     "Standard price: 12.420 RON / week",
+        //     "Package price: 9.000 RON / week",
+        //   ],
+        // },
       ],
     },
 
@@ -599,40 +601,42 @@ export const translations = {
     pricing: {
       title: "Prețuri",
       subtitle: "Tarife clare, fără costuri ascunse.",
+      note: "Actualizat ultima oară: 17 aprilie 2026. Prețurile trebuie confirmate la telefon.",
       night: "/ noapte",
       week: "/ noapte",
       tiers: [
         {
           title: "În timpul săptămânii",
-          price: "1980 RON",
+          price: "1600 RON",
           features: [
             "Luni – Vineri",
-            "Check-in: 14:00 – 17:30",
-            "Check-out: 11:00 – 12:00",
+            // "Check-in: 14:00 – 17:30",
+            // "Check-out: 11:00 – 12:00",
             "Minim 2 nopți",
           ],
         },
         {
           title: "Weekend",
-          price: "2250 RON",
+          price: "1800 RON",
           features: [
             "Vineri – Duminică",
-            "Check-in: 14:00 – 17:30",
-            "Check-out: 11:00 – 12:00",
+            "Minim 2 nopți",
+            // "Check-in: 14:00 – 17:30",
+            // "Check-out: 11:00 – 12:00",
           ],
-        },
-        {
-          title: "Săptămână completă",
-          price: "1500 RON",
-          features: [
-            "Luni – Duminică",
-            "6 nopți",
-            "Check-in: 14:00 – 17:30",
-            "Check-out: 11:00 – 12:00",
-            "Preț standard: 12.420 RON / săptămână",
-            "Preț pachet: 9.000 RON / săptămână",
-          ],
-        },
+        }
+        // {
+        //   title: "Săptămână completă",
+        //   price: "1500 RON",
+        //   features: [
+        //     "Luni – Duminică",
+        //     "6 nopți",
+        //     "Check-in: 14:00 – 17:30",
+        //     "Check-out: 11:00 – 12:00",
+        //     "Preț standard: 12.420 RON / săptămână",
+        //     "Preț pachet: 9.000 RON / săptămână",
+        //   ],
+        // },
       ],
     },
 

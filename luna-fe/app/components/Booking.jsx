@@ -69,7 +69,7 @@ Număr persoane: ${rawData.guests_count}
         "service_nz73b9k",
         "template_q36tj1l",
         templateParams,
-        "YSXKo1bxXIThTmkua"
+        "YSXKo1bxXIThTmkua",
       )
       .then(() => {
         toaster.create({
@@ -105,6 +105,20 @@ Număr persoane: ${rawData.guests_count}
             <Text color="gray.600" mb={8} fontSize="lg">
               {t.pricing.subtitle}
             </Text>
+            {t.pricing.note && (
+              <Box
+                p={3}
+                mb={8}
+                bg="orange.50"
+                borderLeft="4px solid"
+                borderColor="orange.500"
+                borderRadius="md"
+              >
+                <Text fontSize="sm" color="orange.900" fontWeight="500">
+                  ⓘ {t.pricing.note}
+                </Text>
+              </Box>
+            )}
             <VStack spacing={6} align="stretch">
               {t.pricing.tiers.map((tier, i) => (
                 <Box
