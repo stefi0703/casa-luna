@@ -272,8 +272,7 @@ export const Gallery = ({ t, isOpen, onClose }) => {
                   ) : (
                     <Image
                       src={getImageUrl(activeMedia, "c_limit,w_1920,f_auto,q_auto")}
-                      alt="Gallery Slider View"
-                      maxW="full"
+                      alt={`Fotografie secțiune ${currentCategory} - Pensiunea Casa Luna, cazare Culoarul Rucăr-Bran`}
                       maxH="62vh"
                       objectFit="contain"
                       borderRadius="xl"
@@ -378,8 +377,7 @@ export const Gallery = ({ t, isOpen, onClose }) => {
                 ) : (
                   <Image
                     src={getImageUrl(activeMedia, "c_limit,w_1920,f_auto,q_auto")}
-                    alt="Fullscreen View"
-                    maxW="95vw"
+                    alt={`Vedere panoramică ${currentCategory} - Pensiune Rucăr Bran Câmpulung Casa Luna`}
                     maxH="90vh"
                     objectFit="contain"
                     borderRadius="md"

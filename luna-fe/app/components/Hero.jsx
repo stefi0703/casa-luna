@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Calendar } from "lucide-react";
 import { galleryImages as fallbackImages } from "../data/content";
-import { prefix } from "../utils/prefix"; 
+import { prefix } from "../utils/prefix";
 import { Box, Heading, Text, Button, Flex, Container } from "@chakra-ui/react";
 
 export default function Hero({ t, scrollToSection }) {
@@ -16,7 +16,7 @@ export default function Hero({ t, scrollToSection }) {
     const handleResize = () => {
       setIsMobileView(window.innerWidth < 768); // 768px este breakpoint-ul 'md' din Chakra
     };
-    
+
     handleResize(); // Verificare inițială
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -24,22 +24,28 @@ export default function Hero({ t, scrollToSection }) {
 
   // 2. Preluăm listele de imagini separat din Cloudinary
   useEffect(() => {
-    const fetchDesktop = fetch("https://res.cloudinary.com/dnnpsia65/image/list/hero.json")
-      .then((res) => res.ok ? res.json() : { resources: [] })
+    const fetchDesktop = fetch(
+      "https://res.cloudinary.com/dnnpsia65/image/list/hero.json",
+    )
+      .then((res) => (res.ok ? res.json() : { resources: [] }))
       .catch(() => ({ resources: [] }));
 
-    const fetchMobile = fetch("https://res.cloudinary.com/dnnpsia65/image/list/hero-mobile.json")
-      .then((res) => res.ok ? res.json() : { resources: [] })
+    const fetchMobile = fetch(
+      "https://res.cloudinary.com/dnnpsia65/image/list/hero-mobile.json",
+    )
+      .then((res) => (res.ok ? res.json() : { resources: [] }))
       .catch(() => ({ resources: [] }));
 
-    Promise.all([fetchDesktop, fetchMobile]).then(([desktopData, mobileData]) => {
-      const dImages = desktopData.resources.map((r) => r.public_id);
-      const mImages = mobileData.resources.map((r) => r.public_id);
+    Promise.all([fetchDesktop, fetchMobile]).then(
+      ([desktopData, mobileData]) => {
+        const dImages = desktopData.resources.map((r) => r.public_id);
+        const mImages = mobileData.resources.map((r) => r.public_id);
 
-      // Setăm listele separat. Dacă una e goală, facem fallback de siguranță
-      setDesktopImages(dImages.length > 0 ? dImages : fallbackImages);
-      setMobileImages(mImages.length > 0 ? mImages : fallbackImages);
-    });
+        // Setăm listele separat. Dacă una e goală, facem fallback de siguranță
+        setDesktopImages(dImages.length > 0 ? dImages : fallbackImages);
+        setMobileImages(mImages.length > 0 ? mImages : fallbackImages);
+      },
+    );
   }, []);
 
   // Resetăm indexul activ la zero dacă se schimbă lista de imagini din cauza resize-ului
@@ -49,12 +55,14 @@ export default function Hero({ t, scrollToSection }) {
 
   // 3. Intervalul pentru slider (se adaptează listei active în funcție de ecran)
   useEffect(() => {
-    const activeListLength = isMobileView ? mobileImages.length : desktopImages.length;
+    const activeListLength = isMobileView
+      ? mobileImages.length
+      : desktopImages.length;
     if (activeListLength === 0) return;
-    
+
     const interval = setInterval(() => {
       setActiveImage((prevIndex) =>
-        prevIndex >= activeListLength - 1 ? 0 : prevIndex + 1
+        prevIndex >= activeListLength - 1 ? 0 : prevIndex + 1,
       );
     }, 5000);
     return () => clearInterval(interval);
@@ -67,11 +75,11 @@ export default function Hero({ t, scrollToSection }) {
       if (isMobile && imgData.urlMobile) return prefix(imgData.urlMobile);
       return prefix(imgData.url);
     }
-    
-    const transform = isMobile 
-      ? "c_fill,g_center,w_600,h_1000,f_auto,q_auto" 
+
+    const transform = isMobile
+      ? "c_fill,g_center,w_600,h_1000,f_auto,q_auto"
       : "c_fill,g_auto,w_1920,h_1080,f_auto,q_auto";
-      
+
     return `https://res.cloudinary.com/dnnpsia65/image/upload/${transform}/${imgData}`;
   };
 
@@ -93,21 +101,21 @@ export default function Hero({ t, scrollToSection }) {
     >
       {/* Zona de fundal (Imagini + Overlay) */}
       <Box position="absolute" inset={0} zIndex={0}>
-        <Box 
-          position="absolute" 
-          inset={0} 
+        <Box
+          position="absolute"
+          inset={0}
           bgGradient={{
             base: "linear(to-b, blackAlpha.700 20%, blackAlpha.400 50%, blackAlpha.700 90%)",
-            md: "linear(to-r, blackAlpha.700 30%, blackAlpha.200 80%)"
+            md: "linear(to-r, blackAlpha.700 30%, blackAlpha.200 80%)",
           }}
-          zIndex={10} 
+          zIndex={10}
         />
-        
+
         {/* Imagine Mobile - Rulează EXCLUSIV lista hero-mobile */}
         <Box
           as="img"
-          src={getImageUrl(currentImage, true)} 
-          alt="Hero Mobile"
+          src={getImageUrl(currentImage, true)}
+          alt="Pensiune Casa Luna Rucăr Argeș - Cazare de poveste pe Culoarul Rucăr-Bran"
           w="full"
           h="full"
           objectFit="cover"
@@ -118,8 +126,8 @@ export default function Hero({ t, scrollToSection }) {
         {/* Imagine Desktop - Rulează EXCLUSIV lista hero */}
         <Box
           as="img"
-          src={getImageUrl(currentImage, false)} 
-          alt="Hero Desktop"
+          src={getImageUrl(currentImage, false)}
+          alt="Pensiune Casa Luna Rucăr Argeș - Cazare de poveste pe Culoarul Rucăr-Bran"
           w="full"
           h="full"
           objectFit="cover"
@@ -156,11 +164,15 @@ export default function Hero({ t, scrollToSection }) {
               textShadow="0 4px 12px rgba(0,0,0,0.6)"
             >
               {t.hero.title_start}{" "}
-              <Text as="span" color="orange.200" display={{ base: "block", md: "inline" }}>
+              <Text
+                as="span"
+                color="orange.200"
+                display={{ base: "block", md: "inline" }}
+              >
                 {t.hero.title_end}
               </Text>
             </Heading>
-            
+
             <Text
               fontSize={{ base: "md", md: "xl" }}
               color="gray.100"
@@ -185,9 +197,9 @@ export default function Hero({ t, scrollToSection }) {
               <Button
                 size={{ base: "md", md: "lg" }}
                 variant="outline"
-                bg="rgba(251, 146, 60, 0.4)" 
+                bg="rgba(251, 146, 60, 0.4)"
                 borderColor="orange.300"
-                color="white" 
+                color="white"
                 _hover={{ bg: "rgba(251, 146, 60, 0.55)" }}
                 _active={{ bg: "rgba(251, 146, 60, 0.7)" }}
                 leftIcon={<Calendar size={18} />}
@@ -195,16 +207,16 @@ export default function Hero({ t, scrollToSection }) {
                 w={{ base: "full", sm: "auto" }}
                 px={8}
                 py={{ base: 5, md: 7 }}
-                backdropFilter="blur(12px)" 
+                backdropFilter="blur(12px)"
                 textShadow="0 1px 4px rgba(0,0,0,0.4)"
               >
                 {t.hero.check_avail}
               </Button>
-              
+
               <Button
                 size={{ base: "md", md: "lg" }}
                 variant="outline"
-                bg="rgba(23, 25, 35, 0.45)" 
+                bg="rgba(23, 25, 35, 0.45)"
                 borderColor="whiteAlpha.600"
                 color="white"
                 _hover={{ bg: "rgba(23, 25, 35, 0.65)" }}
@@ -224,7 +236,7 @@ export default function Hero({ t, scrollToSection }) {
       </Container>
 
       {/* Bulinele de navigare (Sincronizate dinamic cu tipul de ecran) */}
-      <Flex 
+      <Flex
         position="absolute"
         bottom={4}
         left="50%"

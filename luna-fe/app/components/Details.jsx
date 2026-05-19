@@ -148,7 +148,13 @@ export const Intro = ({ t }) => (
             ))}
           </HStack>
         </Box>
-        <Box flex={1} position="relative" w="full" display="flex" justify="center">
+        <Box
+          flex={1}
+          position="relative"
+          w="full"
+          display="flex"
+          justify="center"
+        >
           <Image
             src={getImageUrl("intro", "c_limit,w_1000,f_auto,q_auto")}
             borderRadius="2xl"
@@ -157,7 +163,7 @@ export const Intro = ({ t }) => (
             maxW="full"
             h="auto"
             objectFit="contain"
-            alt="Intro"
+            alt="Pensiune Casa Luna Rucăr - Cazare inedită cu curte și piscină pe Culoarul Rucăr-Bran"
           />
         </Box>
       </Flex>
@@ -242,10 +248,9 @@ export const Rooms = ({ t }) => {
 
   return (
     <>
-      {/* Activăm preîncărcarea inteligentă doar când modalul este deschis deschis */}
       {open && <GalleryPreloader mediaList={galleryMedia} />}
 
-      <Box id="rooms" py={24} bg="gray.50">
+      <Box as="section" id="rooms" py={24} bg="gray.50">
         <Container maxW="container.xl">
           <Box textAlign="center" mb={16}>
             <Heading as="h2" size="2xl" mb={4} color="gray.900">
@@ -334,7 +339,8 @@ export const Rooms = ({ t }) => {
                             activeCardMedia,
                             "c_fill,g_auto,w_600,h_400,f_auto,q_auto",
                           )}
-                          alt={room.title}
+                          // SEO UPDATE: Titlu dinamic + cuvinte cheie regionale pentru carduri
+                          alt={`${room.title} - Pensiunea Casa Luna, cazare completă pe Culoarul Rucăr-Bran lângă Câmpulung`}
                           w="full"
                           h="full"
                           objectFit="cover"
@@ -535,7 +541,8 @@ export const Rooms = ({ t }) => {
                           activeMedia,
                           "c_contain,w_1920,h_1080,f_auto,q_auto",
                         )}
-                        alt="Main view"
+                        // SEO UPDATE: Text alternativ detaliat pentru vizualizarea mărită în modal
+                        alt={`Vizualizare detaliată ${selectedRoom?.title} - Design interior și confort la Casa Luna Rucăr`}
                         w="full"
                         h="full"
                         objectFit="contain"
@@ -682,7 +689,8 @@ export const Rooms = ({ t }) => {
                                   media,
                                   "c_thumb,w_150,h_150,f_auto,q_auto",
                                 )}
-                                alt={`Thumbnail ${index}`}
+                                // SEO UPDATE: Miniaturele primesc și ele index numeric pentru consistență structurală
+                                alt={`Miniatură galeria foto pensiune Rucăr Bran ${index + 1}`}
                                 w="full"
                                 h="full"
                                 objectFit="cover"
