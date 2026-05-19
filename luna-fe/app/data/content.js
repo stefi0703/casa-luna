@@ -5,6 +5,7 @@ export const galleryImages = [
   },
   {
     url: "gallery/living.jpg",
+    urlMobile: "gallery/pom_mobile.jpg",
     titleKey: "img_living",
   },
   {

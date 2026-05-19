@@ -105,7 +105,7 @@ export const Intro = ({ t }) => (
             borderRadius="2xl"
             boxShadow="xl"
             w="full"
-            h="400px"
+            h="500px"
             objectFit="cover"
             alt="Intro"
           />
