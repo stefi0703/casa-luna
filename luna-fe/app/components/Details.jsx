@@ -12,6 +12,7 @@ import {
   Mountain,
   Key,
   ArrowRight,
+  ArrowLeft,
   MapPin,
   X,
   Play,
@@ -51,14 +52,12 @@ const icons = [
   CheckCircle2,
 ];
 
-// --- Helper: Check if file is video ---
 const isVideo = (src) => {
   if (!src) return false;
   const videoExtensions = [".mp4", ".webm", ".mov", ".ogg"];
   return videoExtensions.some((ext) => src.toLowerCase().endsWith(ext));
 };
 
-// --- Component: Intro ---
 export const Intro = ({ t }) => (
   <Box py={24} bg="white">
     <Container maxW="5xl">
@@ -115,16 +114,39 @@ export const Intro = ({ t }) => (
   </Box>
 );
 
-// --- Component: Rooms (Updated with Video & Grid Layout) ---
 export const Rooms = ({ t }) => {
   const { open, onOpen, onClose } = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [modalActiveIndex, setModalActiveIndex] = useState(0);
 
-  const handleOpenRoom = (room) => {
+  const [currentMediaIndices, setCurrentMediaIndices] = useState(
+    t.rooms.items.map(() => 0)
+  );
+
+  const handleOpenRoom = (room, cardIndex) => {
     setSelectedRoom(room);
-    setActiveIndex(0);
+    setModalActiveIndex(currentMediaIndices[cardIndex]);
     onOpen();
+  };
+
+  const handlePrevMedia = (e, cardIndex, gallery) => {
+    e.stopPropagation();
+    setCurrentMediaIndices((prev) => {
+      const nextIndices = [...prev];
+      nextIndices[cardIndex] =
+        nextIndices[cardIndex] === 0 ? gallery.length - 1 : nextIndices[cardIndex] - 1;
+      return nextIndices;
+    });
+  };
+
+  const handleNextMedia = (e, cardIndex, gallery) => {
+    e.stopPropagation();
+    setCurrentMediaIndices((prev) => {
+      const nextIndices = [...prev];
+      nextIndices[cardIndex] =
+        nextIndices[cardIndex] === gallery.length - 1 ? 0 : nextIndices[cardIndex] + 1;
+      return nextIndices;
+    });
   };
 
   const galleryMedia = selectedRoom
@@ -133,7 +155,7 @@ export const Rooms = ({ t }) => {
       : [selectedRoom.img]
     : [];
 
-  const activeMedia = galleryMedia[activeIndex];
+  const activeMedia = galleryMedia[modalActiveIndex];
 
   return (
     <>
@@ -151,101 +173,197 @@ export const Rooms = ({ t }) => {
             templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "1fr 1fr 1fr" }}
             gap={8}
           >
-            {t.rooms.items.map((room, i) => (
-              <Box
-                key={i}
-                bg="white"
-                borderRadius="xl"
-                overflow="hidden"
-                boxShadow="sm"
-                _hover={{ boxShadow: "xl" }}
-                transition="all 0.3s"
-                display="flex"
-                flexDirection="column"
-              >
+            {t.rooms.items.map((room, i) => {
+              const currentGallery = room.gallery && room.gallery.length > 0 ? room.gallery : [room.img];
+              const activeCardMedia = currentGallery[currentMediaIndices[i]];
+              const hasMultipleImages = currentGallery.length > 1;
+
+              return (
                 <Box
-                  position="relative"
-                  h="64"
+                  key={i}
+                  bg="white"
+                  borderRadius="xl"
                   overflow="hidden"
-                  cursor="pointer"
-                  onClick={() => handleOpenRoom(room)}
-                  role="group"
-                >
-                  <Image
-                    src={prefix(room.img)}
-                    alt={room.title}
-                    w="full"
-                    h="full"
-                    objectFit="cover"
-                    transition="transform 0.7s"
-                    _groupHover={{ transform: "scale(1.1)" }}
-                  />
-                  <Flex
-                    position="absolute"
-                    inset={0}
-                    bg="blackAlpha.600"
-                    opacity={0}
-                    _groupHover={{ opacity: 1 }}
-                    transition="opacity 0.3s"
-                    align="center"
-                    justify="center"
-                  >
-                    <Badge
-                      variant="solid"
-                      colorPalette="white"
-                      bg="whiteAlpha.900"
-                      color="gray.900"
-                      px={4}
-                      py={2}
-                      borderRadius="full"
-                      textTransform="none"
-                      fontSize="md"
-                    >
-                      Vezi Galeria
-                    </Badge>
-                  </Flex>
-                </Box>
-                <Box
-                  p={6}
-                  flex="1"
+                  boxShadow="sm"
+                  _hover={{ boxShadow: "xl" }}
+                  transition="all 0.3s"
                   display="flex"
                   flexDirection="column"
-                  justifyContent="space-between"
+                  role="group"
+                  position="relative"
                 >
-                  <Box>
-                    <Heading as="h3" size="md" mb={2} color="gray.800">
-                      {room.title}
-                    </Heading>
-                    <Text
-                      fontSize="md"
-                      color="gray.600"
-                      mb={4}
-                      lineHeight="tall"
-                    >
-                      {room.desc}
-                    </Text>
-                  </Box>
-                  <Flex wrap="wrap" gap={2} mt="auto">
-                    {room.feats.map((f, idx) => (
-                      <Badge
-                        key={idx}
-                        variant="surface"
-                        colorPalette="gray"
-                        px={2}
-                        py={1}
+                  <Box position="relative" h="64" overflow="hidden">
+                    {/* 🔴 Săgeată Stânga refăcută cu randare nativă directă */}
+                    {hasMultipleImages && (
+                      <IconButton
+                        aria-label="Previous image"
+                        position="absolute"
+                        left="3"
+                        top="50%"
+                        transform="translateY(-50%)"
+                        zIndex={25}
+                        size="sm"
+                        bg="white"
+                        color="gray.900"
+                        borderRadius="full"
+                        boxShadow="0 2px 10px rgba(0,0,0,0.3)"
+                        _hover={{ bg: "gray.100", transform: "translateY(-50%) scale(1.1)" }}
+                        onClick={(e) => handlePrevMedia(e, i, currentGallery)}
+                        opacity={1}
+                        transition="all 0.2s"
+                        display="inline-flex"
+                        alignItems="center"
+                        justifyContent="center"
                       >
-                        {f}
+                        <ArrowLeft size={18} style={{ display: 'block' }} />
+                      </IconButton>
+                    )}
+
+                    <Box
+                      w="full"
+                      h="full"
+                      cursor="pointer"
+                      onClick={() => handleOpenRoom(room, i)}
+                    >
+                      {isVideo(activeCardMedia) ? (
+                        <Box
+                          as="video"
+                          src={prefix(activeCardMedia)}
+                          w="full"
+                          h="full"
+                          objectFit="cover"
+                          muted
+                          playsInline
+                          preload="metadata"
+                        />
+                      ) : (
+                        <Image
+                          src={prefix(activeCardMedia)}
+                          alt={room.title}
+                          w="full"
+                          h="full"
+                          objectFit="cover"
+                          transition="transform 0.7s"
+                          _groupHover={{ transform: "scale(1.02)" }}
+                        />
+                      )}
+                    </Box>
+
+                    {/* 🔴 Săgeată Dreapta refăcută cu randare nativă directă */}
+                    {hasMultipleImages && (
+                      <IconButton
+                        aria-label="Next image"
+                        position="absolute"
+                        right="3"
+                        top="50%"
+                        transform="translateY(-50%)"
+                        zIndex={25}
+                        size="sm"
+                        bg="white"
+                        color="gray.900"
+                        borderRadius="full"
+                        boxShadow="0 2px 10px rgba(0,0,0,0.3)"
+                        _hover={{ bg: "gray.100", transform: "translateY(-50%) scale(1.1)" }}
+                        onClick={(e) => handleNextMedia(e, i, currentGallery)}
+                        opacity={1}
+                        transition="all 0.2s"
+                        display="inline-flex"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <ArrowRight size={18} style={{ display: 'block' }} />
+                      </IconButton>
+                    )}
+
+                    {hasMultipleImages && (
+                      <Box
+                        position="absolute"
+                        top="3"
+                        right="3"
+                        bg="blackAlpha.700"
+                        px={2}
+                        py={0.5}
+                        borderRadius="md"
+                        zIndex={20}
+                        pointerEvents="none"
+                      >
+                        <Text color="white" fontSize="xs" fontWeight="bold">
+                          {currentMediaIndices[i] + 1} / {currentGallery.length}
+                        </Text>
+                      </Box>
+                    )}
+
+                    <Flex
+                      position="absolute"
+                      inset={0}
+                      bg="blackAlpha.300"
+                      opacity={0}
+                      _groupHover={{ opacity: 1 }}
+                      transition="opacity 0.3s"
+                      align="center"
+                      justify="center"
+                      cursor="pointer"
+                      onClick={() => handleOpenRoom(room, i)}
+                      pointerEvents="none"
+                    >
+                      <Badge
+                        variant="solid"
+                        bg="whiteAlpha.950"
+                        color="gray.900"
+                        px={4}
+                        py={2}
+                        borderRadius="full"
+                        textTransform="none"
+                        fontSize="sm"
+                        boxShadow="md"
+                        pointerEvents="auto"
+                      >
+                        Mărește Galeria
                       </Badge>
-                    ))}
-                  </Flex>
+                    </Flex>
+                  </Box>
+
+                  <Box
+                    p={6}
+                    flex="1"
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="space-between"
+                  >
+                    <Box>
+                      <Heading as="h3" size="md" mb={2} color="gray.800">
+                        {room.title}
+                      </Heading>
+                      <Text
+                        fontSize="md"
+                        color="gray.600"
+                        mb={4}
+                        lineHeight="tall"
+                      >
+                        {room.desc}
+                      </Text>
+                    </Box>
+                    <Flex wrap="wrap" gap={2} mt="auto">
+                      {room.feats.map((f, idx) => (
+                        <Badge
+                          key={idx}
+                          variant="surface"
+                          colorPalette="gray"
+                          px={2}
+                          py={1}
+                        >
+                          {f}
+                        </Badge>
+                      ))}
+                    </Flex>
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              );
+            })}
           </Grid>
         </Container>
       </Box>
 
-      {/* --- GALLERY MODAL --- */}
       <Dialog.Root
         open={open}
         onOpenChange={(e) => (e.open ? onOpen() : onClose())}
@@ -267,8 +385,11 @@ export const Rooms = ({ t }) => {
                 color="white"
                 _hover={{ bg: "whiteAlpha.200" }}
                 aria-label="Close gallery"
+                display="inline-flex"
+                alignItems="center"
+                justifyContent="center"
               >
-                <X size={32} />
+                <X size={32} style={{ display: 'block' }} />
               </IconButton>
             </Dialog.CloseTrigger>
 
@@ -331,7 +452,7 @@ export const Rooms = ({ t }) => {
                       pointerEvents="none"
                     >
                       <Text color="white" fontSize="sm" fontWeight="bold">
-                        {activeIndex + 1} / {galleryMedia.length}
+                        {modalActiveIndex + 1} / {galleryMedia.length}
                       </Text>
                     </Box>
                   </Flex>
@@ -348,12 +469,12 @@ export const Rooms = ({ t }) => {
                     >
                       {galleryMedia.map((media, index) => {
                         const isVid = isVideo(media);
-                        const isActive = index === activeIndex;
+                        const isActive = index === modalActiveIndex;
 
                         return (
                           <Box
                             key={index}
-                            onClick={() => setActiveIndex(index)}
+                            onClick={() => setModalActiveIndex(index)}
                             cursor="pointer"
                             borderRadius="md"
                             overflow="hidden"
@@ -373,8 +494,8 @@ export const Rooms = ({ t }) => {
                                 w="full"
                                 h="full"
                                 display="flex"
-                                align="center"
-                                justify="center"
+                                alignItems="center"
+                                justifyContent="center"
                                 position="relative"
                               >
                                 <video
@@ -392,10 +513,10 @@ export const Rooms = ({ t }) => {
                                   inset={0}
                                   bg="blackAlpha.400"
                                   display="flex"
-                                  align="center"
-                                  justify="center"
+                                  alignItems="center"
+                                  justifyContent="center"
                                 >
-                                  <Play size={20} color="white" fill="white" />
+                                  <Play size={20} color="white" fill="white" style={{ display: 'block' }} />
                                 </Box>
                               </Box>
                             ) : (
@@ -405,7 +526,7 @@ export const Rooms = ({ t }) => {
                                 w="full"
                                 h="full"
                                 objectFit="cover"
-                              />
+                          />
                             )}
                           </Box>
                         );
@@ -422,7 +543,6 @@ export const Rooms = ({ t }) => {
   );
 };
 
-// --- Component: Amenities ---
 export const Amenities = ({ t }) => {
   const router = useRouter();
 
@@ -514,7 +634,6 @@ export const Amenities = ({ t }) => {
   );
 };
 
-// --- Component: Location ---
 export const Location = ({ t }) => (
   <Box
     id="location"
@@ -601,7 +720,6 @@ export const Location = ({ t }) => (
   </Box>
 );
 
-// --- Component: BookingTerms ---
 export const BookingTerms = ({ t }) => (
   <Box py={6} bg="white">
     <Container maxW="6xl">
