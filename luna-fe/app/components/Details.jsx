@@ -59,6 +59,21 @@ const isVideo = (src) => {
   return videoExtensions.some((ext) => src.toLowerCase().endsWith(ext));
 };
 
+// --- Helper: URL generator pentru Cloudinary ---
+const getImageUrl = (path, transform = "c_fill,g_auto,w_600,h_400,f_auto,q_auto") => {
+  if (!path) return "";
+  if (path.includes("/") && (path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".jpeg") || path.endsWith(".mp4"))) {
+    return prefix(path); // Fallback local static
+  }
+  
+  // Dacă cererea vine din modalul mare (conține w_1920), schimbăm transformarea rigidă cu c_limit
+  const safeTransform = transform.includes("w_1920") 
+    ? "c_limit,w_1920,f_auto,q_auto" 
+    : transform;
+
+  return `https://res.cloudinary.com/dnnpsia65/image/upload/${safeTransform}/${path}`; 
+};
+
 // --- Component: Intro ---
 export const Intro = ({ t }) => (
   <Box py={24} bg="white">
@@ -116,7 +131,7 @@ export const Intro = ({ t }) => (
   </Box>
 );
 
-// --- Component: Rooms (Sincronizată complet cu Cloudinary prin JSON-ul de Tag-uri) ---
+// --- Component: Rooms ---
 export const Rooms = ({ t }) => {
   const { open, onOpen, onClose } = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -183,15 +198,6 @@ export const Rooms = ({ t }) => {
   const galleryMedia = roomGalleries[currentRoomIndex] || (selectedRoom ? (selectedRoom.gallery || [selectedRoom.img]) : []);
   const activeMedia = galleryMedia[modalActiveIndex];
 
-  // Helper care verifică dacă string-ul provine din Cloudinary sau e o rută locală statică
-  const getImageUrl = (path, transform = "c_fill,g_auto,w_600,h_400,f_auto,q_auto") => {
-    if (!path) return "";
-    if (path.includes("/") && (path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".jpeg") || path.endsWith(".mp4"))) {
-      return prefix(path); // Fallback pe imagine locală statică din folderul public
-    }
-    return `https://res.cloudinary.com/dnnpsia65/image/upload/${transform}/${path}`; // Imagine live din Cloudinary
-  };
-
   return (
     <>
       <Box id="rooms" py={24} bg="gray.50">
@@ -209,7 +215,6 @@ export const Rooms = ({ t }) => {
             gap={8}
           >
             {t.rooms.items.map((room, i) => {
-              // Dacă există imagini descărcate din Cloudinary pentru acest card, le folosim. Altfel facem fallback pe array-ul din cod.
               const currentGallery = roomGalleries[i] || (room.gallery && room.gallery.length > 0 ? room.gallery : [room.img]);
               const activeCardMedia = currentGallery[currentMediaIndices[i]];
               const hasMultipleImages = currentGallery.length > 1;
@@ -229,7 +234,6 @@ export const Rooms = ({ t }) => {
                   position="relative"
                 >
                   <Box position="relative" h="64" overflow="hidden">
-                    {/* Săgeată Stânga - Cerc alb, Săgeată neagră */}
                     {hasMultipleImages && (
                       <IconButton
                         aria-label="Previous image"
@@ -285,7 +289,6 @@ export const Rooms = ({ t }) => {
                       )}
                     </Box>
 
-                    {/* Săgeată Dreapta - Cerc alb, Săgeată neagră */}
                     {hasMultipleImages && (
                       <IconButton
                         aria-label="Next image"
@@ -440,6 +443,7 @@ export const Rooms = ({ t }) => {
                   mx="auto"
                   gap={4}
                   p={{ base: 4, md: 8 }}
+                  position="relative"
                 >
                   <Flex
                     justify="center"
@@ -494,6 +498,54 @@ export const Rooms = ({ t }) => {
                     </Box>
                   </Flex>
 
+                  {/* Săgeată Stânga */}
+                  <IconButton
+                    aria-label="Previous image"
+                    position="absolute"
+                    left="4"
+                    top="50%"
+                    transform="translateY(-50%)"
+                    zIndex={60}
+                    size="lg"
+                    bg="blackAlpha.600"
+                    color="white"
+                    borderRadius="full"
+                    _hover={{ bg: "whiteAlpha.300" }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setModalActiveIndex((prev) => (prev === 0 ? galleryMedia.length - 1 : prev - 1));
+                    }}
+                    display="inline-flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <ArrowLeft size={28} style={{ display: 'block' }} />
+                  </IconButton>
+
+                  {/* Săgeată Dreapta */}
+                  <IconButton
+                    aria-label="Next image"
+                    position="absolute"
+                    right="4"
+                    top="50%"
+                    transform="translateY(-50%)"
+                    zIndex={60}
+                    size="lg"
+                    bg="blackAlpha.600"
+                    color="white"
+                    borderRadius="full"
+                    _hover={{ bg: "whiteAlpha.300" }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setModalActiveIndex((prev) => (prev === galleryMedia.length - 1 ? 0 : prev + 1));
+                    }}
+                    display="inline-flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <ArrowRight size={28} style={{ display: 'block' }} />
+                  </IconButton>
+
                   <Box
                     overflowY="auto"
                     pr={2}
@@ -525,33 +577,15 @@ export const Rooms = ({ t }) => {
                             bg="gray.900"
                           >
                             {isVid ? (
-                              <Box
-                                w="full"
-                                h="full"
-                                display="flex"
-                                align="center"
-                                justify="center"
-                                position="relative"
-                              >
+                              <Box w="full" h="full" display="flex" align="center" justify="center" position="relative">
                                 <video
                                   src={getImageUrl(media, "vc_auto,w_150,h_150,c_fill")}
-                                  style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "cover",
-                                  }}
+                                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                   muted
                                   preload="metadata"
                                 />
-                                <Box
-                                  position="absolute"
-                                  inset={0}
-                                  bg="blackAlpha.400"
-                                  display="flex"
-                                  align="center"
-                                  justify="center"
-                                >
-                                  <Play size={20} color="white" fill="white" style={{ display: "block" }} />
+                                <Box position="absolute" inset={0} bg="blackAlpha.400" display="flex" align="center" justify="center">
+                                  <Play size={16} color="white" fill="white" />
                                 </Box>
                               </Box>
                             ) : (
@@ -561,7 +595,7 @@ export const Rooms = ({ t }) => {
                                 w="full"
                                 h="full"
                                 objectFit="cover"
-                              />
+                          />
                             )}
                           </Box>
                         );
