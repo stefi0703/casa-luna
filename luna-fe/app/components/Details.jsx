@@ -59,19 +59,42 @@ const isVideo = (src) => {
   return videoExtensions.some((ext) => src.toLowerCase().endsWith(ext));
 };
 
-// --- Helper: URL generator pentru Cloudinary ---
+// --- Helper: URL generator pentru Cloudinary (Simplu și stabil) ---
 const getImageUrl = (path, transform = "c_fill,g_auto,w_600,h_400,f_auto,q_auto") => {
   if (!path) return "";
+  
   if (path.includes("/") && (path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".jpeg") || path.endsWith(".mp4"))) {
-    return prefix(path); // Fallback local static
+    return prefix(path);
   }
   
-  // Dacă cererea vine din modalul mare (conține w_1920), schimbăm transformarea rigidă cu c_limit
   const safeTransform = transform.includes("w_1920") 
     ? "c_limit,w_1920,f_auto,q_auto" 
     : transform;
 
-  return `https://res.cloudinary.com/dnnpsia65/image/upload/${safeTransform}/${path}`; 
+  return `https://res.cloudinary.com/dnnpsia65/image/upload/${safeTransform}/${path}`;
+};
+
+// ============================================================================
+// COMPONENTA AJUTĂTOARE: PRELOADER UNIVERSAL (Încarcă în secret pozele mari în cache)
+// ============================================================================
+const GalleryPreloader = ({ mediaList }) => {
+  useEffect(() => {
+    if (!mediaList || mediaList.length === 0 || typeof window === "undefined") return;
+
+    // Lăsăm o mică fereastră de 300ms ca browserul să încarce elementele vizuale prioritare
+    const timeoutId = setTimeout(() => {
+      mediaList.forEach((media) => {
+        if (!isVideo(media)) {
+          const imgCache = new window.Image();
+          imgCache.src = `https://res.cloudinary.com/dnnpsia65/image/upload/c_limit,w_1920,f_auto,q_auto/${media}`;
+        }
+      });
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [mediaList]);
+
+  return null;
 };
 
 // --- Component: Intro ---
@@ -137,13 +160,11 @@ export const Rooms = ({ t }) => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [modalActiveIndex, setModalActiveIndex] = useState(0);
 
-  // Stare pentru stocarea galeriilor descărcate din Cloudinary pentru fiecare card
   const [roomGalleries, setRoomGalleries] = useState({});
   const [currentMediaIndices, setCurrentMediaIndices] = useState(
     t.rooms.items.map(() => 0)
   );
 
-  // Efect pentru descărcarea automată a listelor de imagini din Cloudinary pe baza tag-ului
   useEffect(() => {
     t.rooms.items.forEach((room, index) => {
       if (room.cloudinaryTag) {
@@ -153,7 +174,6 @@ export const Rooms = ({ t }) => {
             return res.json();
           })
           .then((data) => {
-            // Extragem public_id-urile imaginilor din cloud
             const images = data.resources.map((resource) => resource.public_id);
             setRoomGalleries((prev) => ({
               ...prev,
@@ -193,13 +213,15 @@ export const Rooms = ({ t }) => {
     });
   };
 
-  // Identificăm indexul camerei deschise în modal pentru a-i încărca galeria din starea Cloudinary
   const currentRoomIndex = t.rooms.items.findIndex((r) => r.title === selectedRoom?.title);
   const galleryMedia = roomGalleries[currentRoomIndex] || (selectedRoom ? (selectedRoom.gallery || [selectedRoom.img]) : []);
   const activeMedia = galleryMedia[modalActiveIndex];
 
   return (
     <>
+      {/* Activăm preîncărcarea inteligentă doar când modalul este deschis deschis */}
+      {open && <GalleryPreloader mediaList={galleryMedia} />}
+
       <Box id="rooms" py={24} bg="gray.50">
         <Container maxW="container.xl">
           <Box textAlign="center" mb={16}>
@@ -595,7 +617,7 @@ export const Rooms = ({ t }) => {
                                 w="full"
                                 h="full"
                                 objectFit="cover"
-                          />
+                              />
                             )}
                           </Box>
                         );
@@ -845,3 +867,182 @@ export const BookingTerms = ({ t }) => (
     </Container>
   </Box>
 );
+
+// ============================================================================
+// COMPONENTA SUPLIMENTARĂ: GALERIE GENERALĂ GRID (PENTRU UTILIZARE GLOBALĂ)
+// ============================================================================
+export const GalleryGrid = ({ t }) => {
+  const [images, setImages] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(6);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
+
+  useEffect(() => {
+    fetch("https://res.cloudinary.com/dnnpsia65/image/list/galerie-generala.json")
+      .then((res) => (res.ok ? res.json() : { resources: [] }))
+      .then((data) => {
+        const cloudImages = data.resources.map((resource) => resource.public_id);
+        if (cloudImages.length > 0) {
+          setImages(cloudImages);
+        } else {
+          setImages(["gallery/outside.jpg", "gallery/living.jpg", "gallery/gratar.jpg"]);
+        }
+      })
+      .catch(() => {
+        setImages(["gallery/outside.jpg", "gallery/living.jpg", "gallery/gratar.jpg"]);
+      });
+  }, []);
+
+  const handleImageClick = (index) => {
+    setPhotoIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const hasMore = images.length > visibleCount;
+
+  return (
+    <Box id="gallery" py={20} bg="white">
+      {/* Activăm preîncărcarea automată pentru galeria generală când lightbox-ul e deschis */}
+      {lightboxOpen && <GalleryPreloader mediaList={images} />}
+
+      <Container maxW="container.xl">
+        <Box textAlign="center" mb={12}>
+          <Heading as="h2" size="2xl" mb={2} color="gray.900">
+            {t.gallery?.title || "Galeria Noastră"}
+          </Heading>
+          <Box w="50px" h="3px" bg="orange.400" mx="auto" borderRadius="full" />
+        </Box>
+
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 3 }} spacing={4}>
+          {images.slice(0, visibleCount).map((img, index) => (
+            <Box
+              key={index}
+              position="relative"
+              h="300px"
+              borderRadius="xl"
+              overflow="hidden"
+              cursor="pointer"
+              onClick={() => handleImageClick(index)}
+              role="group"
+              boxShadow="sm"
+            >
+              <Image
+                src={getImageUrl(img, "c_fill,g_center,w_800,h_600,f_auto,q_auto")}
+                alt={`Galerie ${index}`}
+                w="full"
+                h="full"
+                objectFit="cover"
+                transition="transform 0.5s ease"
+                _groupHover={{ transform: "scale(1.05)" }}
+              />
+              <Box
+                position="absolute"
+                inset={0}
+                bg="blackAlpha.400"
+                opacity={0}
+                _groupHover={{ opacity: 1 }}
+                transition="opacity 0.3s"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Text color="white" fontWeight="bold" fontSize="sm">
+                  Mărește Poza
+                </Text>
+              </Box>
+            </Box>
+          ))}
+        </SimpleGrid>
+
+        {hasMore && (
+          <Flex justify="center" mt={10}>
+            <Button
+              bg="orange.500"
+              color="white"
+              _hover={{ bg: "orange.600" }}
+              rounded="full"
+              px={8}
+              fontWeight="bold"
+              onClick={() => setVisibleCount((prev) => prev + 6)}
+            >
+              {t.gallery?.load_more || "Încarcă mai multe poze"}
+            </Button>
+          </Flex>
+        )}
+      </Container>
+
+      {lightboxOpen && images.length > 0 && (
+        <Box
+          position="fixed"
+          inset={0}
+          bg="blackAlpha.950"
+          zIndex={1000}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <IconButton
+            position="absolute"
+            top={4}
+            right={4}
+            color="white"
+            variant="ghost"
+            _hover={{ bg: "whiteAlpha.200" }}
+            onClick={() => setLightboxOpen(false)}
+            aria-label="Close"
+            display="inline-flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <X size={32} style={{ display: "block" }} />
+          </IconButton>
+
+          <IconButton
+            position="absolute"
+            left={4}
+            color="white"
+            variant="ghost"
+            _hover={{ bg: "whiteAlpha.200" }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setPhotoIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+            }}
+            aria-label="Previous"
+            display="inline-flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <ArrowLeft size={32} style={{ display: "block" }} />
+          </IconButton>
+
+          <Box maxW="90vw" maxH="85vh" onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={getImageUrl(images[photoIndex], "c_contain,w_1600,h_1200,f_auto,q_auto")}
+              alt="Fullscreen view"
+              borderRadius="lg"
+            />
+          </Box>
+
+          <IconButton
+            position="absolute"
+            right={4}
+            color="white"
+            variant="ghost"
+            _hover={{ bg: "whiteAlpha.200" }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setPhotoIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+            }}
+            aria-label="Next"
+            display="inline-flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <ArrowRight size={32} style={{ display: "block" }} />
+          </IconButton>
+        </Box>
+      )}
+    </Box>
+  );
+};
