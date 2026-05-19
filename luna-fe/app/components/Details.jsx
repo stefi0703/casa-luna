@@ -21,7 +21,7 @@ import {
   UtensilsCrossed,
   CheckCircle2,
 } from "lucide-react";
-import { prefix } from "../utils/prefix"; 
+import { prefix } from "../utils/prefix";
 import {
   Box,
   Container,
@@ -60,15 +60,24 @@ const isVideo = (src) => {
 };
 
 // --- Helper: URL generator pentru Cloudinary (Simplu și stabil) ---
-const getImageUrl = (path, transform = "c_fill,g_auto,w_600,h_400,f_auto,q_auto") => {
+const getImageUrl = (
+  path,
+  transform = "c_fill,g_auto,w_600,h_400,f_auto,q_auto",
+) => {
   if (!path) return "";
-  
-  if (path.includes("/") && (path.endsWith(".jpg") || path.endsWith(".png") || path.endsWith(".jpeg") || path.endsWith(".mp4"))) {
+
+  if (
+    path.includes("/") &&
+    (path.endsWith(".jpg") ||
+      path.endsWith(".png") ||
+      path.endsWith(".jpeg") ||
+      path.endsWith(".mp4"))
+  ) {
     return prefix(path);
   }
-  
-  const safeTransform = transform.includes("w_1920") 
-    ? "c_limit,w_1920,f_auto,q_auto" 
+
+  const safeTransform = transform.includes("w_1920")
+    ? "c_limit,w_1920,f_auto,q_auto"
     : transform;
 
   return `https://res.cloudinary.com/dnnpsia65/image/upload/${safeTransform}/${path}`;
@@ -79,7 +88,8 @@ const getImageUrl = (path, transform = "c_fill,g_auto,w_600,h_400,f_auto,q_auto"
 // ============================================================================
 const GalleryPreloader = ({ mediaList }) => {
   useEffect(() => {
-    if (!mediaList || mediaList.length === 0 || typeof window === "undefined") return;
+    if (!mediaList || mediaList.length === 0 || typeof window === "undefined")
+      return;
 
     // Lăsăm o mică fereastră de 300ms ca browserul să încarce elementele vizuale prioritare
     const timeoutId = setTimeout(() => {
@@ -138,14 +148,15 @@ export const Intro = ({ t }) => (
             ))}
           </HStack>
         </Box>
-        <Box flex={1} position="relative" w="full">
+        <Box flex={1} position="relative" w="full" display="flex" justify="center">
           <Image
-            src={prefix("/details/wide.jpg")}
+            src={getImageUrl("intro", "c_limit,w_1000,f_auto,q_auto")}
             borderRadius="2xl"
             boxShadow="xl"
-            w="full"
-            h="500px"
-            objectFit="cover"
+            w="auto"
+            maxW="full"
+            h="auto"
+            objectFit="contain"
             alt="Intro"
           />
         </Box>
@@ -162,13 +173,15 @@ export const Rooms = ({ t }) => {
 
   const [roomGalleries, setRoomGalleries] = useState({});
   const [currentMediaIndices, setCurrentMediaIndices] = useState(
-    t.rooms.items.map(() => 0)
+    t.rooms.items.map(() => 0),
   );
 
   useEffect(() => {
     t.rooms.items.forEach((room, index) => {
       if (room.cloudinaryTag) {
-        fetch(`https://res.cloudinary.com/dnnpsia65/image/list/${room.cloudinaryTag}.json`)
+        fetch(
+          `https://res.cloudinary.com/dnnpsia65/image/list/${room.cloudinaryTag}.json`,
+        )
           .then((res) => {
             if (!res.ok) throw new Error("Eroare rețea");
             return res.json();
@@ -181,7 +194,9 @@ export const Rooms = ({ t }) => {
             }));
           })
           .catch((err) => {
-            console.warn(`Fallback local pentru ${room.title}: Nu s-au găsit imagini cu tag-ul '${room.cloudinaryTag}'`);
+            console.warn(
+              `Fallback local pentru ${room.title}: Nu s-au găsit imagini cu tag-ul '${room.cloudinaryTag}'`,
+            );
           });
       }
     });
@@ -198,7 +213,9 @@ export const Rooms = ({ t }) => {
     setCurrentMediaIndices((prev) => {
       const nextIndices = [...prev];
       nextIndices[cardIndex] =
-        nextIndices[cardIndex] === 0 ? gallery.length - 1 : nextIndices[cardIndex] - 1;
+        nextIndices[cardIndex] === 0
+          ? gallery.length - 1
+          : nextIndices[cardIndex] - 1;
       return nextIndices;
     });
   };
@@ -208,13 +225,19 @@ export const Rooms = ({ t }) => {
     setCurrentMediaIndices((prev) => {
       const nextIndices = [...prev];
       nextIndices[cardIndex] =
-        nextIndices[cardIndex] === gallery.length - 1 ? 0 : nextIndices[cardIndex] + 1;
+        nextIndices[cardIndex] === gallery.length - 1
+          ? 0
+          : nextIndices[cardIndex] + 1;
       return nextIndices;
     });
   };
 
-  const currentRoomIndex = t.rooms.items.findIndex((r) => r.title === selectedRoom?.title);
-  const galleryMedia = roomGalleries[currentRoomIndex] || (selectedRoom ? (selectedRoom.gallery || [selectedRoom.img]) : []);
+  const currentRoomIndex = t.rooms.items.findIndex(
+    (r) => r.title === selectedRoom?.title,
+  );
+  const galleryMedia =
+    roomGalleries[currentRoomIndex] ||
+    (selectedRoom ? selectedRoom.gallery || [selectedRoom.img] : []);
   const activeMedia = galleryMedia[modalActiveIndex];
 
   return (
@@ -237,7 +260,11 @@ export const Rooms = ({ t }) => {
             gap={8}
           >
             {t.rooms.items.map((room, i) => {
-              const currentGallery = roomGalleries[i] || (room.gallery && room.gallery.length > 0 ? room.gallery : [room.img]);
+              const currentGallery =
+                roomGalleries[i] ||
+                (room.gallery && room.gallery.length > 0
+                  ? room.gallery
+                  : [room.img]);
               const activeCardMedia = currentGallery[currentMediaIndices[i]];
               const hasMultipleImages = currentGallery.length > 1;
 
@@ -269,7 +296,10 @@ export const Rooms = ({ t }) => {
                         color="gray.900"
                         borderRadius="full"
                         boxShadow="0 2px 10px rgba(0,0,0,0.3)"
-                        _hover={{ bg: "gray.100", transform: "translateY(-50%) scale(1.1)" }}
+                        _hover={{
+                          bg: "gray.100",
+                          transform: "translateY(-50%) scale(1.1)",
+                        }}
                         onClick={(e) => handlePrevMedia(e, i, currentGallery)}
                         opacity={1}
                         transition="all 0.2s"
@@ -300,7 +330,10 @@ export const Rooms = ({ t }) => {
                         />
                       ) : (
                         <Image
-                          src={getImageUrl(activeCardMedia, "c_fill,g_auto,w_600,h_400,f_auto,q_auto")}
+                          src={getImageUrl(
+                            activeCardMedia,
+                            "c_fill,g_auto,w_600,h_400,f_auto,q_auto",
+                          )}
                           alt={room.title}
                           w="full"
                           h="full"
@@ -324,7 +357,10 @@ export const Rooms = ({ t }) => {
                         color="gray.900"
                         borderRadius="full"
                         boxShadow="0 2px 10px rgba(0,0,0,0.3)"
-                        _hover={{ bg: "gray.100", transform: "translateY(-50%) scale(1.1)" }}
+                        _hover={{
+                          bg: "gray.100",
+                          transform: "translateY(-50%) scale(1.1)",
+                        }}
                         onClick={(e) => handleNextMedia(e, i, currentGallery)}
                         opacity={1}
                         transition="all 0.2s"
@@ -495,7 +531,10 @@ export const Rooms = ({ t }) => {
                       />
                     ) : (
                       <Image
-                        src={getImageUrl(activeMedia, "c_contain,w_1920,h_1080,f_auto,q_auto")}
+                        src={getImageUrl(
+                          activeMedia,
+                          "c_contain,w_1920,h_1080,f_auto,q_auto",
+                        )}
                         alt="Main view"
                         w="full"
                         h="full"
@@ -535,13 +574,15 @@ export const Rooms = ({ t }) => {
                     _hover={{ bg: "whiteAlpha.300" }}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setModalActiveIndex((prev) => (prev === 0 ? galleryMedia.length - 1 : prev - 1));
+                      setModalActiveIndex((prev) =>
+                        prev === 0 ? galleryMedia.length - 1 : prev - 1,
+                      );
                     }}
                     display="inline-flex"
                     alignItems="center"
                     justifyContent="center"
                   >
-                    <ArrowLeft size={28} style={{ display: 'block' }} />
+                    <ArrowLeft size={28} style={{ display: "block" }} />
                   </IconButton>
 
                   {/* Săgeată Dreapta */}
@@ -559,13 +600,15 @@ export const Rooms = ({ t }) => {
                     _hover={{ bg: "whiteAlpha.300" }}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setModalActiveIndex((prev) => (prev === galleryMedia.length - 1 ? 0 : prev + 1));
+                      setModalActiveIndex((prev) =>
+                        prev === galleryMedia.length - 1 ? 0 : prev + 1,
+                      );
                     }}
                     display="inline-flex"
                     alignItems="center"
                     justifyContent="center"
                   >
-                    <ArrowRight size={28} style={{ display: 'block' }} />
+                    <ArrowRight size={28} style={{ display: "block" }} />
                   </IconButton>
 
                   <Box
@@ -590,7 +633,9 @@ export const Rooms = ({ t }) => {
                             borderRadius="md"
                             overflow="hidden"
                             borderWidth="2px"
-                            borderColor={isActive ? "orange.500" : "transparent"}
+                            borderColor={
+                              isActive ? "orange.500" : "transparent"
+                            }
                             opacity={isActive ? 1 : 0.6}
                             _hover={{ opacity: 1 }}
                             transition="all 0.2s"
@@ -599,20 +644,44 @@ export const Rooms = ({ t }) => {
                             bg="gray.900"
                           >
                             {isVid ? (
-                              <Box w="full" h="full" display="flex" align="center" justify="center" position="relative">
+                              <Box
+                                w="full"
+                                h="full"
+                                display="flex"
+                                align="center"
+                                justify="center"
+                                position="relative"
+                              >
                                 <video
-                                  src={getImageUrl(media, "vc_auto,w_150,h_150,c_fill")}
-                                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                  src={getImageUrl(
+                                    media,
+                                    "vc_auto,w_150,h_150,c_fill",
+                                  )}
+                                  style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                  }}
                                   muted
                                   preload="metadata"
                                 />
-                                <Box position="absolute" inset={0} bg="blackAlpha.400" display="flex" align="center" justify="center">
+                                <Box
+                                  position="absolute"
+                                  inset={0}
+                                  bg="blackAlpha.400"
+                                  display="flex"
+                                  align="center"
+                                  justify="center"
+                                >
                                   <Play size={16} color="white" fill="white" />
                                 </Box>
                               </Box>
                             ) : (
                               <Image
-                                src={getImageUrl(media, "c_thumb,w_150,h_150,f_auto,q_auto")}
+                                src={getImageUrl(
+                                  media,
+                                  "c_thumb,w_150,h_150,f_auto,q_auto",
+                                )}
                                 alt={`Thumbnail ${index}`}
                                 w="full"
                                 h="full"
@@ -878,18 +947,30 @@ export const GalleryGrid = ({ t }) => {
   const [photoIndex, setPhotoIndex] = useState(0);
 
   useEffect(() => {
-    fetch("https://res.cloudinary.com/dnnpsia65/image/list/galerie-generala.json")
+    fetch(
+      "https://res.cloudinary.com/dnnpsia65/image/list/galerie-generala.json",
+    )
       .then((res) => (res.ok ? res.json() : { resources: [] }))
       .then((data) => {
-        const cloudImages = data.resources.map((resource) => resource.public_id);
+        const cloudImages = data.resources.map(
+          (resource) => resource.public_id,
+        );
         if (cloudImages.length > 0) {
           setImages(cloudImages);
         } else {
-          setImages(["gallery/outside.jpg", "gallery/living.jpg", "gallery/gratar.jpg"]);
+          setImages([
+            "gallery/outside.jpg",
+            "gallery/living.jpg",
+            "gallery/gratar.jpg",
+          ]);
         }
       })
       .catch(() => {
-        setImages(["gallery/outside.jpg", "gallery/living.jpg", "gallery/gratar.jpg"]);
+        setImages([
+          "gallery/outside.jpg",
+          "gallery/living.jpg",
+          "gallery/gratar.jpg",
+        ]);
       });
   }, []);
 
@@ -927,7 +1008,10 @@ export const GalleryGrid = ({ t }) => {
               boxShadow="sm"
             >
               <Image
-                src={getImageUrl(img, "c_fill,g_center,w_800,h_600,f_auto,q_auto")}
+                src={getImageUrl(
+                  img,
+                  "c_fill,g_center,w_800,h_600,f_auto,q_auto",
+                )}
                 alt={`Galerie ${index}`}
                 w="full"
                 h="full"
@@ -1006,7 +1090,9 @@ export const GalleryGrid = ({ t }) => {
             _hover={{ bg: "whiteAlpha.200" }}
             onClick={(e) => {
               e.stopPropagation();
-              setPhotoIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+              setPhotoIndex((prev) =>
+                prev === 0 ? images.length - 1 : prev - 1,
+              );
             }}
             aria-label="Previous"
             display="inline-flex"
@@ -1018,7 +1104,10 @@ export const GalleryGrid = ({ t }) => {
 
           <Box maxW="90vw" maxH="85vh" onClick={(e) => e.stopPropagation()}>
             <Image
-              src={getImageUrl(images[photoIndex], "c_contain,w_1600,h_1200,f_auto,q_auto")}
+              src={getImageUrl(
+                images[photoIndex],
+                "c_contain,w_1600,h_1200,f_auto,q_auto",
+              )}
               alt="Fullscreen view"
               borderRadius="lg"
             />
@@ -1032,7 +1121,9 @@ export const GalleryGrid = ({ t }) => {
             _hover={{ bg: "whiteAlpha.200" }}
             onClick={(e) => {
               e.stopPropagation();
-              setPhotoIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+              setPhotoIndex((prev) =>
+                prev === images.length - 1 ? 0 : prev + 1,
+              );
             }}
             aria-label="Next"
             display="inline-flex"
