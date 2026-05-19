@@ -70,7 +70,8 @@ export default function Navbar({
   ];
 
   const textColor = isNavbarWhite ? "gray.800" : "white";
-  const hoverColor = "orange.500";
+  const hoverColor = "orange.50";
+  const activeHoverColor = "orange.500";
   const textShadow = isNavbarWhite ? "none" : "0 2px 4px rgba(0,0,0,0.6)";
 
   return (
@@ -116,6 +117,7 @@ export default function Navbar({
           />
         </HStack>
 
+        {/* --- NAVBAR DESKTOP --- */}
         <Flex display={{ base: "none", md: "flex" }} gap={4} align="center">
           {navLinks.map((item) => (
             <Button
@@ -123,7 +125,7 @@ export default function Navbar({
               variant="plain"
               color={textColor}
               textShadow={textShadow}
-              _hover={{ color: hoverColor, textShadow: "none" }}
+              _hover={{ color: activeHoverColor, textShadow: "none" }}
               onClick={() => handleNav(item.id)}
               fontWeight="medium"
               fontSize="md"
@@ -133,8 +135,6 @@ export default function Navbar({
             </Button>
           ))}
 
-          {/* --- SOCIAL MEDIA MODAL (DESKTOP) --- */}
-          {/* Passed t prop here */}
           <SocialMedia
             color={textColor}
             t={t}
@@ -148,7 +148,7 @@ export default function Navbar({
             textShadow={textShadow}
             _hover={{
               bg: "whiteAlpha.200",
-              color: hoverColor,
+              color: activeHoverColor,
               textShadow: "none",
             }}
             fontWeight="bold"
@@ -172,6 +172,7 @@ export default function Navbar({
           </Button>
         </Flex>
 
+        {/* --- BURGER BUTTON (MOBILE) --- */}
         <Flex display={{ md: "none" }} gap={4} align="center">
           <IconButton
             onClick={onOpen}
@@ -184,6 +185,7 @@ export default function Navbar({
         </Flex>
       </Flex>
 
+      {/* --- DRAWER MOBIL (MENIUL LATERAL) --- */}
       <Drawer.Root
         open={open}
         onOpenChange={(e) => (e.open ? onOpen() : onClose())}
@@ -204,7 +206,7 @@ export default function Navbar({
               justifyContent="center"
               alignItems="center"
             >
-              <VStack spacing={8}>
+              <VStack spacing={6} w="full">
                 {navLinks.map((item) => (
                   <Button
                     key={item.id}
@@ -218,9 +220,28 @@ export default function Navbar({
                   </Button>
                 ))}
 
-                {/* --- SOCIAL MEDIA MODAL (MOBILE MENU) --- */}
-                {/* Passed t prop here */}
-                <Box pt={4}>
+                {/* REPARARE: Adăugarea butonului de schimbare a limbii în meniul de mobil */}
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    toggleLanguage();
+                    onClose(); // Închidem meniul automat după ce schimbă limba ca să vadă rezultatul
+                  }}
+                  color="orange.500"
+                  borderColor="orange.200"
+                  _hover={{ bg: hoverColor }}
+                  fontWeight="bold"
+                  size="lg"
+                  borderRadius="full"
+                  px={8}
+                  mt={4}
+                >
+                  <Globe size={20} style={{ marginRight: "8px" }} />
+                  {language === "en" ? "RO" : "EN"}
+                </Button>
+
+                {/* --- SOCIAL MEDIA (MOBILE MENU) --- */}
+                <Box pt={2}>
                   <SocialMedia
                     isMobile={true}
                     color="gray.800"
