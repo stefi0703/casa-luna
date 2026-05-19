@@ -1,80 +1,63 @@
-"use client";
-import React, { useState, useEffect } from "react"; // Adăugat useEffect
-import { useDisclosure } from "@chakra-ui/react";
-import { translations } from "./data/content";
-import { Provider } from "../components/ui/provider";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import { Gallery } from "./components/Gallery";
-import {
-  Intro,
-  Rooms,
-  Amenities,
-  Location,
-  BookingTerms,
-} from "./components/Details";
-import Booking from "./components/Booking";
-import Footer from "./components/Footer";
+// app/page.js
+import HomeClient from "./HomeClient";
 
-export default function Home() {
-  const [language, setLanguage] = useState("ro");
+export const metadata = {
+  title: 'Pensiune Casa Luna Rucăr | Cazare Culoarul Rucăr-Bran',
+  description: 'Cauți cazare pe culoarul Rucăr-Bran sau o pensiune modernă lângă Câmpulung Muscel? Casa Luna Rucăr oferă închiriere integrală pentru grupuri, 6 dormitoare moderne, living de poveste și foișor încălzit cu grătar profesional.',
+  keywords: 'cazare culoarul rucar bran, cazare campulung, pensiune rucar bran campulung, casa luna rucar, inchiriere integrala rucar, cazare arges, cazare munte grupuri, pensiuni rucar',
+  
+  openGraph: {
+    title: 'Pensiune Casa Luna Rucăr | Cazare Culoarul Rucăr-Bran',
+    description: 'Pensiune inedită de închiriat integral la munte, ideală pentru familii și grupuri pe culoarul Rucăr-Bran.',
+    url: 'https://www.casalunaromania.ro', 
+    siteName: 'Casa Luna Rucăr',
+    locale: 'ro_RO',
+    type: 'website',
+    images: [
+      {
+        url: 'https://res.cloudinary.com/dnnpsia65/image/upload/c_fill,g_auto,w_1200,h_630,f_auto,q_auto/intro',
+        width: 1200,
+        height: 630,
+        alt: 'Pensiunea Casa Luna Rucăr - Culoarul Rucăr Bran',
+      },
+    ],
+  },
+};
 
-  // Efect pentru încărcarea limbii salvate la pornire
-  useEffect(() => {
-    const savedLanguage = localStorage.getItem("preferredLanguage");
-    if (savedLanguage) {
-      setLanguage(savedLanguage);
-    }
-
-    // Gestionare scroll dacă venim de pe altă pagină cu un hash (ex: #rooms)
-    const hash = window.location.hash.replace("#", "");
-    if (hash) {
-      setTimeout(() => {
-        scrollToSection(hash);
-      }, 500);
-    }
-  }, []);
-
-  const t = translations[language];
-
-  const {
-    open: isGalleryOpen,
-    onOpen: onOpenGallery,
-    onClose: onCloseGallery,
-  } = useDisclosure();
-
-  // Actualizat pentru a salva în localStorage
-  const toggleLanguage = () => {
-    const newLang = language === "en" ? "ro" : "en";
-    setLanguage(newLang);
-    localStorage.setItem("preferredLanguage", newLang);
-  };
-
-  const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+export default function Page() {
+  // Datele structurate pe care Google le adoră
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "VacationHome",
+    "name": "Pensiunea Casa Luna Rucăr",
+    "image": "https://res.cloudinary.com/dnnpsia65/image/upload/c_fill,g_auto,w_1000,h_700,f_auto,q_auto/intro",
+    "description": "Pensiune modernă de poveste pe culoarul Rucăr-Bran, aproape de Câmpulung Muscel. Închiriere integrală pentru grupuri, 6 dormitoare, living de basm și foișor închis.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "S.da Poarta Câmpului",
+      "addressLocality": "Rucăr",
+      "addressRegion": "Argeș",
+      "postalCode": "117630",
+      "addressCountry": "RO"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "45.396030", // Sfat: Poți pune coordonatele tale exacte din Maps ulterior
+      "longitude": "25.178094"
+    },
+    "telephone": "+40750849137",
+    "priceRange": "1600 RON - 1800 RON",
+    "numberOfRooms": "6"
   };
 
   return (
-    <Provider>
-      <div className="min-h-screen bg-stone-50 font-sans text-stone-900">
-        <Navbar
-          t={t}
-          language={language}
-          toggleLanguage={toggleLanguage}
-          scrollToSection={scrollToSection}
-          onOpenGallery={onOpenGallery}
-        />
-
-        <Hero t={t} scrollToSection={scrollToSection} />
-        <Intro t={t} />
-        <Rooms t={t} />
-        <Gallery t={t} isOpen={isGalleryOpen} onClose={onCloseGallery} />
-        <Amenities t={t} />
-        <Location t={t} />
-        <BookingTerms t={t} />
-        <Booking t={t} />
-        <Footer t={t} />
-      </div>
-    </Provider>
+    <>
+      {/* Scriptul injectat în mod nativ și securizat */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <HomeClient />
+    </>
   );
 }
