@@ -2,15 +2,25 @@
 
 const nextConfig = {
   output: "export",
-  images: {
-    unoptimized: true,
-  },
+  
   // ELIMINĂ basePath și assetPrefix pentru Hostico
   basePath: "",
   assetPrefix: "",
 
   env: {
     NEXT_PUBLIC_BASE_PATH: "",
+  },
+
+  // Structură unificată corect și curat pentru imagini
+  images: {
+    unoptimized: true, 
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/**',
+      },
+    ],
   },
 };
 

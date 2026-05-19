@@ -30,8 +30,7 @@ export const translations = {
     hero: {
       title_start: "Casa Luna",
       title_end: "Rucăr, Argeș",
-      subtitle:
-        "Nature-inspired guest house, ideal for groups and families, located in the Rucăr–Bran corridor.",
+      subtitle: "Nature-inspired guest house, ideal for groups and families, located in the Rucăr–Bran corridor.",
       check_avail: "Check Availability",
       explore: "Explore the house",
     },
@@ -44,134 +43,64 @@ export const translations = {
     },
     rooms: {
       title: "Spaces and areas of the house",
-      subtitle:
-        "Zones designed for comfort, socialization, and relaxation, both indoors and outdoors.",
+      subtitle: "Zones designed for comfort, socialization, and relaxation, both indoors and outdoors.",
       items: [
         {
           title: "Fairytale Living Room 🌙",
           desc: "Relax under the branches of a majestic decorative tree, in a magical ambient with 3D paintings, the warmth of the fireplace, and digital entertainment. It features a powder room accessible directly from the common area.",
-          feats: [
-            "Fireplace & Smart TV",
-            "Games & Audio System",
-            "Powder Room",
-          ],
+          feats: ["Fireplace & Smart TV", "Games & Audio System", "Powder Room"],
           img: "living/living-main.jpg",
-          gallery: [
-            "living/living-main.jpg",
-            "living/living2.jpg",
-            "living/living3.jpg",
-            "living/living4.jpg",
-            "living/living5.jpg",
-            "living/living6.jpg",
-          ],
+          cloudinaryTag: "living", // 👈 Adăugat
         },
         {
           title: "The Tourist's Kitchen 🍳",
           desc: "A fully equipped space for successful culinary experiences, equipped with a stove, electric oven, microwave, espresso machine, and complete tableware. Includes refrigerators and a freezer for generous supplies.",
           feats: ["Fully Equipped", "Coffee Zone", "Fridge & Freezer"],
           img: "kitchen/kitchen-main.jpg",
-          gallery: [
-            "kitchen/kitchen-main.jpg",
-            "kitchen/kitchen2.jpg",
-            "kitchen/kitchen3.jpg",
-          ],
+          cloudinaryTag: "kitchen", // 👈 Adăugat
         },
         {
           title: "Magic Gazebo (Heated, indoor) 🔥",
           desc: "The ideal space for long evenings at the professional grill or integrated stove, equipped with rustic dining, sink, Smart TV, and a comfortable sofa, all in a heated environment integrated into the house.",
           feats: ["Professional Grill", "Rustic Dining", "Sofa & Smart TV"],
           img: "grill/grill-main.jpg",
-          gallery: [
-            "grill/grill-main.jpg",
-            "grill/grill2.jpg",
-            "grill/grill3.jpg",
-            "grill/grill4.jpg",
-            "grill/grill5.jpg",
-          ],
+          cloudinaryTag: "grill", // 👈 Adăugat
         },
         {
           title: "Artistic Design Bedrooms 🛏️",
           desc: "Well-deserved rest in 6 bedrooms with wrought iron double beds. Each room has a private bathroom, Smart TV, SPC parquet underfloor heating, and mosquito nets on the windows.",
           feats: ["Private Bath", "Wrought Iron Furniture", "Smart TV & WiFi"],
           img: "rooms/rooms-main.jpg",
-          gallery: [
-            "rooms/rooms-main.jpg",
-            "rooms/room2.jpg",
-            "rooms/room3.jpg",
-            "rooms/room4.jpg",
-            "rooms/room5.jpg",
-            "rooms/room6.jpg",
-            "rooms/room7.jpg",
-            "rooms/room8.jpg",
-            "rooms/roomvid.mp4",
-          ],
+          cloudinaryTag: "bedroom", // 👈 Adăugat
         },
         {
           title: "Generous Yard & Parking 🚗",
           desc: "A private yard including a playground with a swing for children, cooking facilities (grill, stove with hob/cauldron), and sports activities (ping-pong, basketball, badminton). The secure private parking offers a capacity for 7-8 cars.",
           feats: ["7-8 Parking Spots", "Playground", "Grill & Cauldron"],
           img: "outside/outside-main.jpg",
-          gallery: [
-            "outside/outside-main.jpg",
-            "outside/outside1.jpg",
-            "outside/outside2.jpg",
-            "outside/outside3.jpg",
-            "outside/outside4.jpg",
-            "outside/outside5.jpg",
-            "outside/outside6.jpg",
-            "outside/outside7.jpg",
-          ],
+          cloudinaryTag: "outside", // 👈 Adăugat
         },
         {
           title: "Terrace and Outdoor Gazebo 🧘",
           desc: "Enjoy the mountain air on the spacious terrace equipped with garden furniture and a swing, or relax in the outdoor gazebo dedicated to total disconnection, surrounded by the silence of nature.",
           feats: ["Swing", "Garden Furniture", "Relaxation Zone"],
           img: "terrace/terrace-main.jpg",
-          gallery: [
-            "terrace/terrace-main.jpg",
-            "terrace/terrace1.jpg",
-            "terrace/terrace2.jpg",
-          ],
+          cloudinaryTag: "outside", // 👈 Adăugat (folosește tot imaginile de exterior)
         },
       ],
     },
     amenities: {
       title: "Comfort & Amenities",
-      subtitle:
-        "Small details that make the difference between a stay and an experience.",
+      subtitle: "Small details that make the difference between a stay and an experience.",
       items: [
-        {
-          title: "WiFi",
-          desc: "Stable connection in every corner of the house.",
-        },
-        {
-          title: "Fairytale Decor",
-          desc: "3D paintings and details that come to life.",
-        },
-        {
-          title: "Magic Fireplace",
-          desc: "The ideal place for stories by the fire.",
-        },
-        {
-          title: "Climate Control",
-          desc: "Perfect thermal comfort in any season.",
-        },
-        {
-          title: "Grill Zone",
-          desc: "Enclosed gazebo, ready for any weather.",
-        },
-        {
-          title: "Panoramic View",
-          desc: "A view that connects you with nature.",
-        },
-        {
-          title: "Ideal for Families",
-          desc: "Safe space and fun for the little ones.",
-        },
-        {
-          title: "Complete Amenities",
-          desc: "Everything you need in every room.",
-        },
+        { title: "WiFi", desc: "Stable connection in every corner of the house." },
+        { title: "Fairytale Decor", desc: "3D paintings and details that come to life." },
+        { title: "Magic Fireplace", desc: "The ideal place for stories by the fire." },
+        { title: "Climate Control", desc: "Perfect thermal comfort in any season." },
+        { title: "Grill Zone", desc: "Enclosed gazebo, ready for any weather." },
+        { title: "Panoramic View", desc: "A view that connects you with nature." },
+        { title: "Ideal for Families", desc: "Safe space and fun for the little ones." },
+        { title: "Complete Amenities", desc: "Everything you need in every room." },
       ],
       view_guide: "See more",
     },
@@ -195,26 +124,10 @@ export const translations = {
     bookingTerms: {
       title: "🏠 Booking & Payment Conditions",
       items: [
-        {
-          title: "Entire Rental",
-          desc: "Only the full unit is rented for total privacy.",
-          icon: "🗝️",
-        },
-        {
-          title: "Minimum Stay",
-          desc: "Bookings are made for a period of at least 2 nights.",
-          icon: "🌙",
-        },
-        {
-          title: "Child Discount",
-          desc: "Children up to 8 years old stay for free (sharing bed with parents).",
-          icon: "👶",
-        },
-        {
-          title: "Payment Methods",
-          desc: "We accept cash or bank transfer for the stay payment.",
-          icon: "💳",
-        },
+        { title: "Entire Rental", desc: "Only the full unit is rented for total privacy.", icon: "🗝️" },
+        { title: "Minimum Stay", desc: "Bookings are made for a period of at least 2 nights.", icon: "🌙" },
+        { title: "Child Discount", desc: "Children up to 8 years old stay for free (sharing bed with parents).", icon: "👶" },
+        { title: "Payment Methods", desc: "We accept cash or bank transfer for the stay payment.", icon: "💳" },
       ],
     },
     pricing: {
@@ -224,51 +137,16 @@ export const translations = {
       night: "/ night",
       week: "/ night",
       tiers: [
-        {
-          title: "Weekdays",
-          price: "1600 RON",
-          features: [
-            "Monday – Friday",
-            // "Check-in: 14:00 – 17:30",
-            // "Check-out: 11:00 – 12:00",
-            "Minimum 2 nights",
-          ],
-        },
-        {
-          title: "Weekend",
-          price: "1800 RON",
-          features: [
-            "Friday – Sunday",
-            "Minimum 2 nights",
-            // "Check-in: 14:00 – 17:30",
-            // "Check-out: 11:00 – 12:00",
-          ],
-        }
-        // {
-        //   title: "Full Week",
-        //   price: "1500 RON",
-        //   features: [
-        //     "Monday – Sunday",
-        //     "6 nights",
-        //     "Check-in: 14:00 – 17:30",
-        //     "Check-out: 11:00 – 12:00",
-        //     "Standard price: 12.420 RON / week",
-        //     "Package price: 9.000 RON / week",
-        //   ],
-        // },
+        { title: "Weekdays", price: "1600 RON", features: ["Monday – Friday", "Minimum 2 nights"] },
+        { title: "Weekend", price: "1800 RON", features: ["Friday – Sunday", "Minimum 2 nights"] },
       ],
     },
-
     contact: {
       title: "How would you like to contact us?",
       tabs: { phone: "Phone", email: "Online" },
       success_msg: "Message sent successfully!",
       error_msg: "Error sending message.",
-      phone_info: {
-        title: "Speak with a Host",
-        button: "Call Now",
-        avail: "Daily 09:00 - 20:00",
-      },
+      phone_info: { title: "Speak with a Host", button: "Call Now", avail: "Daily 09:00 - 20:00" },
       email_form: {
         subject_label: "What would you like to do?",
         opt_res: "I want a reservation",
@@ -276,12 +154,7 @@ export const translations = {
         name_placeholder: "Full Name",
         email: "Email",
         group_label: "Group type",
-        group_types: {
-          family: "Family",
-          friends: "Group of friends",
-          couple: "Couple",
-          event: "Event",
-        },
+        group_types: { family: "Family", friends: "Group of friends", couple: "Couple", event: "Event" },
         phone_label: "Phone",
         checkin: "Check-in",
         checkout: "Check-out",
@@ -297,8 +170,7 @@ export const translations = {
       badge: "Recently opened location",
       title_start: "Casa Luna ",
       title_accent: "Facilities",
-      description:
-        "Casa Luna combines modern comfort with a magical atmosphere, offering an oasis of peace for small groups of friends or families.",
+      description: "Casa Luna combines modern comfort with a magical atmosphere, offering an oasis of peace for small groups of friends or families.",
       back_btn: "Back to site",
       sections: {
         bedrooms: {
@@ -311,7 +183,7 @@ export const translations = {
             "🪞 Mirror, table, and chair",
             "🌡️ Underfloor and radiator heating",
             "🚿 Shower cabin / screen",
-            "🧖‍♀️ Hairdryer & Towels",
+            "🛏️ Hairdryer & Towels",
             "🧼 Soap / shower gel",
             "🦟 Mosquito nets on windows",
           ],
@@ -392,10 +264,7 @@ export const translations = {
         info: "For bookings and information: 0750 849 137",
       },
     },
-    footer: {
-      slogan: "Disconnect from the world.",
-      rights: "All rights reserved.",
-    },
+    footer: { slogan: "Disconnect from the world.", rights: "All rights reserved." },
   },
   ro: {
     nav: {
@@ -412,8 +281,7 @@ export const translations = {
     hero: {
       title_start: "Casa Luna",
       title_end: "Rucăr, Argeș",
-      subtitle:
-        "Pensiune cu design inspirat din natură, ideală pentru grupuri și familii, situată în culoarul Rucăr–Bran.",
+      subtitle: "Pensiune cu design inspirat din natură, ideală pentru grupuri și familii, situată în culoarul Rucăr–Bran.",
       check_avail: "Verifică disponibilitatea",
       explore: "Explorează casa",
     },
@@ -426,134 +294,64 @@ export const translations = {
     },
     rooms: {
       title: "Spații și zone ale pensiunii",
-      subtitle:
-        "Zone gândite pentru confort, socializare și relaxare, atât la interior, cât și la exterior.",
+      subtitle: "Zone gândite pentru confort, socializare și relaxare, atât la interior, cât și la exterior.",
       items: [
         {
           title: "Living Room de Poveste 🌙",
           desc: "Relaxați-vă sub ramurile unui copac decorativ maiestuos, într-un ambient magic cu picturi 3D, căldura șemineului și divertisment digital. Dispune de o baie de serviciu accesibilă direct din zona comună.",
-          feats: [
-            "Șemineu & Smart TV",
-            "Jocuri & Sistem Audio",
-            "Baie de Serviciu",
-          ],
+          feats: ["Șemineu & Smart TV", "Jocuri & Sistem Audio", "Baie de Serviciu"],
           img: "living/living-main.jpg",
-          gallery: [
-            "living/living-main.jpg",
-            "living/living2.jpg",
-            "living/living3.jpg",
-            "living/living4.jpg",
-            "living/living5.jpg",
-            "living/living6.jpg",
-          ],
+          cloudinaryTag: "living", // 👈 Adăugat
         },
         {
           title: "Bucătăria Turistului 🍳",
           desc: "Un spațiu complet utilat pentru experiențe culinare reușite, dotat cu aragaz, cuptor electric, cuptor cu microunde, espresso și veselă completă. Include frigidere și congelator pentru provizii generoase.",
           feats: ["Complet Utilată", "Zonă de Cafea", "Frigider & Congelator"],
           img: "kitchen/kitchen-main.jpg",
-          gallery: [
-            "kitchen/kitchen-main.jpg",
-            "kitchen/kitchen2.jpg",
-            "kitchen/kitchen3.jpg",
-          ],
+          cloudinaryTag: "kitchen", // 👈 Adăugat
         },
         {
           title: "Foișorul Magic (Încălzit, integrat în casă) 🔥",
           desc: "Spațiul ideal pentru seri lungi la grătarul profesional sau plita integrate, dotat cu dining rustic, chiuvetă, Smart TV și canapea confortabilă, totul într-un ambient încălzit integrat în casă.",
           feats: ["Grătar Profesional", "Dining Rustic", "Canapea & Smart TV"],
           img: "grill/grill-main.jpg",
-          gallery: [
-            "grill/grill-main.jpg",
-            "grill/grill2.jpg",
-            "grill/grill3.jpg",
-            "grill/grill4.jpg",
-            "grill/grill5.jpg",
-          ],
+          cloudinaryTag: "grill", // 👈 Adăugat
         },
         {
           title: "Dormitoare cu Design Artistic 🛏️",
           desc: "Odihnă binemeritată în 6 dormitoare cu paturi matrimoniale din fier forjat. Fiecare cameră dispune de baie proprie, Smart TV, pardoseală încălzită din parchet SPC și plase de țânțari la geamuri.",
           feats: ["Baie Privată", "Mobilier Fier Forjat", "Smart TV & WiFi"],
           img: "rooms/rooms-main.jpg",
-          gallery: [
-            "rooms/rooms-main.jpg",
-            "rooms/room2.jpg",
-            "rooms/room3.jpg",
-            "rooms/room4.jpg",
-            "rooms/room5.jpg",
-            "rooms/room6.jpg",
-            "rooms/room7.jpg",
-            "rooms/room8.jpg",
-            "rooms/roomvid.mp4",
-          ],
+          cloudinaryTag: "bedroom", // 👈 Adăugat
         },
         {
           title: "Curtea Generoasă & Parcare 🚗",
           desc: "O curte privată ce include loc de joacă cu balansoar pentru copii, facilități de gătit (grătar, sobă cu plită/ceaun) și activități sportive (ping-pong, baschet, badminton). Parcarea privată securizată oferă o capacitate de 7-8 autoturisme.",
           feats: ["Parcare 7-8 Locuri", "Loc de Joacă", "Grătar & Ceaun"],
           img: "outside/outside-main.jpg",
-          gallery: [
-            "outside/outside-main.jpg",
-            "outside/outside1.jpg",
-            "outside/outside2.jpg",
-            "outside/outside3.jpg",
-            "outside/outside4.jpg",
-            "outside/outside5.jpg",
-            "outside/outside6.jpg",
-            "outside/outside7.jpg",
-          ],
+          cloudinaryTag: "outside", // 👈 Adăugat
         },
         {
           title: "Terasă și Foișor Exterior 🧘",
           desc: "Savurați aerul de munte pe terasa spațioasă dotată cu mobilier de grădină și balansoar, sau relaxați-vă în foișorul exterior dedicat deconectării totale, înconjurați de liniștea naturii.",
           feats: ["Balansoar", "Mobilier Grădină", "Zonă Relaxare"],
           img: "terrace/terrace-main.jpg",
-          gallery: [
-            "terrace/terrace-main.jpg",
-            "terrace/terrace1.jpg",
-            "terrace/terrace2.jpg",
-          ],
+          cloudinaryTag: "outside", // 👈 Adăugat (folosește tot pozele de exterior)
         },
       ],
     },
     amenities: {
       title: "Dotări & Confort",
-      subtitle:
-        "Micile detalii care fac diferența între o cazare și o experiență.",
+      subtitle: "Micile detalii care fac diferența între o cazare și o experiență.",
       items: [
-        {
-          title: "WiFi",
-          desc: "Conexiune stabilă în orice colț al casei.",
-        },
-        {
-          title: "Decor de Poveste",
-          desc: "Picturi 3D și detalii care prind viață.",
-        },
-        {
-          title: "Șemineu Magic",
-          desc: "Locul ideal pentru povești la gura sobei.",
-        },
-        {
-          title: "Climatizare",
-          desc: "Confort termic perfect în orice anotimp.",
-        },
-        {
-          title: "Zonă Grill",
-          desc: "Foișor închis, pregătit pentru orice vreme.",
-        },
-        {
-          title: "Vedere Panoramică",
-          desc: "Priveliște ce te conectează cu natura.",
-        },
-        {
-          title: "Ideal pentru Familii",
-          desc: "Spațiu sigur și distracție pentru cei mici.",
-        },
-        {
-          title: "Dotări Complete",
-          desc: "Tot ce ai nevoie în fiecare cameră.",
-        },
+        { title: "WiFi", desc: "Conexiune stabilă în orice colț al casei." },
+        { title: "Decor de Poveste", desc: "Picturi 3D și detalii care prind viață." },
+        { title: "Șemineu Magic", desc: "Locul ideal pentru povești la gura sobei." },
+        { title: "Climatizare", desc: "Confort termic perfect în orice anotimp." },
+        { title: "Zonă Grill", desc: "Foișor închis, pregătit pentru orice vreme." },
+        { title: "Vedere Panoramică", desc: "Priveliște ce te conectează cu natura." },
+        { title: "Ideal pentru Familii", desc: "Spațiu sigur și distracție pentru cei mici." },
+        { title: "Dotări Complete", desc: "Tot ce ai nevoie în fiecare cameră." },
       ],
       view_guide: "Vezi mai mult",
     },
@@ -577,26 +375,10 @@ export const translations = {
     bookingTerms: {
       title: "🏠 Condiții de Rezervare & Plată",
       items: [
-        {
-          title: "Închiriere Integrală",
-          desc: "Se închiriază doar unitatea completă pentru intimitate totală.",
-          icon: "🗝️",
-        },
-        {
-          title: "Sejur Minim",
-          desc: "Rezervările se fac pentru o perioadă de minimum 2 nopți.",
-          icon: "🌙",
-        },
-        {
-          title: "Gratuitate Copii",
-          desc: "Copiii până la 8 ani beneficiază de gratuitate (în pat cu părinții).",
-          icon: "👶",
-        },
-        {
-          title: "Metode de Plată",
-          desc: "Acceptăm numerar sau transfer bancar pentru plata sejurului.",
-          icon: "💳",
-        },
+        { title: "Închiriere Integrală", desc: "Se închiriază doar unitatea completă pentru intimitate totală.", icon: "🗝️" },
+        { title: "Sejur Minim", desc: "Rezervările se fac pentru o perioadă de minimum 2 nopți.", icon: "🌙" },
+        { title: "Gratuitate Copii", desc: "Copiii până la 8 ani beneficiază de gratuitate (în pat cu părinții).", icon: "👶" },
+        { title: "Metode de Plată", desc: "Acceptăm numerar sau transfer bancar pentru plata sejurului.", icon: "💳" },
       ],
     },
     pricing: {
@@ -606,51 +388,16 @@ export const translations = {
       night: "/ noapte",
       week: "/ noapte",
       tiers: [
-        {
-          title: "În timpul săptămânii",
-          price: "1600 RON",
-          features: [
-            "Luni – Vineri",
-            // "Check-in: 14:00 – 17:30",
-            // "Check-out: 11:00 – 12:00",
-            "Minim 2 nopți",
-          ],
-        },
-        {
-          title: "Weekend",
-          price: "1800 RON",
-          features: [
-            "Vineri – Duminică",
-            "Minim 2 nopți",
-            // "Check-in: 14:00 – 17:30",
-            // "Check-out: 11:00 – 12:00",
-          ],
-        }
-        // {
-        //   title: "Săptămână completă",
-        //   price: "1500 RON",
-        //   features: [
-        //     "Luni – Duminică",
-        //     "6 nopți",
-        //     "Check-in: 14:00 – 17:30",
-        //     "Check-out: 11:00 – 12:00",
-        //     "Preț standard: 12.420 RON / săptămână",
-        //     "Preț pachet: 9.000 RON / săptămână",
-        //   ],
-        // },
+        { title: "În timpul săptămânii", price: "1600 RON", features: ["Luni – Vineri", "Minim 2 nopți"] },
+        { title: "Weekend", price: "1800 RON", features: ["Vineri – Duminică", "Minim 2 nopți"] },
       ],
     },
-
     contact: {
       title: "Cum dorești să ne contactezi?",
       tabs: { phone: "Telefonic", email: "Online" },
       success_msg: "Mesaj trimis cu succes!",
       error_msg: "Eroare la trimiterea mesajului.",
-      phone_info: {
-        title: "Vorbește cu o Gazdă",
-        button: "Sună acum",
-        avail: "Zilnic 09:00 - 20:00",
-      },
+      phone_info: { title: "Vorbește cu o Gazdă", button: "Sună acum", avail: "Zilnic 09:00 - 20:00" },
       email_form: {
         subject_label: "Ce dorești să faci?",
         opt_res: "Vreau o rezervare",
@@ -658,12 +405,7 @@ export const translations = {
         name_placeholder: "Nume complet",
         email: "Email",
         group_label: "Tipul grupului",
-        group_types: {
-          family: "Familie",
-          friends: "Grup de prieteni",
-          couple: "Cuplu",
-          event: "Eveniment",
-        },
+        group_types: { family: "Familie", friends: "Grup de prieteni", couple: "Cuplu", event: "Eveniment" },
         phone_label: "Telefon",
         checkin: "Check-in",
         checkout: "Check-out",
@@ -679,8 +421,7 @@ export const translations = {
       badge: "Locație recent deschisă",
       title_start: "Facilități ",
       title_accent: "Casa Luna",
-      description:
-        "Casa Luna îmbină confortul modern cu o atmosferă magică, oferind o oază de liniște pentru grupuri restrânse de prieteni sau familii.",
+      description: "Casa Luna îmbină confortul modern cu o atmosferă magică, offering o oază de liniște pentru grupuri restrânse de prieteni sau familii.",
       back_btn: "Înapoi la site",
       sections: {
         bedrooms: {
@@ -774,9 +515,6 @@ export const translations = {
         info: "Pentru rezervări și informații: 0750 849 137",
       },
     },
-    footer: {
-      slogan: "Deconectează-te de lume.",
-      rights: "Toate drepturile rezervate.",
-    },
+    footer: { slogan: "Deconectează-te de lume.", rights: "Toate drepturile rezervate." },
   },
 };
