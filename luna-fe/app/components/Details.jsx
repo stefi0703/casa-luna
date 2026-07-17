@@ -16,6 +16,7 @@ import {
   MapPin,
   X,
   Play,
+  Images,
   Sparkles,
   ThermometerSun,
   UtensilsCrossed,
@@ -280,7 +281,13 @@ export const Rooms = ({ t }) => {
                   borderRadius="xl"
                   overflow="hidden"
                   boxShadow="sm"
-                  _hover={{ boxShadow: "xl" }}
+                  _hover={{
+                    boxShadow: "xl",
+                    "& .gallery-overlay": {
+                      opacity: 1,
+                      transform: "translateY(0)",
+                    },
+                  }}
                   transition="all 0.3s"
                   display="flex"
                   flexDirection="column"
@@ -397,32 +404,42 @@ export const Rooms = ({ t }) => {
                     )}
 
                     <Flex
+                      className="gallery-overlay"
                       position="absolute"
                       inset={0}
-                      bg="blackAlpha.300"
-                      opacity={0}
-                      _groupHover={{ opacity: 1 }}
-                      transition="opacity 0.3s"
-                      align="center"
+                      zIndex={19}
+                      bg="linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.12) 42%, transparent 70%)"
+                      opacity={{ base: 1, md: 0 }}
+                      transform={{ base: "translateY(0)", md: "translateY(4px)" }}
+                      transition="opacity 0.25s ease, transform 0.25s ease"
+                      align="flex-end"
                       justify="center"
-                      cursor="pointer"
-                      onClick={() => handleOpenRoom(room, i)}
+                      pb={4}
                       pointerEvents="none"
                     >
-                      <Badge
-                        variant="solid"
+                      <Button
+                        size="sm"
                         bg="whiteAlpha.950"
                         color="gray.900"
                         px={4}
-                        py={2}
                         borderRadius="full"
-                        textTransform="none"
-                        fontSize="sm"
-                        boxShadow="md"
+                        boxShadow="lg"
+                        gap={2}
                         pointerEvents="auto"
+                        aria-label={`Deschide galeria pentru ${room.title}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleOpenRoom(room, i);
+                        }}
+                        _hover={{
+                          bg: "white",
+                          transform: "translateY(-1px)",
+                        }}
+                        _active={{ transform: "scale(0.98)" }}
                       >
-                        Mărește Galeria
-                      </Badge>
+                        <Images size={16} />
+                        Deschide galeria
+                      </Button>
                     </Flex>
                   </Box>
 
