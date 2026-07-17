@@ -9,7 +9,7 @@ import {
   Button,
   Heading,
 } from "@chakra-ui/react";
-import { X, ArrowLeft, ArrowRight, Play } from "lucide-react";
+import { X, ArrowLeft, ArrowRight, Play, Maximize2 } from "lucide-react";
 import { prefix } from "../utils/prefix";
 
 // --- Helper: Verifică dacă fișierul este video ---
@@ -165,7 +165,17 @@ export const Gallery = ({ t, isOpen, onClose }) => {
       )}
 
       <Dialog.Positioner>
-        <Dialog.Content bg="white" color="gray.900" h="100vh" w="100vw" p={0} position="relative" border="none">
+        <Dialog.Content
+          bg="white"
+          color="gray.900"
+          h="100dvh"
+          maxH="100dvh"
+          w="100vw"
+          p={0}
+          position="relative"
+          border="none"
+          overflow="hidden"
+        >
           
           <Dialog.CloseTrigger asChild position="absolute" top="6" right="6" zIndex={100}>
             <IconButton
@@ -184,10 +194,20 @@ export const Gallery = ({ t, isOpen, onClose }) => {
             </IconButton>
           </Dialog.CloseTrigger>
 
-          <Flex direction="column" h="full" w="full" py={8} px={{ base: 4, md: 12 }} justify="space-between" align="center">
+          <Flex
+            direction="column"
+            h="full"
+            minH={0}
+            w="full"
+            py={{ base: 5, md: 8 }}
+            px={{ base: 4, md: 12 }}
+            justify="flex-start"
+            align="center"
+            overflow="hidden"
+          >
             
             {/* ZONA DE SUS: Titlu + Linie portocalie + Meniu Butoane */}
-            <Flex direction="column" align="center" w="full" gap={3} mt={2}>
+            <Flex direction="column" align="center" w="full" gap={3} mt={2} flexShrink={0}>
               <Heading as="h2" size="2xl" color="gray.900" fontWeight="bold" textAlign="center">
                 {t.gallery?.title || "Galerie Foto"}
               </Heading>
@@ -218,14 +238,24 @@ export const Gallery = ({ t, isOpen, onClose }) => {
               </Flex>
             </Flex>
 
-            {/* ZONA DE MIJLOC: SLIDER LUMINOS */}
-            <Flex position="relative" flex={1} w="full" maxW="6xl" align="center" justify="center" my={4}>
-              
+            {/* ZONA DE MIJLOC: cadru stabil, indiferent de proporțiile fotografiei */}
+            <Flex
+              position="relative"
+              flex="1"
+              minH={0}
+              w="full"
+              maxW="6xl"
+              align="center"
+              justify="center"
+              my={{ base: 3, md: 4 }}
+            >
               {currentGalleryMedia.length > 1 && (
                 <IconButton
                   aria-label="Previous image"
                   position="absolute"
                   left={{ base: "0", md: "-4" }}
+                  top="50%"
+                  transform="translateY(-50%)"
                   zIndex={50}
                   size="xl"
                   variant="ghost"
@@ -233,7 +263,11 @@ export const Gallery = ({ t, isOpen, onClose }) => {
                   borderRadius="full"
                   bg="whiteAlpha.900"
                   boxShadow="md"
-                  _hover={{ color: "orange.600", bg: "orange.50", transform: "scale(1.05)" }}
+                  _hover={{
+                    color: "orange.600",
+                    bg: "orange.50",
+                    transform: "translateY(-50%) scale(1.05)",
+                  }}
                   onClick={handlePrev}
                   display="inline-flex"
                   alignItems="center"
@@ -243,14 +277,19 @@ export const Gallery = ({ t, isOpen, onClose }) => {
                 </IconButton>
               )}
 
-              <Flex 
-                justify="center" 
-                align="center" 
-                w="full" 
-                h="full" 
-                maxH="62vh" 
-                overflow="hidden" 
-                p={2}
+              <Flex
+                position="relative"
+                justify="center"
+                align="center"
+                w="full"
+                h="full"
+                minH={0}
+                maxW="full"
+                maxH="full"
+                overflow={{ base: "hidden", md: "visible" }}
+                bg={{ base: "gray.100", md: "transparent" }}
+                borderRadius={{ base: "xl", md: "0" }}
+                boxShadow={{ base: "xl", md: "none" }}
                 cursor="zoom-in"
                 onClick={() => setIsFullscreenOpen(true)}
               >
@@ -264,23 +303,66 @@ export const Gallery = ({ t, isOpen, onClose }) => {
                       loop
                       muted
                       playsInline
-                      w="full"
-                      h="full"
-                      maxH="62vh"
+                      display="block"
+                      w={{ base: "full", md: "auto" }}
+                      h={{ base: "full", md: "auto" }}
+                      maxW="full"
+                      maxH={{ base: "full", md: "62vh" }}
                       objectFit="contain"
+                      borderRadius={{ base: "0", md: "xl" }}
+                      boxShadow={{ base: "none", md: "xl" }}
                     />
                   ) : (
                     <Image
                       src={getImageUrl(activeMedia, "c_limit,w_1920,f_auto,q_auto")}
                       alt={`Fotografie secțiune ${currentCategory} - Pensiunea Casa Luna, cazare Culoarul Rucăr-Bran`}
-                      maxH="62vh"
+                      display="block"
+                      w={{ base: "full", md: "auto" }}
+                      h={{ base: "full", md: "auto" }}
+                      maxW="full"
+                      maxH={{ base: "full", md: "62vh" }}
                       objectFit="contain"
-                      borderRadius="xl"
-                      boxShadow="xl"
+                      borderRadius={{ base: "0", md: "xl" }}
+                      boxShadow={{ base: "none", md: "xl" }}
                     />
                   )
                 ) : (
-                  <Text color="gray.400" fontSize="md">Se încarcă galeria...</Text>
+                  <Text color="gray.400" fontSize="md">
+                    Se încarcă galeria...
+                  </Text>
+                )}
+
+                {activeMedia && (
+                  <Button
+                    position="absolute"
+                    left="50%"
+                    bottom={{ base: 3, md: 4 }}
+                    transform="translateX(-50%)"
+                    zIndex={60}
+                    size="sm"
+                    bg="whiteAlpha.950"
+                    color="gray.900"
+                    borderRadius="full"
+                    boxShadow="lg"
+                    px={{ base: 4, md: 5 }}
+                    gap={2}
+                    whiteSpace="nowrap"
+                    _hover={{
+                      bg: "white",
+                      transform: "translateX(-50%) translateY(-1px)",
+                    }}
+                    _active={{
+                      transform: "translateX(-50%) scale(0.98)",
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsFullscreenOpen(true);
+                    }}
+                    aria-label="Vezi fotografia pe tot ecranul"
+                  >
+                    <Maximize2 size={16} />
+                    {t.gallery?.fullscreen || "Vezi pe tot ecranul"}
+                  </Button>
                 )}
               </Flex>
 
@@ -289,6 +371,8 @@ export const Gallery = ({ t, isOpen, onClose }) => {
                   aria-label="Next image"
                   position="absolute"
                   right={{ base: "0", md: "-4" }}
+                  top="50%"
+                  transform="translateY(-50%)"
                   zIndex={50}
                   size="xl"
                   variant="ghost"
@@ -296,7 +380,11 @@ export const Gallery = ({ t, isOpen, onClose }) => {
                   borderRadius="full"
                   bg="whiteAlpha.900"
                   boxShadow="md"
-                  _hover={{ color: "orange.600", bg: "orange.50", transform: "scale(1.05)" }}
+                  _hover={{
+                    color: "orange.600",
+                    bg: "orange.50",
+                    transform: "translateY(-50%) scale(1.05)",
+                  }}
                   onClick={handleNext}
                   display="inline-flex"
                   alignItems="center"
@@ -307,9 +395,9 @@ export const Gallery = ({ t, isOpen, onClose }) => {
               )}
             </Flex>
 
-            {/* Contor discret jos */}
+            {/* Contorul rămâne într-un footer fix și nu se deplasează între imagini */}
             {currentGalleryMedia.length > 0 && (
-              <Box pb={2}>
+              <Box pb={2} flexShrink={0}>
                 <Text color="gray.500" fontSize="md" fontWeight="bold" letterSpacing="widest">
                   {activeIndex + 1} / {currentGalleryMedia.length}
                 </Text>
