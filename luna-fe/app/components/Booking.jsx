@@ -82,7 +82,6 @@ Număr persoane: ${rawData.guests_count}
         setHasChildren(false);
         setMsgType("rezervare");
       })
-
       .catch((err) => {
         console.error("EROARE EmailJS:", err);
         toaster.create({
@@ -164,9 +163,7 @@ Număr persoane: ${rawData.guests_count}
                   <Stack spacing={3}>
                     {tier.features.map((f, idx) => {
                       const lower = f.toLowerCase();
-
                       const isStandardPrice = lower.includes("standard");
-
                       const isPackagePrice =
                         lower.includes("pachet") || lower.includes("package");
 
@@ -178,7 +175,6 @@ Număr persoane: ${rawData.guests_count}
                           key={`${i}-${idx}`}
                         >
                           <Icon as={CheckCircle} color="orange.500" mr={3} />
-
                           {isStandardPrice ? (
                             <Text as="s" color="gray.500">
                               {f}
@@ -201,6 +197,7 @@ Număr persoane: ${rawData.guests_count}
 
           {/* CONTACT SECTION */}
           <Box
+            id="contact-section"
             bg="white"
             p={{ base: 6, md: 10 }}
             borderRadius="3xl"

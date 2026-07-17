@@ -159,7 +159,7 @@ export default function Navbar({
           </Button>
 
           <Button
-            onClick={() => handleNav("pricing")}
+            onClick={() => handleNav("contact-section")}
             bg={isNavbarWhite ? "orange.500" : "white"}
             color={isNavbarWhite ? "white" : "gray.900"}
             _hover={{ bg: isNavbarWhite ? "orange.600" : "gray.100" }}
@@ -172,13 +172,32 @@ export default function Navbar({
           </Button>
         </Flex>
 
-        {/* --- BURGER BUTTON (MOBILE) --- */}
-        <Flex display={{ md: "none" }} gap={4} align="center">
+        {/* --- REZERVARE + BURGER (MOBILE) --- */}
+        <Flex display={{ base: "flex", md: "none" }} gap={2} align="center">
+          <Button
+            onClick={() => handleNav("contact-section")}
+            bg="orange.500"
+            color="white"
+            _hover={{ bg: "orange.600" }}
+            _active={{ bg: "orange.700" }}
+            rounded="full"
+            px={{ base: 4, sm: 5 }}
+            h="40px"
+            fontSize={{ base: "sm", sm: "md" }}
+            fontWeight="bold"
+            boxShadow="md"
+            whiteSpace="nowrap"
+          >
+            {t.nav.book}
+          </Button>
+
           <IconButton
             onClick={onOpen}
             variant="ghost"
             color={textColor}
             aria-label="Open Menu"
+            minW="40px"
+            h="40px"
           >
             <Menu size={28} />
           </IconButton>
@@ -225,7 +244,7 @@ export default function Navbar({
                   variant="outline"
                   onClick={() => {
                     toggleLanguage();
-                    onClose(); // Închidem meniul automat după ce schimbă limba ca să vadă rezultatul
+                    onClose();
                   }}
                   color="orange.500"
                   borderColor="orange.200"

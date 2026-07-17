@@ -203,7 +203,7 @@ export default function Hero({ t, scrollToSection }) {
                 _hover={{ bg: "rgba(251, 146, 60, 0.55)" }}
                 _active={{ bg: "rgba(251, 146, 60, 0.7)" }}
                 leftIcon={<Calendar size={18} />}
-                onClick={() => scrollToSection("pricing")}
+                onClick={() => scrollToSection("contact-section")}
                 w={{ base: "full", sm: "auto" }}
                 px={8}
                 py={{ base: 5, md: 7 }}

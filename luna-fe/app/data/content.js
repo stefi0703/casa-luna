@@ -348,7 +348,7 @@ export const translations = {
           desc: "O curte privată ce include loc de joacă cu balansoar pentru copii, facilități de gătit (grătar, sobă cu plită/ceaun) și activități sportive (ping-pong, baschet, badminton). Parcarea privată securizată oferă o capacitate de 7-8 autoturisme.",
           feats: ["Parcare 7-8 Locuri", "Loc de Joacă", "Grătar & Ceaun"],
           img: "outside/outside-main.jpg",
-          cloudinaryTag: "outside",
+          cloudinaryTag: "garden",
         },
         {
           id: "terrace",

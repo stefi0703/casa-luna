@@ -9,7 +9,7 @@ export const metadata = {
   openGraph: {
     title: 'Pensiune Casa Luna Rucăr | Cazare Culoarul Rucăr-Bran',
     description: 'Pensiune inedită de închiriat integral la munte, ideală pentru familii și grupuri pe culoarul Rucăr-Bran.',
-    url: 'https://www.casalunaromania.ro', 
+    url: 'https://www.casalunarucar.ro', 
     siteName: 'Casa Luna Rucăr',
     locale: 'ro_RO',
     type: 'website',
