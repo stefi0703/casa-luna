@@ -1,0 +1,12 @@
+luna-fe/node_modules/
+luna-fe/.next/
+luna-fe/.env
+luna-fe/.env.local
+luna-fe/.env.development.local
+luna-fe/.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
