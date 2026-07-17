@@ -20,7 +20,6 @@ import {
   ThermometerSun,
   UtensilsCrossed,
   CheckCircle2,
-  Images,
 } from "lucide-react";
 import { prefix } from "../utils/prefix";
 import {
@@ -281,10 +280,7 @@ export const Rooms = ({ t }) => {
                   borderRadius="xl"
                   overflow="hidden"
                   boxShadow="sm"
-                  _hover={{
-                    boxShadow: "xl",
-                    "& .gallery-overlay": { opacity: 1 },
-                  }}
+                  _hover={{ boxShadow: "xl" }}
                   transition="all 0.3s"
                   display="flex"
                   flexDirection="column"
@@ -400,46 +396,33 @@ export const Rooms = ({ t }) => {
                       </Box>
                     )}
 
-                    {/* Indicator clar că imaginea deschide galeria.
-                        Pe mobil este permanent vizibil, iar pe desktop apare la hover. */}
                     <Flex
-                      className="gallery-overlay"
                       position="absolute"
                       inset={0}
-                      background="linear-gradient(to top, rgba(0,0,0,0.48), transparent 48%)"
-                      opacity={{ base: 1, md: 0 }}
-                      transition="opacity 0.25s ease"
-                      align="flex-end"
+                      bg="blackAlpha.300"
+                      opacity={0}
+                      _groupHover={{ opacity: 1 }}
+                      transition="opacity 0.3s"
+                      align="center"
                       justify="center"
-                      pb={3}
-                      zIndex={20}
-                      pointerEvents="auto"
                       cursor="pointer"
                       onClick={() => handleOpenRoom(room, i)}
+                      pointerEvents="none"
                     >
-                      <Button
-                        size="sm"
-                        bg="rgba(255,255,255,0.95)"
+                      <Badge
+                        variant="solid"
+                        bg="whiteAlpha.950"
                         color="gray.900"
                         px={4}
+                        py={2}
                         borderRadius="full"
-                        boxShadow="lg"
-                        gap={2}
+                        textTransform="none"
+                        fontSize="sm"
+                        boxShadow="md"
                         pointerEvents="auto"
-                        aria-label={`Deschide galeria pentru ${room.title}`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleOpenRoom(room, i);
-                        }}
-                        _hover={{
-                          bg: "white",
-                          transform: "translateY(-1px)",
-                        }}
-                        _active={{ transform: "scale(0.98)" }}
                       >
-                        <Images size={16} />
-                        Deschide galeria
-                      </Button>
+                        Mărește Galeria
+                      </Badge>
                     </Flex>
                   </Box>
 
@@ -822,88 +805,136 @@ export const Amenities = ({ t }) => {
 
 // --- Component: Location ---
 export const Location = ({ t }) => (
-  <Box
-    id="location"
-    position="relative"
-    h={{ base: "auto", md: "750px" }}
-    py={{ base: 16, md: 0 }}
-    display="flex"
-    alignItems="center"
-    justifyContent="center"
-    bg="gray.200"
-    overflow="hidden"
-  >
-    <Box position="absolute" inset={0}>
-      <Image
-        src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070"
-        w="full"
-        h="full"
-        objectFit="cover"
-        alt="Map"
-        filter="grayscale(100%) opacity(0.5)"
-      />
-    </Box>
-    <Box
+  <Box id="location" bg="gray.100" overflow="hidden">
+    <Flex
       position="relative"
-      zIndex={10}
-      bg="white"
-      p={{ base: 6, md: 8 }}
-      borderRadius="2xl"
-      boxShadow="2xl"
-      w="full"
-      maxW="lg"
-      mx={4}
+      direction={{ base: "column", md: "row" }}
+      minH={{ base: "auto", md: "750px" }}
+      align={{ md: "center" }}
+      justify={{ md: "flex-end" }}
+      px={{ base: 0, md: 8, lg: 14 }}
     >
-      <Flex
-        align="center"
-        gap={2}
-        color="orange.600"
-        fontWeight="bold"
-        textTransform="uppercase"
-        fontSize="xs"
-        letterSpacing="wider"
-        mb={3}
-      >
-        <MapPin size={16} /> {t.location.label}
-      </Flex>
-      <Heading as="h3" size="lg" mb={3} color="gray.900">
-        {t.location.title}
-      </Heading>
-      <Text color="gray.600" mb={6} fontSize="sm">
-        {t.location.desc}
-      </Text>
-      <VStack spacing={2} align="stretch" mb={6}>
-        {t.location.points.map((p, i) => (
-          <Flex
-            key={i}
-            justify="space-between"
-            borderBottomWidth="1px"
-            borderColor="gray.50"
-            pb={1.5}
-            fontSize="sm"
-          >
-            <Text color="gray.700" fontWeight="medium">
-              {p.name}
-            </Text>
-            <Text fontWeight="bold" color="gray.900">
-              {p.time}
-            </Text>
-          </Flex>
-        ))}
-      </VStack>
-      <Button
+      {/* Harta Google Maps */}
+      <Box
+        as="iframe"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2801.6593231066017!2d25.17816346134956!3d45.39604263215301!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b3318da58be515%3A0x219848b059da0f9d!2sCasa%20Luna%20Ruc%C4%83r!5e0!3m2!1sen!2sro!4v1784306781333!5m2!1sen!2sro"
+        title="Casa Luna Rucăr pe Google Maps"
+        order={{ base: 2, md: 1 }}
+        position={{ base: "relative", md: "absolute" }}
+        inset={{ md: 0 }}
         w="full"
-        size="md"
-        bg="gray.900"
-        color="white"
-        _hover={{ bg: "gray.800", transform: "translateY(-1px)" }}
-        transition="all 0.2s"
-        fontWeight="bold"
-        fontSize="sm"
+        h={{ base: "380px", md: "full" }}
+        border="0"
+        loading="lazy"
+        allowFullScreen
+        referrerPolicy="strict-origin-when-cross-origin"
+      />
+
+      {/* Caseta cu informații */}
+      <Box
+        order={{ base: 1, md: 2 }}
+        position="relative"
+        zIndex={10}
+        bg="white"
+        p={{ base: 6, md: 6 }}
+        borderRadius={{ base: "2xl", md: "3xl" }}
+        boxShadow="2xl"
+        w={{ base: "calc(100% - 32px)", md: "400px", lg: "420px" }}
+        maxW="420px"
+        mx={{ base: "auto", md: 0 }}
+        my={{ base: 10, md: 0 }}
       >
-        {t.location.directions}
-      </Button>
-    </Box>
+        <Flex
+          align="center"
+          gap={2}
+          color="orange.600"
+          fontWeight="bold"
+          textTransform="uppercase"
+          fontSize="xs"
+          letterSpacing="wider"
+          mb={3}
+        >
+          <MapPin size={16} />
+          {t.location.label}
+        </Flex>
+
+        <Heading
+          as="h3"
+          size={{ base: "lg", md: "md" }}
+          mb={3}
+          color="gray.900"
+          lineHeight="1.3"
+        >
+          {t.location.title}
+        </Heading>
+
+        <Text
+          color="gray.600"
+          mb={5}
+          fontSize={{ base: "sm", md: "xs" }}
+          lineHeight="1.7"
+        >
+          {t.location.desc}
+        </Text>
+
+        <VStack spacing={1.5} align="stretch" mb={5}>
+          {t.location.points.map((p, i) => (
+            <Flex
+              key={i}
+              justify="space-between"
+              align="center"
+              borderBottomWidth="1px"
+              borderColor="gray.100"
+              pb={1.5}
+              fontSize={{ base: "sm", md: "xs" }}
+              gap={3}
+            >
+              <Text
+                color="gray.700"
+                fontWeight="medium"
+                lineHeight="1.35"
+              >
+                {p.name}
+              </Text>
+
+              <Text
+                fontWeight="bold"
+                color="gray.900"
+                flexShrink={0}
+              >
+                {p.time}
+              </Text>
+            </Flex>
+          ))}
+        </VStack>
+
+        <Button
+          as="a"
+          href="https://share.google/oxDRiilltIy7QSedc"
+          target="_blank"
+          rel="noopener noreferrer"
+          w="full"
+          size="md"
+          bg="gray.900"
+          color="white"
+          _hover={{
+            bg: "gray.800",
+            transform: "translateY(-1px)",
+            textDecoration: "none",
+          }}
+          _active={{
+            transform: "translateY(0)",
+          }}
+          transition="all 0.2s"
+          fontWeight="bold"
+          fontSize="sm"
+          gap={2}
+        >
+          <MapPin size={18} />
+          {t.location.directions}
+        </Button>
+      </Box>
+    </Flex>
   </Box>
 );
 
