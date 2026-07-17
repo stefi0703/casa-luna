@@ -86,7 +86,7 @@ export default function Footer({ t }) {
               {/* INSTAGRAM */}
               <IconButton
                 as="a"
-                href="https://www.instagram.com/casalunaromania/"
+                href="https://www.instagram.com/casalunarucar/"
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="ghost"

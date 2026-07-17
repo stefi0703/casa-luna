@@ -20,6 +20,7 @@ import {
   ThermometerSun,
   UtensilsCrossed,
   CheckCircle2,
+  Images,
 } from "lucide-react";
 import { prefix } from "../utils/prefix";
 import {
@@ -280,7 +281,10 @@ export const Rooms = ({ t }) => {
                   borderRadius="xl"
                   overflow="hidden"
                   boxShadow="sm"
-                  _hover={{ boxShadow: "xl" }}
+                  _hover={{
+                    boxShadow: "xl",
+                    "& .gallery-overlay": { opacity: 1 },
+                  }}
                   transition="all 0.3s"
                   display="flex"
                   flexDirection="column"
@@ -396,33 +400,46 @@ export const Rooms = ({ t }) => {
                       </Box>
                     )}
 
+                    {/* Indicator clar că imaginea deschide galeria.
+                        Pe mobil este permanent vizibil, iar pe desktop apare la hover. */}
                     <Flex
+                      className="gallery-overlay"
                       position="absolute"
                       inset={0}
-                      bg="blackAlpha.300"
-                      opacity={0}
-                      _groupHover={{ opacity: 1 }}
-                      transition="opacity 0.3s"
-                      align="center"
+                      background="linear-gradient(to top, rgba(0,0,0,0.48), transparent 48%)"
+                      opacity={{ base: 1, md: 0 }}
+                      transition="opacity 0.25s ease"
+                      align="flex-end"
                       justify="center"
+                      pb={3}
+                      zIndex={20}
+                      pointerEvents="auto"
                       cursor="pointer"
                       onClick={() => handleOpenRoom(room, i)}
-                      pointerEvents="none"
                     >
-                      <Badge
-                        variant="solid"
-                        bg="whiteAlpha.950"
+                      <Button
+                        size="sm"
+                        bg="rgba(255,255,255,0.95)"
                         color="gray.900"
                         px={4}
-                        py={2}
                         borderRadius="full"
-                        textTransform="none"
-                        fontSize="sm"
-                        boxShadow="md"
+                        boxShadow="lg"
+                        gap={2}
                         pointerEvents="auto"
+                        aria-label={`Deschide galeria pentru ${room.title}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleOpenRoom(room, i);
+                        }}
+                        _hover={{
+                          bg: "white",
+                          transform: "translateY(-1px)",
+                        }}
+                        _active={{ transform: "scale(0.98)" }}
                       >
-                        Mărește Galeria
-                      </Badge>
+                        <Images size={16} />
+                        Deschide galeria
+                      </Button>
                     </Flex>
                   </Box>
 

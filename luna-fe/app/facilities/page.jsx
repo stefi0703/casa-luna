@@ -9,7 +9,7 @@ export const metadata = {
   openGraph: {
     title: 'Facilități Premium - Casa Luna Rucăr',
     description: '6 dormitoare matrimoniale, living room de poveste, bucătărie utilată și foișor interior încălzit cu grătar profesional pe culoarul Rucăr-Bran.',
-    url: 'https://www.casalunaromania.ro/facilities',
+    url: 'https://www.casalunarucar.ro/facilities',
     type: 'website',
     images: [
       {
