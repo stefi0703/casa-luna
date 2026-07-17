@@ -2,6 +2,7 @@
 
 const nextConfig = {
   output: "export",
+  trailingSlash: true,
   
   // ELIMINĂ basePath și assetPrefix pentru Hostico
   basePath: "",
