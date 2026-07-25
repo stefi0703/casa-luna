@@ -436,13 +436,12 @@ export const Gallery = ({ t, isOpen: externalIsOpen, onClose: externalOnClose })
 
           {/* LIGHTBOX FULLSCREEN TOTAL */}
           {isFullscreenOpen && activeMedia && (
-            <Box
+            <Flex
               position="fixed"
               inset={0}
               bg="rgba(0, 0, 0, 0.95)"
               zIndex={2000}
-              display="flex"
-              alignItems="center"
+              align="center"
               justify="center"
               onClick={() => setIsFullscreenOpen(false)}
             >
@@ -458,7 +457,7 @@ export const Gallery = ({ t, isOpen: externalIsOpen, onClose: externalOnClose })
                 zIndex={2100}
                 display="inline-flex"
                 alignItems="center"
-                justifyContent="center"
+                justify="center"
               >
                 <X size={36} style={{ display: "block" }} />
               </IconButton>
@@ -481,26 +480,38 @@ export const Gallery = ({ t, isOpen: externalIsOpen, onClose: externalOnClose })
                 </IconButton>
               )}
 
-              <Box maxW="95vw" maxH="90vh" onClick={(e) => e.stopPropagation()} cursor="zoom-out">
+              <Flex 
+                maxW="95vw" 
+                maxH="90vh" 
+                w="full" 
+                h="full" 
+                align="center" 
+                justify="center" 
+                onClick={(e) => e.stopPropagation()} 
+                cursor="zoom-out"
+              >
                 {isVideo(activeMedia) ? (
                   <video
                     src={getImageUrl(activeMedia, "vc_auto,q_auto")}
                     controls
                     autoPlay
                     loop
-                    style={{ maxWidth: "95vw", maxHeight: "90vh", objectFit: "contain" }}
+                    style={{ maxWidth: "100%", maxHeight: "90vh", objectFit: "contain" }}
                   />
                 ) : (
                   <Image
                     src={getImageUrl(activeMedia, "c_limit,w_1920,f_auto,q_auto")}
                     alt={`Vedere panoramică ${currentCategory} - Pensiune Rucăr Bran Câmpulung Casa Luna`}
+                    maxW="100%"
                     maxH="90vh"
+                    w="auto"
+                    h="auto"
                     objectFit="contain"
                     borderRadius="md"
                     onClick={() => setIsFullscreenOpen(false)}
                   />
                 )}
-              </Box>
+              </Flex>
 
               {currentGalleryMedia.length > 1 && (
                 <IconButton
@@ -525,7 +536,7 @@ export const Gallery = ({ t, isOpen: externalIsOpen, onClose: externalOnClose })
                   {activeIndex + 1} / {currentGalleryMedia.length}
                 </Text>
               </Box>
-            </Box>
+            </Flex>
           )}
 
         </Dialog.Content>
