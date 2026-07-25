@@ -110,7 +110,7 @@ const GalleryPreloader = ({ mediaList }) => {
 
 // --- Component: Intro ---
 export const Intro = ({ t }) => (
-  <Box py={24} bg="white">
+ <Box as="section" id="about" py={24} bg="white">
     <Container maxW="5xl">
       <Flex direction={{ base: "column", md: "row" }} gap={12} align="center">
         <Box flex={1}>
