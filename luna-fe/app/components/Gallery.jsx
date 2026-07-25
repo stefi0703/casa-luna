@@ -56,7 +56,7 @@ const GalleryPreloader = ({ mediaList }) => {
   return null;
 };
 
-export const Gallery = ({ t, isOpen, onClose }) => {
+export const Gallery = ({ t, isOpen: externalIsOpen, onClose: externalOnClose }) => {
   // Generăm dinamic butoanele pe baza traducerilor curente
   const categories = useMemo(() => {
     if (!t?.rooms?.items) return ["All"];
@@ -67,22 +67,52 @@ export const Gallery = ({ t, isOpen, onClose }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [galleriesData, setGalleriesData] = useState({});
   const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
+  
+  // Stare internă pentru a permite deschiderea automată din URL (?galerie=open)
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+
+  // Verificăm la încărcarea paginii dacă există parametrul ?galerie=open în URL
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("galerie") === "open") {
+        setInternalIsOpen(true);
+      }
+    }
+  }, []);
+
+  // Combinăm starea externă (prop) cu cea internă (din URL)
+  const isGalleryOpen = externalIsOpen !== undefined ? externalIsOpen || internalIsOpen : internalIsOpen;
+
+  const handleClose = () => {
+    if (externalOnClose) {
+      externalOnClose();
+    }
+    setInternalIsOpen(false);
+    // Opțional: curățăm parametrul din URL fără să dăm refresh la pagină
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location);
+      if (url.searchParams.get("galerie") === "open") {
+        url.searchParams.delete("galerie");
+        window.history.replaceState({}, "", url);
+      }
+    }
+  };
 
   // Resetăm stările de navigare când se deschide sau se închide fereastra mare
   useEffect(() => {
-    if (isOpen) {
+    if (isGalleryOpen) {
       setCurrentCategory("All");
       setActiveIndex(0);
       setIsFullscreenOpen(false);
     }
-  }, [isOpen]);
+  }, [isGalleryOpen]);
 
   // Preluarea dinamică a pozelor din Cloudinary (Sincronizată securizat pe baza room.id)
   useEffect(() => {
     if (!t?.rooms?.items) return;
 
     t.rooms.items.forEach((room) => {
-      // Folosim ID-ul (ex: room.id) ca o ancoră fixă ce nu se schimbă la traducere
       const roomIdentifier = room.id || room.title; 
 
       if (room.cloudinaryTag) {
@@ -109,24 +139,22 @@ export const Gallery = ({ t, isOpen, onClose }) => {
     });
   }, [t?.rooms?.items]);
 
-  // Maparea corectă a array-urilor de imagini (Fără riscul de duplicare la nivel de string-uri)
+  // Maparea corectă a array-urilor de imagini
   const currentGalleryMedia = useMemo(() => {
     if (!t?.rooms?.items) return [];
 
     if (currentCategory === "All") {
       let allMedia = [];
-      // Iterăm ordonat strict prin structura de JSON primită, nu prin cheile stării, evitând cumularea limbilor
       t.rooms.items.forEach((room) => {
         const roomIdentifier = room.id || room.title;
         const photos = galleriesData[roomIdentifier] || (room.gallery && room.gallery.length > 0 ? room.gallery : [room.img]);
         photos.forEach((img) => {
-          if (!allMedia.includes(img)) allMedia.push(img); // Prevenim duplicatele identice
+          if (!allMedia.includes(img)) allMedia.push(img);
         });
       });
       return allMedia;
     }
 
-    // Căutăm camera selectată în listă pentru a-i afla ID-ul stabil
     const targetRoom = t.rooms.items.find((room) => room.title === currentCategory);
     if (!targetRoom) return [];
     
@@ -153,14 +181,14 @@ export const Gallery = ({ t, isOpen, onClose }) => {
 
   return (
     <Dialog.Root
-      open={isOpen}
-      onOpenChange={(e) => (!e.open ? onClose() : null)}
+      open={isGalleryOpen}
+      onOpenChange={(e) => (!e.open ? handleClose() : null)}
       size="full"
       motionPreset="slide-in-bottom"
     >
       <Dialog.Backdrop bg="rgba(255, 255, 255, 0.75)" backdropFilter="blur(15px)" />
       
-      {isOpen && currentGalleryMedia.length > 0 && (
+      {isGalleryOpen && currentGalleryMedia.length > 0 && (
         <GalleryPreloader mediaList={currentGalleryMedia} />
       )}
 
@@ -189,6 +217,7 @@ export const Gallery = ({ t, isOpen, onClose }) => {
               borderRadius="full"
               boxShadow="sm"
               bg="white"
+              onClick={handleClose}
             >
               <X size={26} style={{ display: "block" }} />
             </IconButton>
@@ -238,7 +267,7 @@ export const Gallery = ({ t, isOpen, onClose }) => {
               </Flex>
             </Flex>
 
-            {/* ZONA DE MIJLOC: cadru stabil, indiferent de proporțiile fotografiei */}
+            {/* ZONA DE MIJLOC: cadru stabil */}
             <Flex
               position="relative"
               flex="1"
@@ -395,7 +424,6 @@ export const Gallery = ({ t, isOpen, onClose }) => {
               )}
             </Flex>
 
-            {/* Contorul rămâne într-un footer fix și nu se deplasează între imagini */}
             {currentGalleryMedia.length > 0 && (
               <Box pb={2} flexShrink={0}>
                 <Text color="gray.500" fontSize="md" fontWeight="bold" letterSpacing="widest">
@@ -415,7 +443,7 @@ export const Gallery = ({ t, isOpen, onClose }) => {
               zIndex={2000}
               display="flex"
               alignItems="center"
-              justifyContent="center"
+              justify="center"
               onClick={() => setIsFullscreenOpen(false)}
             >
               <IconButton
@@ -486,7 +514,7 @@ export const Gallery = ({ t, isOpen, onClose }) => {
                   zIndex={2100}
                   display="inline-flex"
                   alignItems="center"
-                  justifyContent="center"
+                  justify="center"
                 >
                   <ArrowRight size={48} style={{ display: "block" }} />
                 </IconButton>

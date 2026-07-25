@@ -110,7 +110,7 @@ const GalleryPreloader = ({ mediaList }) => {
 
 // --- Component: Intro ---
 export const Intro = ({ t }) => (
- <Box as="section" id="about" py={24} bg="white">
+  <Box as="section" id="about" py={24} bg="white">
     <Container maxW="5xl">
       <Flex direction={{ base: "column", md: "row" }} gap={12} align="center">
         <Box flex={1}>
@@ -410,7 +410,10 @@ export const Rooms = ({ t }) => {
                       zIndex={19}
                       bg="linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.12) 42%, transparent 70%)"
                       opacity={{ base: 1, md: 0 }}
-                      transform={{ base: "translateY(0)", md: "translateY(4px)" }}
+                      transform={{
+                        base: "translateY(0)",
+                        md: "translateY(4px)",
+                      }}
                       transition="opacity 0.25s ease, transform 0.25s ease"
                       align="flex-end"
                       justify="center"
@@ -906,19 +909,11 @@ export const Location = ({ t }) => (
               fontSize={{ base: "sm", md: "xs" }}
               gap={3}
             >
-              <Text
-                color="gray.700"
-                fontWeight="medium"
-                lineHeight="1.35"
-              >
+              <Text color="gray.700" fontWeight="medium" lineHeight="1.35">
                 {p.name}
               </Text>
 
-              <Text
-                fontWeight="bold"
-                color="gray.900"
-                flexShrink={0}
-              >
+              <Text fontWeight="bold" color="gray.900" flexShrink={0}>
                 {p.time}
               </Text>
             </Flex>
@@ -1058,7 +1053,6 @@ export const GalleryGrid = ({ t }) => {
     <Box id="gallery" py={20} bg="white">
       {/* Activăm preîncărcarea automată pentru galeria generală când lightbox-ul e deschis */}
       {lightboxOpen && <GalleryPreloader mediaList={images} />}
-
       <Container maxW="container.xl">
         <Box textAlign="center" mb={12}>
           <Heading as="h2" size="2xl" mb={2} color="gray.900">
@@ -1127,7 +1121,6 @@ export const GalleryGrid = ({ t }) => {
           </Flex>
         )}
       </Container>
-
       {lightboxOpen && images.length > 0 && (
         <Box
           position="fixed"
