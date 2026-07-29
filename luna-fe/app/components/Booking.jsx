@@ -72,15 +72,6 @@ Număr persoane: ${rawData.guests_count}
         "YSXKo1bxXIThTmkua",
       )
       .then(() => {
-        // --- GOOGLE ADS CONVERSION TRACKING ---
-        // Raportează conversia DOAR dacă email-ul a fost trimis cu succes
-        if (typeof window !== "undefined" && window.gtag) {
-          window.gtag("event", "conversion", {
-            send_to: "AW-18326160055/Qr4OCI65qdYcELeFzKJE", 
-          });
-        }
-        // -----------------------------------------------
-
         toaster.create({
           title: t.contact.success_msg || "Success!",
           type: "success",
@@ -302,6 +293,13 @@ Număr persoane: ${rawData.guests_count}
                     _hover={{ bg: "#E66E00" }}
                     fontSize="md"
                     fontWeight="bold"
+                    onClick={() => {
+                      if (typeof window !== "undefined" && window.gtag) {
+                        window.gtag("event", "conversion", {
+                          send_to: "AW-18326160055/Qr4OCI65qdYcELeFzKJE",
+                        });
+                      }
+                    }}
                   >
                     <Icon as={Phone} mr={2} size={20} />{" "}
                     {t.contact.phone_info.button}
