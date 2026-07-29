@@ -72,6 +72,15 @@ Număr persoane: ${rawData.guests_count}
         "YSXKo1bxXIThTmkua",
       )
       .then(() => {
+        // --- GOOGLE ADS CONVERSION TRACKING ---
+        // Raportează conversia DOAR dacă email-ul a fost trimis cu succes
+        if (typeof window !== "undefined" && window.gtag) {
+          window.gtag("event", "conversion", {
+            send_to: "AW-18326160055/Qr4OCI65qdYcELeFzKJE", 
+          });
+        }
+        // -----------------------------------------------
+
         toaster.create({
           title: t.contact.success_msg || "Success!",
           type: "success",

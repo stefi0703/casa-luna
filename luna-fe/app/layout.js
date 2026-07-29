@@ -1,4 +1,5 @@
 import "./globals.css";
+import Script from "next/script";
 
 export const metadata = {
   title: "Casa Luna",
@@ -15,8 +16,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18326160055"></script>
-        <script
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18326160055"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
