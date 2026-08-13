@@ -1,8 +1,10 @@
 name: Deploy Gabi
 
 on:
-  push:
-    branches: ["main"]
+  # Disabled: this workflow deploys to GitHub Pages, which is not the
+  # production target (production is cPanel, see cpanel-deploy.yml).
+  # push:
+  #   branches: ["main"]
   workflow_dispatch:
 
 permissions:

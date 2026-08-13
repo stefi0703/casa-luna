@@ -5,9 +5,10 @@
 name: Deploy Next.js site to Pages
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
+  # Disabled: this workflow deploys to GitHub Pages, which is not the
+  # production target (production is cPanel, see cpanel-deploy.yml).
+  # push:
+  #   branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

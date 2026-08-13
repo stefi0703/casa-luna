@@ -1,0 +1,39 @@
+name: Deploy to cPanel
+
+# Auto-deploys casalunaromania.ro whenever main is pushed.
+# This hosting plan has neither SSH access nor cPanel API Tokens enabled,
+# so we can't call cPanel's Git::update/Git::deploy UAPI remotely. Instead
+# we upload the already-built luna-fe/out/ folder straight to public_html
+# over FTPS, using a dedicated deploy-only FTP account.
+#
+# Requires these repository secrets:
+#   FTP_HOST        e.g. casalunaromania.ro
+#   FTP_USERNAME    dedicated deploy FTP account, scoped to public_html
+#   FTP_PASSWORD    that account's password
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+concurrency:
+  group: cpanel-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy luna-fe/out to public_html via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./luna-fe/out/
+          server-dir: ./
+          dangerous-clean-slate: false
