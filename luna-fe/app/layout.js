@@ -15,6 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <meta name="deploy-check" content="2026-08-13T14:48:29Z" />
         {/* Google tag (gtag.js) */}
         <Script
           strategy="afterInteractive"
